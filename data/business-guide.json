@@ -1,0 +1,1009 @@
+{
+  "layers": [
+    {
+      "id": "interaction",
+      "name": "Interaction Layer",
+      "plainEnglish": "How users, agents, APIs, files, tools, and external systems communicate with the agent ecosystem.",
+      "businessPurpose": "This is the front door and communication fabric of an agentic system.",
+      "businessRisks": [
+        "Prompt injection",
+        "Data leakage",
+        "Fraudulent instructions",
+        "Untrusted integrations"
+      ],
+      "examples": [
+        "User prompts",
+        "Inter-agent messages",
+        "External APIs",
+        "Files",
+        "Retrieved content"
+      ]
+    },
+    {
+      "id": "runtime",
+      "name": "Runtime Layer",
+      "plainEnglish": "Where agents reason, plan, remember, call tools, execute workflows, and perform work.",
+      "businessPurpose": "This is where AI-driven work and operational decisions happen.",
+      "businessRisks": [
+        "Unsafe actions",
+        "Incorrect decisions",
+        "Workflow disruption",
+        "Autonomous errors"
+      ],
+      "examples": [
+        "Orchestration",
+        "Sub-agents",
+        "Memory",
+        "RAG",
+        "Tool execution",
+        "Sandboxing"
+      ]
+    },
+    {
+      "id": "trustops",
+      "name": "TrustOps Layer",
+      "plainEnglish": "The governance, monitoring, approval, identity, policy, and accountability layer for trusted autonomy.",
+      "businessPurpose": "This is the seatbelt, dashboard, brakes, and audit evidence for agentic systems.",
+      "businessRisks": [
+        "Weak oversight",
+        "Compliance gaps",
+        "No accountability",
+        "Uncontrolled delegated authority"
+      ],
+      "examples": [
+        "Identity and authorization",
+        "Human approvals",
+        "Policy controls",
+        "Monitoring",
+        "Audit evidence"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "orchestrator",
+      "name": "Orchestrator",
+      "tag": "Central Planner",
+      "whatItIs": "Breaks the top-level goal into subtasks and decides which agent or tool handles each one.",
+      "whyItMatters": "Orchestrator helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Goal manipulation via prompt injection",
+        "Single point of failure",
+        "Insecure delegation logic"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "orch-goal-manipulation",
+          "name": "Goal manipulation via prompt injection",
+          "severity": "critical",
+          "impact": "An attacker rewrites the plan the orchestrator is working from, silently redirecting the entire system toward their own objective instead of the user's.",
+          "mitigation": "Separate trusted instructions from untrusted content; validate plans against an allow-listed goal schema before execution."
+        },
+        {
+          "id": "orch-spof",
+          "name": "Single point of failure",
+          "severity": "high",
+          "impact": "Because every agent depends on it, compromising or crashing the orchestrator takes down or misdirects the whole system at once.",
+          "mitigation": "Add plan-integrity checks, redundancy, and circuit breakers so a single bad plan can't cascade."
+        },
+        {
+          "id": "orch-insecure-delegation",
+          "name": "Insecure delegation logic",
+          "severity": "high",
+          "impact": "Weak rules for choosing which agent gets a subtask let an attacker steer sensitive work toward a weaker or compromised agent.",
+          "mitigation": "Base delegation on verified capability and trust tiers, not on agent self-reported claims."
+        }
+      ]
+    },
+    {
+      "id": "subagents",
+      "name": "Sub-Agents",
+      "tag": "Task Workers",
+      "whatItIs": "Specialized agents that carry out the subtasks the orchestrator assigns.",
+      "whyItMatters": "Sub-Agents helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Excessive agency",
+        "Role confusion / impersonation",
+        "Insecure inter-agent trust"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "sub-excessive-agency",
+          "name": "Excessive agency",
+          "severity": "critical",
+          "impact": "An agent is granted broader permissions than its task requires, so a single manipulated instruction can trigger high-impact actions like sending money or deleting data.",
+          "mitigation": "Scope each agent's permissions tightly to the minimum needed for its specific role, and re-evaluate scope per task."
+        },
+        {
+          "id": "sub-role-confusion",
+          "name": "Role confusion / impersonation",
+          "severity": "high",
+          "impact": "A malicious message convinces one agent it is actually another, trusted agent, causing it to accept instructions it should reject.",
+          "mitigation": "Give every agent a signed, verifiable identity that other agents check before trusting a message."
+        },
+        {
+          "id": "sub-insecure-trust",
+          "name": "Insecure inter-agent trust",
+          "severity": "high",
+          "impact": "Agents accept output from other agents at face value, so one manipulated agent can quietly poison the reasoning of every agent downstream.",
+          "mitigation": "Treat inter-agent messages as untrusted input and apply the same validation used for external data."
+        }
+      ]
+    },
+    {
+      "id": "toolcalling",
+      "name": "Tool-Calling Layer",
+      "tag": "Function Execution",
+      "whatItIs": "The interface agents use to call external functions, APIs, and code.",
+      "whyItMatters": "Tool-Calling Layer helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Tool poisoning",
+        "Arbitrary code execution",
+        "Unvalidated trust in tool output"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "tool-poisoning",
+          "name": "Tool poisoning",
+          "severity": "critical",
+          "impact": "A malicious or compromised tool definition includes hidden instructions that hijack the calling agent the moment the tool is invoked.",
+          "mitigation": "Pin tool definitions, verify their source/signature, and diff them against a known-good baseline before use."
+        },
+        {
+          "id": "tool-arbitrary-exec",
+          "name": "Arbitrary code execution",
+          "severity": "critical",
+          "impact": "A code-execution tool lets an attacker-controlled instruction run unrestricted code on the host system.",
+          "mitigation": "Run tool execution inside a hardened sandbox with no default access to secrets, network, or the filesystem."
+        },
+        {
+          "id": "tool-unvalidated-output",
+          "name": "Unvalidated trust in tool output",
+          "severity": "high",
+          "impact": "Agents treat whatever a tool returns as ground truth, so a spoofed or manipulated tool response can steer later reasoning unchecked.",
+          "mitigation": "Validate and type-check tool outputs before they re-enter the agent's context."
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "name": "Memory / Context Store",
+      "tag": "State & Recall",
+      "whatItIs": "Persists conversation history, long-term memory, and embeddings across turns and sessions.",
+      "whyItMatters": "Memory / Context Store helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Memory poisoning",
+        "Cross-session data leakage",
+        "Persistent prompt injection"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "mem-poisoning",
+          "name": "Memory poisoning",
+          "severity": "critical",
+          "impact": "An attacker writes malicious content into long-term memory once, and it keeps influencing agent behavior across every future session that reads it.",
+          "mitigation": "Validate and provenance-tag anything written to persistent memory; treat recalled memory as untrusted input."
+        },
+        {
+          "id": "mem-cross-session-leak",
+          "name": "Cross-session data leakage",
+          "severity": "high",
+          "impact": "Context meant for one user or task bleeds into another session, exposing private data to the wrong party.",
+          "mitigation": "Strictly partition memory stores per user/tenant with enforced access boundaries."
+        },
+        {
+          "id": "mem-persistent-injection",
+          "name": "Persistent prompt injection",
+          "severity": "high",
+          "impact": "A prompt injection is stored rather than transient, so it keeps firing every time that memory is recalled, long after the original interaction.",
+          "mitigation": "Sanitize content before storage and periodically re-validate stored memory against current policy."
+        }
+      ]
+    },
+    {
+      "id": "comms",
+      "name": "Inter-Agent Comms",
+      "tag": "Message Bus",
+      "whatItIs": "The channel agents use to pass messages, requests, and results to one another.",
+      "whyItMatters": "Inter-Agent Comms helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Man-in-the-middle injection",
+        "Message spoofing",
+        "Lack of message integrity checks"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Limited business impact",
+        "Monitoring gap",
+        "Operational disruption",
+        "Operational impact",
+        "Process inefficiency",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "comms-mitm-injection",
+          "name": "Man-in-the-middle injection",
+          "severity": "critical",
+          "impact": "A party intercepts the message bus and injects or alters instructions in transit between two legitimate agents.",
+          "mitigation": "Encrypt and authenticate the transport layer end to end between agents."
+        },
+        {
+          "id": "comms-spoofing",
+          "name": "Message spoofing",
+          "severity": "high",
+          "impact": "An attacker crafts a message that appears to come from a trusted agent, getting other agents to act on forged instructions.",
+          "mitigation": "Sign inter-agent messages and verify sender identity before acting on message content."
+        },
+        {
+          "id": "comms-no-integrity",
+          "name": "Lack of message integrity checks",
+          "severity": "medium",
+          "impact": "Without checksums or signatures, corrupted or subtly altered messages pass through unnoticed and change downstream behavior.",
+          "mitigation": "Add integrity verification (hashes/signatures) on every inter-agent message."
+        }
+      ]
+    },
+    {
+      "id": "rag",
+      "name": "Retrieval / RAG",
+      "tag": "Knowledge Grounding",
+      "whatItIs": "Fetches external documents or data to ground agent responses in current information.",
+      "whyItMatters": "Retrieval / RAG helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Indirect prompt injection via retrieved content",
+        "Data poisoning of the knowledge base",
+        "Source spoofing"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Limited business impact",
+        "Monitoring gap",
+        "Operational disruption",
+        "Operational impact",
+        "Process inefficiency",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "rag-indirect-injection",
+          "name": "Indirect prompt injection via retrieved content",
+          "severity": "critical",
+          "impact": "A document the system retrieves contains hidden instructions that the agent follows as if the user had typed them.",
+          "mitigation": "Isolate retrieved content as data, not instructions, and strip or flag embedded imperative language."
+        },
+        {
+          "id": "rag-data-poisoning",
+          "name": "Data poisoning of the knowledge base",
+          "severity": "high",
+          "impact": "An attacker seeds the retrieval corpus itself, so future queries reliably surface manipulated content.",
+          "mitigation": "Control write-access to the knowledge base and monitor it for anomalous or injected content."
+        },
+        {
+          "id": "rag-source-spoofing",
+          "name": "Source spoofing",
+          "severity": "medium",
+          "impact": "Retrieved content is presented as authoritative when its actual source cannot be verified, misleading both the agent and the end user.",
+          "mitigation": "Track and surface provenance for every retrieved passage."
+        }
+      ]
+    },
+    {
+      "id": "sandbox",
+      "name": "Execution Sandbox",
+      "tag": "Runtime Isolation",
+      "whatItIs": "Isolates code execution, browsing, and file operations from the host and from other agents.",
+      "whyItMatters": "Execution Sandbox helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Sandbox escape",
+        "Privilege escalation",
+        "Insufficient isolation between agents"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "sandbox-escape",
+          "name": "Sandbox escape",
+          "severity": "critical",
+          "impact": "A flaw in the isolation layer lets agent-executed code break out and act directly on the host system.",
+          "mitigation": "Use hardened, regularly patched isolation technology and least-privilege container configuration."
+        },
+        {
+          "id": "sandbox-privesc",
+          "name": "Privilege escalation",
+          "severity": "critical",
+          "impact": "Code running in the sandbox finds a path to elevate its own permissions beyond what was granted.",
+          "mitigation": "Run sandboxed processes as non-root with no unnecessary capabilities, and audit for escalation paths."
+        },
+        {
+          "id": "sandbox-insufficient-isolation",
+          "name": "Insufficient isolation between agents",
+          "severity": "high",
+          "impact": "Multiple agents share a runtime environment, so one compromised agent can read or tamper with another's execution.",
+          "mitigation": "Give each agent (or task) its own isolated execution context rather than a shared runtime."
+        }
+      ]
+    },
+    {
+      "id": "external",
+      "name": "External Integrations",
+      "tag": "Third-Party APIs",
+      "whatItIs": "Connections to outside services \u2014 email, calendars, payments, ticketing, and more.",
+      "whyItMatters": "External Integrations helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Data exfiltration via a legitimate channel",
+        "Over-permissioned API scopes",
+        "Third-party supply chain compromise"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "ext-exfil-legit-channel",
+          "name": "Data exfiltration via a legitimate channel",
+          "severity": "critical",
+          "impact": "An attacker uses a legitimate, already-authorized integration (e.g. email or file-sharing) to quietly move sensitive data out \u2014 traffic that looks completely normal.",
+          "mitigation": "Monitor outbound data volume/destination patterns on integrations, not just their authorization status."
+        },
+        {
+          "id": "ext-over-permissioned",
+          "name": "Over-permissioned API scopes",
+          "severity": "high",
+          "impact": "Integrations are granted far more access than any given task needs, so a manipulated agent can take actions well outside its intended purpose.",
+          "mitigation": "Request the narrowest OAuth/API scopes possible and review them regularly."
+        },
+        {
+          "id": "ext-supply-chain",
+          "name": "Third-party supply chain compromise",
+          "severity": "high",
+          "impact": "A vulnerability or breach at the integrated service propagates directly into your agent system through the trusted connection.",
+          "mitigation": "Vet integration partners, monitor advisories, and limit blast radius with scoped credentials."
+        }
+      ]
+    },
+    {
+      "id": "credentials",
+      "name": "Credentials & Secrets",
+      "tag": "Auth Material",
+      "whatItIs": "API keys, tokens, and service credentials that let agents authenticate to tools and integrations.",
+      "whyItMatters": "Credentials & Secrets helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Secret leakage via logs or output",
+        "Long-lived static credentials",
+        "Credential reuse across agents"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "cred-leakage-logs",
+          "name": "Secret leakage via logs or output",
+          "severity": "critical",
+          "impact": "A credential ends up in a debug log, error message, or model output, giving anyone who can read that output the keys themselves.",
+          "mitigation": "Scrub secrets from logs and outputs automatically; never place raw credentials in prompts or context."
+        },
+        {
+          "id": "cred-long-lived",
+          "name": "Long-lived static credentials",
+          "severity": "high",
+          "impact": "Credentials that never expire remain useful to an attacker indefinitely once stolen, with no natural window of exposure.",
+          "mitigation": "Use short-lived, automatically rotated tokens instead of static keys."
+        },
+        {
+          "id": "cred-reuse",
+          "name": "Credential reuse across agents",
+          "severity": "high",
+          "impact": "The same key is shared by many agents, so compromising the weakest one gives an attacker access everywhere that key works.",
+          "mitigation": "Issue distinct, narrowly scoped credentials per agent so compromise doesn't generalize."
+        }
+      ]
+    },
+    {
+      "id": "human",
+      "name": "Human-in-the-Loop",
+      "tag": "Approval Gate",
+      "whatItIs": "Checkpoints where a person reviews or approves an agent's proposed action before it executes.",
+      "whyItMatters": "Human-in-the-Loop helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Bypassable confirmation step",
+        "Approval fatigue / rubber-stamping",
+        "Unclear accountability"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Limited business impact",
+        "Monitoring gap",
+        "Operational disruption",
+        "Operational impact",
+        "Process inefficiency",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "human-bypassable-gate",
+          "name": "Bypassable confirmation step",
+          "severity": "critical",
+          "impact": "The approval step can be routed around programmatically, for instance by an agent calling a lower-level function that skips the check entirely.",
+          "mitigation": "Enforce approval at the permission layer itself, not just in the conversational flow that's easy to sidestep."
+        },
+        {
+          "id": "human-approval-fatigue",
+          "name": "Approval fatigue / rubber-stamping",
+          "severity": "high",
+          "impact": "When approval requests are frequent and repetitive, reviewers start clicking approve out of habit rather than genuine review.",
+          "mitigation": "Reserve human review for genuinely high-risk actions and make requests specific enough to actually evaluate."
+        },
+        {
+          "id": "human-unclear-accountability",
+          "name": "Unclear accountability",
+          "severity": "medium",
+          "impact": "When something goes wrong, it's unclear whether the human approver, the agent, or the system designer is responsible for the outcome.",
+          "mitigation": "Log exactly what was shown to the approver at decision time, not just that approval occurred."
+        }
+      ]
+    },
+    {
+      "id": "identityauth",
+      "name": "Agent Identity & AuthZ",
+      "tag": "Authority Plane",
+      "whatItIs": "Issues, verifies, scopes, and revokes agent identities and delegated authority for actions.",
+      "whyItMatters": "Agent Identity & AuthZ helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Rogue agent registration",
+        "Broken delegated authorization",
+        "Stale or revoked token reuse"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "id-rogue-registration",
+          "name": "Rogue agent registration",
+          "severity": "critical",
+          "impact": "An attacker enrolls an untrusted agent into the environment and makes it appear legitimate to orchestrators, tools, or other agents.",
+          "mitigation": "Require signed registration, verified ownership, approval workflows, and continuous inventory reconciliation for agent identities."
+        },
+        {
+          "id": "id-broken-delegation",
+          "name": "Broken delegated authorization",
+          "severity": "high",
+          "impact": "An agent receives authority from another agent without a task-bound policy check, allowing privilege to spread beyond the original intent.",
+          "mitigation": "Bind delegated permissions to task, actor, time, data scope, and action type; re-check authorization at every sensitive call."
+        },
+        {
+          "id": "id-stale-token-reuse",
+          "name": "Stale or revoked token reuse",
+          "severity": "high",
+          "impact": "A token that should no longer be trusted still works, letting compromised agents continue acting after deactivation or scope changes.",
+          "mitigation": "Use short-lived tokens, revocation checks, audience binding, and continuous token introspection."
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "Agent Skills / MCP Registry",
+      "tag": "Behavior Packages",
+      "whatItIs": "Reusable skills, MCP servers, manifests, and workflow packages that define what agents can do and how they do it.",
+      "whyItMatters": "Agent Skills / MCP Registry helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Malicious skill or MCP package installation",
+        "Skill typosquatting / brand impersonation",
+        "Unsigned or unpinned skill update"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "skill-malicious-install",
+          "name": "Malicious skill or MCP package installation",
+          "severity": "critical",
+          "impact": "A skill, plugin, or MCP server embeds harmful behavior that is trusted as reusable agent capability after installation.",
+          "mitigation": "Install only from verified publishers; scan behavior, scripts, manifests, and natural-language instructions before activation."
+        },
+        {
+          "id": "skill-typosquat",
+          "name": "Skill typosquatting / brand impersonation",
+          "severity": "high",
+          "impact": "A look-alike skill name or publisher tricks users or agents into installing an attacker-controlled package.",
+          "mitigation": "Verify publisher identity, package signing, reputation, namespace ownership, and exact dependency names."
+        },
+        {
+          "id": "skill-unsigned-update",
+          "name": "Unsigned or unpinned skill update",
+          "severity": "high",
+          "impact": "A previously safe skill silently changes behavior after an update, turning an approved capability into a supply-chain foothold.",
+          "mitigation": "Pin versions, require signed updates, diff manifests and instructions, and stage updates before production use."
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "name": "Context Boundary & Provenance",
+      "tag": "Instruction/Data Split",
+      "whatItIs": "Separates instructions from data and preserves evidence, source, and trust level as context moves across agents and tools.",
+      "whyItMatters": "Context Boundary & Provenance helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Context boundary collapse",
+        "Provenance loss across hops",
+        "Evidence laundering through summaries"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "ctx-boundary-collapse",
+          "name": "Context boundary collapse",
+          "severity": "critical",
+          "impact": "Untrusted data is treated as an instruction, policy, or trusted state, allowing an attacker to steer agent behavior indirectly.",
+          "mitigation": "Use explicit context labels and enforce instruction/data separation before model invocation and tool execution."
+        },
+        {
+          "id": "ctx-provenance-loss",
+          "name": "Provenance loss across hops",
+          "severity": "high",
+          "impact": "As content moves through RAG, memory, tools, and agents, the system loses where it came from and why it should be trusted.",
+          "mitigation": "Carry provenance metadata with every context fragment and block trust elevation without verification."
+        },
+        {
+          "id": "ctx-evidence-laundering",
+          "name": "Evidence laundering through summaries",
+          "severity": "high",
+          "impact": "A false or malicious claim becomes credible after being summarized, cached, or cited by another agent.",
+          "mitigation": "Link summaries back to original evidence, distinguish claims from verified facts, and require source-level validation."
+        }
+      ]
+    },
+    {
+      "id": "modelrouting",
+      "name": "Model / Inference Routing",
+      "tag": "Reasoning Runtime",
+      "whatItIs": "Selects model, prompt template, policy tier, context window, and fallback behavior for agent reasoning.",
+      "whyItMatters": "Model / Inference Routing helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Prompt template injection",
+        "Unsafe model fallback",
+        "Unbounded reasoning / denial of wallet"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Limited business impact",
+        "Monitoring gap",
+        "Operational disruption",
+        "Operational impact",
+        "Process inefficiency",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "model-template-injection",
+          "name": "Prompt template injection",
+          "severity": "critical",
+          "impact": "A compromised template or runtime variable injects hidden instructions before the agent even sees the user task.",
+          "mitigation": "Treat prompt templates as code, protect them with change control, signing, review, and runtime integrity checks."
+        },
+        {
+          "id": "model-unsafe-fallback",
+          "name": "Unsafe model fallback",
+          "severity": "high",
+          "impact": "A failed or overloaded primary model falls back to a weaker model or policy tier without preserving safety constraints.",
+          "mitigation": "Define approved fallback tiers and require policy equivalence checks before automatic failover."
+        },
+        {
+          "id": "model-denial-wallet",
+          "name": "Unbounded reasoning / denial of wallet",
+          "severity": "medium",
+          "impact": "A task triggers excessive token use, repeated retries, or extended reasoning loops that consume cost and capacity.",
+          "mitigation": "Set token, cost, retry, and reasoning-duration budgets per task and per tenant."
+        }
+      ]
+    },
+    {
+      "id": "egress",
+      "name": "Output & Egress Channels",
+      "tag": "Outbound Surface",
+      "whatItIs": "Represents every route through which the agent sends content, files, actions, records, or instructions outward.",
+      "whyItMatters": "Output & Egress Channels helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Covert exfiltration through normal output",
+        "Malicious generated artifact",
+        "Downstream automation abuse"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "egress-covert-exfil",
+          "name": "Covert exfiltration through normal output",
+          "severity": "critical",
+          "impact": "Sensitive data is hidden inside an ordinary-looking summary, attachment, ticket, or generated file.",
+          "mitigation": "Inspect outbound content for sensitive data, abnormal destinations, and encoded or transformed payloads."
+        },
+        {
+          "id": "egress-malicious-artifact",
+          "name": "Malicious generated artifact",
+          "severity": "high",
+          "impact": "The agent creates a file, script, link, or pull request that carries harmful behavior into another system.",
+          "mitigation": "Scan generated artifacts before release and require review for executable or automation-triggering outputs."
+        },
+        {
+          "id": "egress-downstream-automation",
+          "name": "Downstream automation abuse",
+          "severity": "high",
+          "impact": "A generated record or message triggers CI/CD, ticketing, workflow, or business automation in a way the user did not intend.",
+          "mitigation": "Apply policy gates at automation boundaries and require explicit approval for actions that can trigger downstream effects."
+        }
+      ]
+    },
+    {
+      "id": "lifecycle",
+      "name": "Agent Lifecycle & Governance",
+      "tag": "TrustOps",
+      "whatItIs": "Tracks agent inventory, owners, versions, approvals, deployment state, rollback paths, and emergency disablement.",
+      "whyItMatters": "Agent Lifecycle & Governance helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Missing kill switch or rollback path",
+        "Shadow agents outside governance",
+        "Untracked agent version drift"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Limited business impact",
+        "Monitoring gap",
+        "Operational disruption",
+        "Operational impact",
+        "Process inefficiency",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "life-missing-killswitch",
+          "name": "Missing kill switch or rollback path",
+          "severity": "critical",
+          "impact": "A compromised or misbehaving agent cannot be quickly stopped, isolated, or reverted during an incident.",
+          "mitigation": "Design emergency disablement, credential revocation, workflow pause, and configuration rollback into the runtime architecture."
+        },
+        {
+          "id": "life-shadow-agents",
+          "name": "Shadow agents outside governance",
+          "severity": "high",
+          "impact": "Unapproved agents operate outside inventory, monitoring, risk review, and ownership controls.",
+          "mitigation": "Continuously discover agent workloads and require registration, owner assignment, and risk tiering before production use."
+        },
+        {
+          "id": "life-version-drift",
+          "name": "Untracked agent version drift",
+          "severity": "medium",
+          "impact": "Prompts, policies, tools, model versions, and skills drift across environments, making behavior hard to reproduce or secure.",
+          "mitigation": "Version prompts, tools, models, policies, and skills as release artifacts with promotion controls and change history."
+        }
+      ]
+    },
+    {
+      "id": "telemetry",
+      "name": "Telemetry Integrity & Evidence",
+      "tag": "Forensic Plane",
+      "whatItIs": "Captures tamper-resistant evidence of plans, prompts, retrieved context, tool calls, approvals, outputs, and policy decisions.",
+      "whyItMatters": "Telemetry Integrity & Evidence helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Agent-generated telemetry tampering",
+        "Incomplete replayability",
+        "Non-repudiation failure"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Limited business impact",
+        "Monitoring gap",
+        "Operational disruption",
+        "Operational impact",
+        "Process inefficiency",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "tel-agent-tampering",
+          "name": "Agent-generated telemetry tampering",
+          "severity": "critical",
+          "impact": "A compromised agent alters logs, status reports, or records to hide what it actually did.",
+          "mitigation": "Write audit events to an append-only external store that agents cannot modify."
+        },
+        {
+          "id": "tel-incomplete-replayability",
+          "name": "Incomplete replayability",
+          "severity": "high",
+          "impact": "Investigators cannot reconstruct prompts, retrieved context, tool calls, approvals, or outputs after an incident.",
+          "mitigation": "Capture structured traces across planning, context retrieval, tool execution, approvals, and egress with sensitive-data controls."
+        },
+        {
+          "id": "tel-nonrepudiation-failure",
+          "name": "Non-repudiation failure",
+          "severity": "medium",
+          "impact": "The organization cannot prove which agent, user, policy, or approval caused a high-impact action.",
+          "mitigation": "Bind actions to signed agent identity, user authority, policy decision, timestamp, and immutable evidence."
+        }
+      ]
+    },
+    {
+      "id": "guardrails",
+      "name": "Guardrails & Monitoring",
+      "tag": "Policy & Observability",
+      "whatItIs": "Policy enforcement, logging, and anomaly detection layered across the whole system.",
+      "whyItMatters": "Guardrails & Monitoring helps the organization use agentic AI capabilities while preserving continuity, control, and accountability.",
+      "businessValue": [
+        "Faster workflows",
+        "Reduced manual effort",
+        "Improved continuity",
+        "Scalable decision support"
+      ],
+      "whatCouldGoWrong": [
+        "Guardrail bypass via obfuscation",
+        "Blind spots / incomplete logging",
+        "Telemetry tampering / false audit trail"
+      ],
+      "businessImpact": [
+        "Control weakness",
+        "Data exposure",
+        "Financial loss",
+        "Operational disruption",
+        "Operational impact",
+        "Regulatory exposure",
+        "Reputation damage"
+      ],
+      "topRisks": [
+        {
+          "id": "guard-bypass-obfuscation",
+          "name": "Guardrail bypass via obfuscation",
+          "severity": "critical",
+          "impact": "An attacker phrases a malicious instruction in a way that slips past pattern-based filters while still being understood by the model.",
+          "mitigation": "Layer semantic and behavioral detection on top of pattern matching, and test guardrails against adversarial phrasing."
+        },
+        {
+          "id": "guard-blind-spots",
+          "name": "Blind spots / incomplete logging",
+          "severity": "high",
+          "impact": "Some agent actions or intermediate reasoning steps simply aren't logged, so an incident can't be fully reconstructed after the fact.",
+          "mitigation": "Log at every hop \u2014 planning, tool calls, and inter-agent messages \u2014 not just final outputs."
+        },
+        {
+          "id": "guard-telemetry-tampering",
+          "name": "Telemetry tampering / false audit trail",
+          "severity": "high",
+          "impact": "A compromised agent alters logs, status messages, or evidence records to hide what it did or mislead responders.",
+          "mitigation": "Write logs to append-only systems, preserve chain-of-custody, and verify agent reports against independent telemetry."
+        }
+      ]
+    }
+  ],
+  "impacts": [
+    {
+      "id": "operational",
+      "name": "Operational Impact",
+      "description": "The agent disrupts workflows, performs incorrect actions, or affects business continuity."
+    },
+    {
+      "id": "financial",
+      "name": "Financial Impact",
+      "description": "The agent causes loss through fraud, unauthorized transactions, resource abuse, or service disruption."
+    },
+    {
+      "id": "regulatory",
+      "name": "Regulatory Impact",
+      "description": "The agent mishandles data or actions in ways that create audit, privacy, safety, or compliance exposure."
+    },
+    {
+      "id": "reputation",
+      "name": "Reputation Impact",
+      "description": "The incident damages customer, partner, regulator, or employee trust."
+    },
+    {
+      "id": "safety",
+      "name": "Safety Impact",
+      "description": "The agent influences physical-world, clinical, operational, or safety-sensitive decisions."
+    }
+  ]
+}

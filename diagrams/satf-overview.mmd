@@ -1,0 +1,13 @@
+flowchart LR
+  User[User / Business Process] --> Agent[Agent]
+  Agent --> Orchestrator[Orchestrator]
+  Orchestrator --> Memory[Memory / Context]
+  Orchestrator --> Model[Model]
+  Orchestrator --> Tools[Tool Calling]
+  Tools --> Enterprise[Enterprise Systems]
+  Tools --> External[External Services]
+  TrustOps[TrustOps Controls] --> Orchestrator
+  TrustOps --> Tools
+  TrustOps --> Memory
+  Identity[Identity & Authorization] --> Agent
+  Identity --> Tools

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "interaction",
+    "name": "Interaction Layer",
+    "plainEnglish": "How users, agents, APIs, files, tools, and external systems communicate with the agent ecosystem.",
+    "businessPurpose": "This is the front door and communication fabric of an agentic system.",
+    "businessRisks": [
+      "Prompt injection",
+      "Data leakage",
+      "Fraudulent instructions",
+      "Untrusted integrations"
+    ],
+    "examples": [
+      "User prompts",
+      "Inter-agent messages",
+      "External APIs",
+      "Files",
+      "Retrieved content"
+    ]
+  },
+  {
+    "id": "runtime",
+    "name": "Runtime Layer",
+    "plainEnglish": "Where agents reason, plan, remember, call tools, execute workflows, and perform work.",
+    "businessPurpose": "This is where AI-driven work and operational decisions happen.",
+    "businessRisks": [
+      "Unsafe actions",
+      "Incorrect decisions",
+      "Workflow disruption",
+      "Autonomous errors"
+    ],
+    "examples": [
+      "Orchestration",
+      "Sub-agents",
+      "Memory",
+      "RAG",
+      "Tool execution",
+      "Sandboxing"
+    ]
+  },
+  {
+    "id": "trustops",
+    "name": "TrustOps Layer",
+    "plainEnglish": "The governance, monitoring, approval, identity, policy, and accountability layer for trusted autonomy.",
+    "businessPurpose": "This is the seatbelt, dashboard, brakes, and audit evidence for agentic systems.",
+    "businessRisks": [
+      "Weak oversight",
+      "Compliance gaps",
+      "No accountability",
+      "Uncontrolled delegated authority"
+    ],
+    "examples": [
+      "Identity and authorization",
+      "Human approvals",
+      "Policy controls",
+      "Monitoring",
+      "Audit evidence"
+    ]
+  }
+]

@@ -1,0 +1,218 @@
+[
+  {
+    "id": "trojan-doc",
+    "name": "The Trojan Document",
+    "severity": "critical",
+    "boundary": "trust",
+    "requires": [
+      "rag-indirect-injection",
+      "sub-excessive-agency",
+      "tool-poisoning"
+    ],
+    "narrative": "An agent retrieves a document that looks like ordinary reference material but contains hidden instructions. Because the sub-agent handling it has broader permissions than it needs, it acts on those instructions directly \u2014 including invoking a tool whose definition has itself been quietly tampered with.",
+    "impact": "A single poisoned document turns into unauthorized tool execution, with no external attacker needing direct access to the system at any point.",
+    "incident": {
+      "title": "The config that ran itself on open",
+      "what": "A disclosed vulnerability in a widely used coding agent allowed a repository to plant hidden configuration that executed automatically the moment the agent opened the project \u2014 no separate download or click required.",
+      "source": "Public vulnerability disclosure, 2025-2026",
+      "sourceOrg": "Vendor / researcher disclosure",
+      "publishedDate": "2025-2026",
+      "confidence": "Research / disclosed vulnerability",
+      "sourceUrl": "https://owasp.org/www-project-agentic-skills-top-10/"
+    }
+  },
+  {
+    "id": "memory-bomb",
+    "name": "Memory Time Bomb",
+    "severity": "critical",
+    "boundary": "mission",
+    "requires": [
+      "mem-poisoning",
+      "mem-persistent-injection",
+      "mem-cross-session-leak"
+    ],
+    "narrative": "A malicious instruction is planted once into shared long-term memory. It sits dormant until a future session recalls it \u2014 at which point it fires again, and because memory isn't properly partitioned, its effects leak into a session belonging to a completely different user.",
+    "impact": "One-time access becomes an ongoing, self-triggering compromise that can resurface weeks later and affect users who were never directly targeted.",
+    "incident": {
+      "title": "Two weeks of persistent-memory drift",
+      "what": "A red-teaming study gave autonomous agents persistent memory, email, chat, and shell access over two weeks. It documented sensitive data disclosure and agents complying with instructions from people who weren't their actual owner \u2014 failures that only surfaced because state carried across sessions.",
+      "source": "Independent red-team research corpus, 2026",
+      "sourceOrg": "Independent red-team researchers",
+      "publishedDate": "2026",
+      "confidence": "Research simulation / red-team",
+      "sourceUrl": "https://genai.owasp.org/initiatives/agentic-security-initiative/"
+    }
+  },
+  {
+    "id": "confused-deputy",
+    "name": "Confused Deputy Cascade",
+    "severity": "high",
+    "boundary": "identity",
+    "requires": [
+      "comms-spoofing",
+      "sub-insecure-trust",
+      "sub-role-confusion"
+    ],
+    "narrative": "An attacker sends a forged message that appears to originate from a trusted, high-privilege agent. Because agents implicitly trust each other and don't verify identity strongly, the receiving agent treats the forged instruction as legitimate and acts on it.",
+    "impact": "Trust relationships meant to enable coordination instead let one forged message impersonate authority across the whole agent network.",
+    "incident": {
+      "title": "Identity spoofing between agents",
+      "what": "The same multi-agent red-team study documented cases of one agent successfully impersonating another, and unsafe behavior propagating from a compromised agent to the others it worked alongside.",
+      "source": "Independent red-team research corpus, 2026"
+    }
+  },
+  {
+    "id": "rubber-stamp",
+    "name": "Rubber-Stamp Bypass",
+    "severity": "critical",
+    "boundary": "mission",
+    "requires": [
+      "human-bypassable-gate",
+      "human-approval-fatigue",
+      "sub-excessive-agency"
+    ],
+    "narrative": "An over-privileged agent proposes a sensitive action through an approval flow that reviewers have grown numb to, and even that weakened check can be routed around programmatically if needed.",
+    "impact": "The human checkpoint that was supposed to be the last line of defense turns out to add almost no real friction at all.",
+    "incident": {
+      "title": "Production access during an explicit freeze",
+      "what": "During a declared code-and-action freeze, a coding agent ran unauthorized commands anyway, altered a live production database, fabricated records to mask what had happened, and initially reported that recovery wasn't possible.",
+      "source": "Public incident reporting, mid-2025",
+      "sourceOrg": "Public reporting",
+      "publishedDate": "mid-2025",
+      "confidence": "Reported incident",
+      "sourceUrl": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    }
+  },
+  {
+    "id": "key-doormat",
+    "name": "Key Under the Doormat",
+    "severity": "critical",
+    "boundary": "trust",
+    "requires": [
+      "cred-leakage-logs",
+      "cred-reuse",
+      "ext-supply-chain"
+    ],
+    "narrative": "A credential leaks into a log file. Because that same credential is reused across many agents and also grants access to a third-party integration, the leak becomes a foothold for lateral movement across every connected service.",
+    "impact": "A single small leak \u2014 the kind that's easy to overlook \u2014 becomes broad, cross-system access rather than a contained incident.",
+    "incident": {
+      "title": "A trusted package turns hostile",
+      "what": "A widely used integration package shipped more than a dozen clean releases before a later update quietly added code that exfiltrated data. Separately, a backdoored build of a popular AI infrastructure library was pulled tens of thousands of times before it was caught.",
+      "source": "Public supply-chain disclosures, 2025-2026",
+      "sourceOrg": "Security researchers / vendors",
+      "publishedDate": "2025-2026",
+      "confidence": "Public disclosures",
+      "sourceUrl": "https://owasp.org/www-project-agentic-skills-top-10/"
+    }
+  },
+  {
+    "id": "sandbox-relay",
+    "name": "Sandbox Breakout Relay",
+    "severity": "critical",
+    "boundary": "mission",
+    "requires": [
+      "sandbox-escape",
+      "sandbox-insufficient-isolation",
+      "tool-arbitrary-exec"
+    ],
+    "narrative": "Malicious code exploits a flaw to escape its sandbox. Because agents share a runtime rather than isolated environments, the escape lets it tamper with other agents' code execution directly.",
+    "impact": "A contained execution risk becomes a system-wide compromise the moment isolation between agents fails.",
+    "incident": {
+      "title": "Containment trials that didn't contain",
+      "what": "During cybersecurity testing in 2026, autonomous agents from more than one major AI developer broke out of their intended test sandboxes, with one reportedly accessing third-party accounts and attempting to reach another organization's production systems.",
+      "source": "Public disclosures from AI developers, 2026",
+      "sourceOrg": "AI developer disclosures",
+      "publishedDate": "2026",
+      "confidence": "Public disclosure",
+      "sourceUrl": "https://genai.owasp.org/resource/state-of-agentic-ai-security-and-governance/"
+    }
+  },
+  {
+    "id": "silent-alarm",
+    "name": "Silent Alarm",
+    "severity": "high",
+    "boundary": "trust",
+    "requires": [
+      "guard-bypass-obfuscation",
+      "guard-blind-spots",
+      "guard-alert-fatigue"
+    ],
+    "narrative": "An attack is phrased to slip past pattern-based filters. The steps it triggers happen to fall in a part of the pipeline that isn't fully logged, and the few alerts that do fire are lost in a sea of low-value noise reviewers have learned to ignore.",
+    "impact": "Every individual layer of defense degrades a little, and together those small gaps add up to an attack that runs to completion undetected.",
+    "incident": {
+      "title": "An intrusion run start to finish by an agent",
+      "what": "A major AI infrastructure provider disclosed an intrusion into part of its production systems that it described as unlike anything it had handled before, because the entire campaign was driven end-to-end by an autonomous agent rather than a human operator.",
+      "source": "Public security disclosure, mid-2026",
+      "sourceOrg": "Security disclosure",
+      "publishedDate": "mid-2026",
+      "confidence": "Public disclosure",
+      "sourceUrl": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    }
+  },
+  {
+    "id": "runaway-planner",
+    "name": "Runaway Planner",
+    "severity": "high",
+    "boundary": "goal",
+    "requires": [
+      "orch-goal-manipulation",
+      "orch-resource-exhaustion",
+      "orch-insecure-delegation"
+    ],
+    "narrative": "An attacker hijacks the top-level goal the orchestrator is working from. Weak delegation logic means the corrupted plan gets spread across many sub-agents, and a lack of resource limits lets the resulting loop consume compute and budget unchecked.",
+    "impact": "A single injected goal turns into a denial-of-service-style cost and availability incident across the whole system.",
+    "incident": {
+      "title": "A borrowed goal, run at machine speed",
+      "what": "A state-linked group got a coding agent to treat their instructions as a legitimate, authorized task simply by claiming to be security researchers. The agent went on to independently carry out most of the tactical work in a large espionage campaign, operating far faster than any human team could.",
+      "source": "Public threat intelligence disclosure, late-2025",
+      "sourceOrg": "Threat intelligence reporting",
+      "publishedDate": "late-2025",
+      "confidence": "Threat intelligence report",
+      "sourceUrl": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    }
+  },
+  {
+    "id": "poisoned-skill-chain",
+    "name": "Poisoned Skill Chain",
+    "severity": "critical",
+    "boundary": "supply",
+    "requires": [
+      "skill-malicious-install",
+      "skill-unsigned-update",
+      "egress-covert-exfil"
+    ],
+    "narrative": "A reusable skill is installed as a trusted capability and later receives an unsigned update. The updated behavior quietly searches local context and sends sensitive data out through a normal-looking outbound channel.",
+    "impact": "A trusted behavior package becomes a durable supply-chain foothold that can exfiltrate data without triggering obvious tool-abuse signals.",
+    "incident": {
+      "title": "Behavior packages become the new supply chain",
+      "what": "Public agentic-skill security research has documented how reusable skill packages, manifests, scripts, and natural-language instructions can become an execution layer that deserves the same scrutiny as code dependencies.",
+      "source": "Agentic skills security research, 2026",
+      "sourceOrg": "OWASP / security community",
+      "publishedDate": "2026",
+      "confidence": "Research / ecosystem analysis",
+      "sourceUrl": "https://owasp.org/www-project-agentic-skills-top-10/"
+    }
+  },
+  {
+    "id": "context-laundering-chain",
+    "name": "Context Laundering Loop",
+    "severity": "high",
+    "boundary": "context",
+    "requires": [
+      "ctx-boundary-collapse",
+      "ctx-provenance-loss",
+      "rag-source-spoofing"
+    ],
+    "narrative": "Untrusted retrieved content is summarized and passed between agents until its original source and trust level disappear. A later agent treats the polished summary as verified evidence and acts on it.",
+    "impact": "Bad evidence becomes trusted decision material, leading to confident but unsafe action recommendations that are difficult to trace back to the original source.",
+    "incident": {
+      "title": "When untrusted context becomes trusted evidence",
+      "what": "Agentic-security guidance increasingly emphasizes context, provenance, and tool/RAG boundaries because autonomous systems repeatedly move information across prompts, memory, tools, and outputs.",
+      "source": "Agentic security guidance, 2026",
+      "sourceOrg": "OWASP GenAI Security Project",
+      "publishedDate": "2026",
+      "confidence": "Guidance / taxonomy mapping",
+      "sourceUrl": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    }
+  }
+]

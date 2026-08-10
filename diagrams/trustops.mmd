@@ -1,0 +1,6 @@
+flowchart TB
+  Policy[Policy] --> Authorization[Agent Identity & Authorization]
+  Authorization --> Actions[Agent Actions]
+  Monitoring[Runtime Monitoring] --> Audit[Audit Evidence]
+  Approvals[Human-in-the-Loop] --> Actions
+  Audit --> Governance[Governance Review]

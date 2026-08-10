@@ -1,0 +1,6 @@
+flowchart TB
+  Orchestrator --> SubAgents[Sub-Agents]
+  Orchestrator --> Memory[Memory]
+  Orchestrator --> RAG[Retrieval / RAG]
+  Orchestrator --> Tools[Tool Calling]
+  Tools --> Sandbox[Execution Sandbox]

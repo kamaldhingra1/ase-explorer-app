@@ -1,15 +1,31 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Architecture</title><link rel="stylesheet" href="../css/main.css"><link rel="stylesheet" href="../css/architecture.css"><link rel="stylesheet" href="../css/mobile.css"><script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"; mermaid.initialize({startOnLoad:true,theme:"dark"});</script></head><body data-page="architecture" data-data-prefix="../"><div class="app-shell"><header class="topbar"><div class="brand"><h1>Architecture</h1><p>System flows, trust boundaries, and control placement</p></div><nav class="nav"><a data-nav="explorer" href="../ase3.html">Explorer</a><a href="../ase2.html">ASE2 Baseline</a><a data-nav="guide" href="../guide/index.html">Business Guide</a><a data-nav="architecture" href="../architecture/index.html">Architecture</a><a data-nav="learning" href="../learning/index.html">Learning</a><a data-nav="about" href="../about/index.html">About</a></nav></header>
-<main class="container"><section class="hero"><h2>How the Agentic System Works</h2><p>The wheel answers what can be attacked. This architecture view explains how the system operates and where controls belong.</p></section><section class="diagram-panel section-title"><pre class="mermaid">flowchart LR
-  User[User / Business Process] --> Agent[Agent]
-  Agent --> Orchestrator[Orchestrator]
-  Orchestrator --> Memory[Memory / Context]
-  Orchestrator --> Model[Model]
-  Orchestrator --> Tools[Tool Calling]
-  Tools --> Enterprise[Enterprise Systems]
-  Tools --> External[External Services]
-  TrustOps[TrustOps Controls] --> Orchestrator
-  TrustOps --> Tools
-  TrustOps --> Memory
-  Identity[Identity & Authorization] --> Agent
-  Identity --> Tools</pre></section><section class="card diagram-list"><h3>Editable Mermaid Sources</h3><a href="../diagrams/satf-overview.mmd">satf-overview.mmd</a><a href="../diagrams/runtime.mmd">runtime.mmd</a><a href="../diagrams/interaction.mmd">interaction.mmd</a><a href="../diagrams/trustops.mmd">trustops.mmd</a></section></main><footer class="footer">Mermaid sources are stored under diagrams/.</footer>
-</div><script type="module" src="../js/app.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Architecture View</title><link rel="stylesheet" href="../css/main.css"><link rel="stylesheet" href="../css/architecture.css"><link rel="stylesheet" href="../css/mobile.css"><script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"; mermaid.initialize({startOnLoad:true,theme:"dark"});</script></head><body data-page="architecture" data-data-prefix="../"><div class="app-shell"><header class="topbar"><div class="brand"><h1>Agentic Security Explorer (ASE)</h1><p>Learn Agentic Attack Surfaces, Risks, and Business Impact</p><div class="context">Architecture View</div></div><nav class="nav"><a data-nav="home" href="../index.html">Home</a><a data-nav="explorer" href="../ase3.html">Explorer</a><a data-nav="guide" href="../guide/index.html">Business Guide</a><a data-nav="architecture" href="../architecture/index.html">Architecture</a><a data-nav="learning" href="../learning/index.html">Learning</a><a data-nav="about" href="../about/index.html">About</a></nav></header><main class="container"><section class="hero"><h2>Architecture View</h2><p>The Explorer wheel answers what can be attacked. This page explains how the agentic system operates and where trust boundaries and controls belong.</p></section><section class="section-title"><h2>Agentic System Architecture Diagrams</h2></section><div class="diagram-stack"><article class="card diagram-card"><h3>ASE Agentic System Overview</h3><p class="diagram-explainer">This view shows how users, agents, orchestration, memory, models, tools, enterprise systems, and TrustOps controls relate to each other.</p><div class="diagram-panel"><pre class="mermaid">flowchart LR
+  User[User / Business Process] --&gt; Agent[Agent]
+  Agent --&gt; Orchestrator[Orchestrator]
+  Orchestrator --&gt; Memory[Memory / Context]
+  Orchestrator --&gt; Model[Model]
+  Orchestrator --&gt; Tools[Tool Calling]
+  Tools --&gt; Enterprise[Enterprise Systems]
+  Tools --&gt; External[External Services]
+  TrustOps[TrustOps Controls] --&gt; Orchestrator
+  TrustOps --&gt; Tools
+  TrustOps --&gt; Memory
+  Identity[Identity &amp; Authorization] --&gt; Agent
+  Identity --&gt; Tools
+</pre></div></article><article class="card diagram-card"><h3>Runtime Layer Flow</h3><p class="diagram-explainer">The runtime layer is where planning, sub-agent execution, memory, retrieval, tool calling, and sandboxed execution work together.</p><div class="diagram-panel"><pre class="mermaid">flowchart TB
+  Orchestrator --&gt; SubAgents[Sub-Agents]
+  Orchestrator --&gt; Memory[Memory]
+  Orchestrator --&gt; RAG[Retrieval / RAG]
+  Orchestrator --&gt; Tools[Tool Calling]
+  Tools --&gt; Sandbox[Execution Sandbox]
+</pre></div></article><article class="card diagram-card"><h3>Interaction Layer Flow</h3><p class="diagram-explainer">The interaction layer shows how users, prompts, files, external services, and outputs enter or leave the agentic ecosystem.</p><div class="diagram-panel"><pre class="mermaid">flowchart LR
+  Users[Users] --&gt; Inputs[Prompts / Files / Requests]
+  Inputs --&gt; Agent[Agent Interface]
+  External[External Services] --&gt; Agent
+  Agent --&gt; Outputs[Responses / Actions / Messages]
+</pre></div></article><article class="card diagram-card"><h3>TrustOps Control Flow</h3><p class="diagram-explainer">The TrustOps view highlights policy, authorization, approvals, monitoring, audit evidence, and governance review.</p><div class="diagram-panel"><pre class="mermaid">flowchart TB
+  Policy[Policy] --&gt; Authorization[Agent Identity &amp; Authorization]
+  Authorization --&gt; Actions[Agent Actions]
+  Monitoring[Runtime Monitoring] --&gt; Audit[Audit Evidence]
+  Approvals[Human-in-the-Loop] --&gt; Actions
+  Audit --&gt; Governance[Governance Review]
+</pre></div></article></div></main><footer class="footer">Agentic Security Explorer (ASE). Built to support practical learning for the <a class="satf-link" href="https://github.com/kamaldhingra1/secure-agent-trust-framework/" target="_blank" rel="noopener noreferrer">Secure Agent Trust Framework (SATF)</a>.</footer></div><script type="module" src="../js/app.js"></script></body></html>

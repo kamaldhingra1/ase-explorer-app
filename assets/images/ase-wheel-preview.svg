@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" role="img" aria-label="Agentic Security Explorer wheel preview">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="62%">
+      <stop offset="0%" stop-color="#17212d"/>
+      <stop offset="70%" stop-color="#0b0f14"/>
+      <stop offset="100%" stop-color="#080b10"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="960" height="640" rx="28" fill="url(#bg)"/>
+  <g transform="translate(480 320)" fill="none" stroke-linecap="round">
+    <circle r="86" stroke="#4FC1E8" stroke-opacity=".85" stroke-width="4"/>
+    <circle r="174" stroke="#A672E8" stroke-opacity=".72" stroke-width="4"/>
+    <circle r="260" stroke="#E8A33D" stroke-opacity=".72" stroke-width="4"/>
+    <circle r="86" stroke="#4FC1E8" stroke-opacity=".13" stroke-width="72"/>
+    <circle r="174" stroke="#A672E8" stroke-opacity=".10" stroke-width="84"/>
+    <circle r="260" stroke="#E8A33D" stroke-opacity=".09" stroke-width="92"/>
+    <g stroke="#26313f" stroke-width="2" opacity=".75">
+      <line x1="0" y1="0" x2="0" y2="-260"/><line x1="0" y1="0" x2="225" y2="-130"/><line x1="0" y1="0" x2="225" y2="130"/><line x1="0" y1="0" x2="0" y2="260"/><line x1="0" y1="0" x2="-225" y2="130"/><line x1="0" y1="0" x2="-225" y2="-130"/>
+    </g>
+    <g filter="url(#glow)">
+      <circle r="46" fill="#151e29" stroke="#E8A33D" stroke-width="3"/>
+      <circle cx="0" cy="-146" r="30" fill="#151e29" stroke="#4FC1E8" stroke-width="3"/>
+      <circle cx="126" cy="-73" r="30" fill="#151e29" stroke="#4FC1E8" stroke-width="3"/>
+      <circle cx="126" cy="73" r="30" fill="#151e29" stroke="#A672E8" stroke-width="3"/>
+      <circle cx="0" cy="146" r="30" fill="#151e29" stroke="#A672E8" stroke-width="3"/>
+      <circle cx="-126" cy="73" r="30" fill="#151e29" stroke="#E8A33D" stroke-width="3"/>
+      <circle cx="-126" cy="-73" r="30" fill="#151e29" stroke="#E8A33D" stroke-width="3"/>
+      <circle cx="0" cy="-260" r="26" fill="#151e29" stroke="#E8A33D" stroke-width="3"/>
+      <circle cx="225" cy="-130" r="26" fill="#151e29" stroke="#E8A33D" stroke-width="3"/>
+      <circle cx="225" cy="130" r="26" fill="#151e29" stroke="#E8573F" stroke-width="3"/>
+      <circle cx="0" cy="260" r="26" fill="#151e29" stroke="#A672E8" stroke-width="3"/>
+      <circle cx="-225" cy="130" r="26" fill="#151e29" stroke="#4FC1E8" stroke-width="3"/>
+      <circle cx="-225" cy="-130" r="26" fill="#151e29" stroke="#E8573F" stroke-width="3"/>
+    </g>
+  </g>
+  <text x="48" y="72" fill="#E7EDF3" font-family="system-ui,Segoe UI,sans-serif" font-size="34" font-weight="700">Agentic Security Explorer</text>
+  <text x="48" y="110" fill="#97a6b8" font-family="system-ui,Segoe UI,sans-serif" font-size="18">Attack surface, risk chains, and business impact</text>
+</svg>

@@ -3,25 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agentic Attack Surface v3 - Modular Explorer</title>
+<title>Agentic Security Explorer (ASE)</title>
 <link rel="stylesheet" href="./css/explorer-v2.css">
 </head>
 <body>
-<div class="satf-app-nav" data-page="explorer">
-  <a href="./ase3.html">Explorer</a>
-  <a href="./ase2.html">ASE2 Baseline</a>
-  <a href="./guide/index.html">Business Guide</a>
-  <a href="./architecture/index.html">Architecture</a>
-  <a href="./learning/index.html">Learning</a>
-  <a href="./about/index.html">About</a>
+<div class="ase-site-header">
+  <header class="topbar"><div class="brand"><h1>Agentic Security Explorer (ASE)</h1><p>Learn Agentic Attack Surfaces, Risks, and Business Impact</p><div class="context">Explorer</div></div><nav class="nav"><a data-nav="home" href="./index.html">Home</a><a data-nav="explorer" class="active" href="./ase3.html">Explorer</a><a data-nav="guide" href="./guide/index.html">Business Guide</a><a data-nav="architecture" href="./architecture/index.html">Architecture</a><a data-nav="learning" href="./learning/index.html">Learning</a><a data-nav="about" href="./about/index.html">About</a></nav></header>
 </div>
-<style>
-.satf-app-nav{position:fixed;right:14px;top:78px;z-index:200;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:92vw;pointer-events:auto}
-.satf-app-nav a{font-family:var(--font-mono,ui-monospace,monospace);font-size:10px;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--muted,#8496A8);background:rgba(18,25,34,.92);border:1px solid var(--hairline,#26313f);border-radius:999px;padding:6px 9px}
-.satf-app-nav a:first-child{color:var(--amber,#E8A33D);border-color:var(--amber,#E8A33D)}
-.satf-app-nav a:hover{color:var(--amber,#E8A33D);border-color:var(--amber,#E8A33D)}
-@media(max-width:860px){.satf-app-nav{position:sticky;top:0;right:auto;z-index:200;background:var(--panel,#121922);padding:6px 8px;border-bottom:1px solid var(--hairline,#26313f);justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.satf-app-nav a{white-space:nowrap;font-size:9.5px;padding:5px 8px}}
-</style>
+<style>.ase-site-header{position:sticky;top:0;z-index:210}.ase-site-header .topbar{background:rgba(12,17,23,.98)}.ase-site-header .brand h1{font-family:var(--font-display);font-size:18px;margin:0}.ase-site-header .brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.ase-site-header .brand .context{margin:2px 0 0;color:var(--amber);font-size:10.5px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em}.ase-site-header .nav{display:flex;gap:8px;flex-wrap:wrap}.ase-site-header .nav a{border:1px solid var(--hairline);background:rgba(255,255,255,.04);color:var(--text);border-radius:10px;padding:7px 10px;text-decoration:none;font-family:var(--font-body);font-size:13px}.ase-site-header .nav a.active{border-color:var(--amber);color:var(--amber)}@media(max-width:860px){.ase-site-header .topbar{padding:8px 10px}.ase-site-header .brand h1{font-size:14px}.ase-site-header .brand p{display:block;font-size:10px}.ase-site-header .nav{gap:4px;flex-wrap:nowrap;overflow-x:auto}.ase-site-header .nav a{font-size:11px;padding:6px 8px;white-space:nowrap}}</style>
+
 
 
 <div class="intro-overlay" id="introOverlay">
@@ -44,7 +34,7 @@
   <header class="topbar">
     <div class="brand">
       <div class="eyebrow">Agentic Attack Surface</div>
-      <h1>Multi-Agent System Explorer v3</h1>
+      <h1>Multi-Agent System Explorer</h1>
     </div>
     <div class="stats">
       <div class="stat"><span class="num" id="statRisksViewed">0/66</span><span class="lbl">Risks Inspected</span></div>

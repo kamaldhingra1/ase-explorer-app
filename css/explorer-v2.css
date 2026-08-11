@@ -618,11 +618,14 @@
     position:absolute;
     bottom:14px;
     right:14px;
-    width:280px;
+    width:300px;
     max-width:70vw;
-    background:rgba(18,25,34,0.92);
-    border:1px solid var(--hairline);
-    border-radius:10px;
+    background:linear-gradient(180deg, rgba(17,27,38,.96), rgba(11,18,26,.94));
+    border:1px solid rgba(166,114,232,.38);
+    border-left:2px solid rgba(166,114,232,.78);
+    border-radius:12px;
+    box-shadow:0 14px 36px rgba(0,0,0,.30), 0 0 24px rgba(166,114,232,.08);
+    backdrop-filter:blur(10px);
     z-index:6;
     font-family:var(--font-mono);
   }
@@ -630,11 +633,12 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:9px 12px;
+    padding:10px 12px;
     cursor:pointer;
-    font-size:11.5px;
+    font-size:11px;
     color:var(--text);
-    letter-spacing:0.03em;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
   }
   .guide-head .guide-caret{ color:var(--muted-2); transition:transform .15s ease; }
   .guide-panel.collapsed .guide-caret{ transform:rotate(-90deg); }
@@ -1238,4 +1242,91 @@
   .map-controls button{ min-width:38px; padding:7px 9px; }
   .map-controls button:first-child{ min-width:58px; }
   .legend{ gap:8px; font-size:9px; }
+}
+
+
+/* Premium v3.1 — accessible keyboard toggle for Guided Path */
+.guide-head:focus-visible{ outline:2px solid var(--cyan); outline-offset:-2px; border-radius:10px; }
+@media (max-width:860px){
+  .guide-panel{
+    position:static;
+    width:100%;
+    max-width:100%;
+    margin:7px 0 0;
+    order:5;
+  }
+  .guide-body{ max-height:180px; }
+}
+
+/* ================================================================
+   ASE Premium v3.2 — Hero visual parity + Guided learning layer
+   ================================================================ */
+.node-halo{
+  fill:none;
+  stroke:rgba(255,255,255,.035);
+  stroke-width:5;
+  pointer-events:none;
+}
+.node-icon-wrap{ pointer-events:none; }
+.node-icon-bg{
+  fill:rgba(7,12,18,.72);
+  stroke:rgba(255,255,255,.10);
+  stroke-width:1;
+}
+.node-icon{
+  stroke:#F2B24B;
+  stroke-width:1.9;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.node-layer-runtime .node-icon-bg{ fill:rgba(79,193,232,.13); stroke:rgba(79,193,232,.34); }
+.node-layer-trustops .node-icon-bg{ fill:rgba(166,114,232,.14); stroke:rgba(166,114,232,.36); }
+.node-layer-interaction .node-icon-bg{ fill:rgba(232,163,61,.14); stroke:rgba(232,163,61,.36); }
+.node-layer-runtime .node-icon{ stroke:#63D2F5; }
+.node-layer-trustops .node-icon{ stroke:#C49AFF; }
+.node-layer-interaction .node-icon{ stroke:#F2B24B; }
+#node-orchestrator .node-icon-bg{ fill:rgba(79,193,232,.16); stroke:rgba(79,193,232,.42); }
+#node-orchestrator .node-icon{ stroke:#F6C15A; stroke-width:2; }
+.node-label{ font-size:12.25px; font-weight:650; letter-spacing:.005em; }
+.node-sub{ font-size:8px; font-weight:650; letter-spacing:.075em; }
+
+/* Guided Path is a functional learning surface, not decorative chrome. */
+.guide-panel{
+  display:block !important;
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  width:300px;
+  max-width:min(34vw, 320px);
+  background:linear-gradient(145deg,rgba(18,27,38,.94),rgba(11,17,24,.94));
+  border:1px solid rgba(99,210,245,.28);
+  border-radius:14px;
+  z-index:8;
+  overflow:hidden;
+  box-shadow:0 18px 44px rgba(0,0,0,.36), 0 0 26px rgba(79,193,232,.08), inset 0 1px 0 rgba(255,255,255,.045);
+  backdrop-filter:blur(14px);
+}
+.guide-head{
+  padding:10px 13px;
+  background:linear-gradient(90deg,rgba(79,193,232,.09),rgba(166,114,232,.06));
+  border-bottom:1px solid rgba(255,255,255,.08);
+  font-weight:700;
+}
+.guide-body{ max-height:190px; padding:11px 13px 13px; }
+.guide-tip{ font-size:11px; line-height:1.5; }
+.guide-chain-head{ font-size:10.5px; }
+.guide-missing li{ font-size:11px; line-height:1.45; }
+
+@media (max-width:860px){
+  .guide-panel{
+    position:static;
+    width:100%;
+    max-width:100%;
+    margin:8px 0 0;
+    border-radius:12px;
+  }
+  .guide-body{ max-height:180px; }
+  .node-label{ font-size:11.5px; }
+  .node-sub{ font-size:7.6px; }
 }

@@ -615,25 +615,41 @@
   function buildNode(c){
     const p = positions[c.id];
     const isHub = c.role === 'hub';
-    const w = isHub ? 132 : 116, h = isHub ? 80 : 70;
+    const lines = wrapNodeLabel(c.name);
+
+    // Premium node geometry: reserve explicit vertical space for icon, title and tag.
+    // This prevents the final tag line from ever falling outside the rounded card.
+    const w = isHub ? 148 : 132;
+    const h = isHub ? 94 : (lines.length > 1 ? 88 : 78);
     const layerClass = c.layer ? ' node-layer-' + c.layer : '';
     const g = el('g', {class:'node-hit' + layerClass, id:'node-'+c.id, tabindex:'0', role:'button', 'aria-label':c.name, transform:`translate(${p.x},${p.y})`});
 
-    // Slightly larger invisible hit area improves touch usability without changing the visual node.
+    // Larger invisible hit area improves touch usability without changing the visual node.
     g.appendChild(el('rect', {
-      class:'node-hit-target', x:-(w+22)/2, y:-(h+22)/2, width:w+22, height:h+22, rx:18,
+      class:'node-hit-target', x:-(w+24)/2, y:-(h+24)/2, width:w+24, height:h+24, rx:20,
       fill:'transparent', 'pointer-events':'all'
     }));
+
+    // Soft outer halo behind the card gives the SVG the same depth as the hero artwork.
     g.appendChild(el('rect', {
-      class:'node-shape', x:-w/2, y:-h/2, width:w, height:h, rx:14
+      class:'node-halo', x:-w/2-2, y:-h/2-2, width:w+4, height:h+4, rx:18
+    }));
+    g.appendChild(el('rect', {
+      class:'node-shape', x:-w/2, y:-h/2, width:w, height:h, rx:16
     }));
 
-    const iconG = el('g', {class:'node-icon', transform:`translate(0,-8) scale(0.8)`});
-    iconG.appendChild(el('path', {d:ICONS[c.icon] || ''}));
+    // Icon badge: keeps the supplied SVG icon set, but gives each icon the stronger visual anchor
+    // used by the premium reference image.
+    const iconY = -h/2 + 20;
+    const iconG = el('g', {class:'node-icon-wrap', transform:`translate(0,${iconY})`});
+    iconG.appendChild(el('circle', {class:'node-icon-bg', r:11}));
+    const icon = el('g', {class:'node-icon', transform:'translate(-9,-9) scale(0.75)'});
+    icon.appendChild(el('path', {d:ICONS[c.icon] || ''}));
+    iconG.appendChild(icon);
     g.appendChild(iconG);
 
-    const lines = wrapNodeLabel(c.name);
-    const label = el('text', {class:'node-label', y: isHub ? 22 : (lines.length > 1 ? 14 : 22)});
+    const labelStart = isHub ? 6 : (lines.length > 1 ? 5 : 8);
+    const label = el('text', {class:'node-label', y:labelStart});
     lines.forEach((line, idx) => {
       const tspan = el('tspan', {x:0, dy: idx === 0 ? 0 : 12});
       tspan.textContent = line;
@@ -641,17 +657,20 @@
     });
     g.appendChild(label);
 
-    const sub = el('text', {class:'node-sub', y: isHub ? 35 : (lines.length > 1 ? 39 : 34)});
+    // Tag is deliberately positioned after the title block, with a safe bottom margin.
+    const subY = labelStart + (lines.length - 1) * 12 + 16;
+    const sub = el('text', {class:'node-sub', y:subY});
     sub.textContent = c.tag;
     g.appendChild(sub);
 
     // risk-count badge
-    const bx = w/2 - 8, by = -h/2 + 8;
+    const bx = w/2 - 9, by = -h/2 + 9;
     const badge = el('g', {class:'risk-badge', transform:`translate(${bx},${by})`});
-    badge.appendChild(el('circle', {class:'badge-circle', r:8}));
+    badge.appendChild(el('circle', {class:'badge-circle', r:9}));
     const bt = el('text', {class:'badge-count', 'text-anchor':'middle', y:3});
     bt.textContent = c.risks.length;
     badge.appendChild(bt);
+
     g.appendChild(badge);
 
     g.addEventListener('click', () => openComponent(c.id));
@@ -924,9 +943,16 @@
 
   const guideToggle = document.getElementById('guideToggle');
   if(guideToggle){
-    guideToggle.addEventListener('click', () => {
+    const toggleGuidePanel = () => {
       const panel = document.getElementById('guidePanel');
-      if(panel) panel.classList.toggle('collapsed');
+      if(panel){
+        panel.classList.toggle('collapsed');
+        guideToggle.setAttribute('aria-expanded', String(!panel.classList.contains('collapsed')));
+      }
+    };
+    guideToggle.addEventListener('click', toggleGuidePanel);
+    guideToggle.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleGuidePanel(); }
     });
   }
 

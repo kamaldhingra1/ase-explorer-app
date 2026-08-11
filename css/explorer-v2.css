@@ -1296,9 +1296,10 @@
   display:block !important;
   position:absolute;
   right:16px;
-  bottom:16px;
-  width:300px;
-  max-width:min(34vw, 320px);
+  bottom:72px;
+  width:340px;
+  max-width:min(38vw, 360px);
+  min-height:54px;
   background:linear-gradient(145deg,rgba(18,27,38,.94),rgba(11,17,24,.94));
   border:1px solid rgba(99,210,245,.28);
   border-radius:14px;
@@ -1308,15 +1309,17 @@
   backdrop-filter:blur(14px);
 }
 .guide-head{
+  position:relative;
+  z-index:2;
   padding:10px 13px;
   background:linear-gradient(90deg,rgba(79,193,232,.09),rgba(166,114,232,.06));
   border-bottom:1px solid rgba(255,255,255,.08);
   font-weight:700;
 }
-.guide-body{ max-height:190px; padding:11px 13px 13px; }
-.guide-tip{ font-size:11px; line-height:1.5; }
-.guide-chain-head{ font-size:10.5px; }
-.guide-missing li{ font-size:11px; line-height:1.45; }
+.guide-body{ max-height:300px; padding:12px 14px 14px; overflow-y:auto; }
+.guide-tip{ font-size:11.5px; line-height:1.55; }
+.guide-chain-head{ font-size:10.5px; line-height:1.35; }
+.guide-missing li{ font-size:11px; line-height:1.5; margin-bottom:4px; }
 
 @media (max-width:860px){
   .guide-panel{
@@ -1325,8 +1328,9 @@
     max-width:100%;
     margin:8px 0 0;
     border-radius:12px;
+    min-height:0;
   }
-  .guide-body{ max-height:180px; }
+  .guide-body{ max-height:280px; }
   .node-label{ font-size:11.5px; }
   .node-sub{ font-size:7.6px; }
 }

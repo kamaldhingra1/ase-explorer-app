@@ -924,7 +924,7 @@
       return;
     }
 
-    const top = candidates.slice(0, 2);
+    const top = candidates.slice(0, 3);
     guideBody.innerHTML = top.map(c => {
       const bmeta = BOUNDARY_META[c.chain.boundary];
       const missingItems = c.missing.map(rid => {
@@ -943,16 +943,20 @@
 
   const guideToggle = document.getElementById('guideToggle');
   if(guideToggle){
-    const toggleGuidePanel = () => {
+    const toggleGuidePanel = (e) => {
+      if(e){ e.preventDefault(); e.stopPropagation(); }
       const panel = document.getElementById('guidePanel');
       if(panel){
-        panel.classList.toggle('collapsed');
-        guideToggle.setAttribute('aria-expanded', String(!panel.classList.contains('collapsed')));
+        const collapsed = panel.classList.toggle('collapsed');
+        guideToggle.setAttribute('aria-expanded', String(!collapsed));
+        guideToggle.setAttribute('aria-label', collapsed ? 'Expand Guided Path' : 'Minimize Guided Path');
       }
     };
+    // Keep Guided Path independent from the map/surface click handlers.
     guideToggle.addEventListener('click', toggleGuidePanel);
+    guideToggle.addEventListener('pointerdown', (e) => e.stopPropagation());
     guideToggle.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleGuidePanel(); }
+      if(e.key === 'Enter' || e.key === ' '){ toggleGuidePanel(e); }
     });
   }
 

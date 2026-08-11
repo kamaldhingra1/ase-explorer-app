@@ -381,32 +381,17 @@
   const svg = document.getElementById('diagramSvg');
 
   // ---------------------------------------------------------------
-  // RESPONSIVE MAP / MOBILE PAN + ZOOM
+  // MOBILE MAP ZOOM / PAN
   // ---------------------------------------------------------------
   const svgScroll = document.querySelector('.svg-scroll');
   let mapScale = 1;
   const MAP_W = 1200, MAP_H = 900;
-  const MOBILE_BREAKPOINT = 860;
-
-  function isMobileMap(){
-    return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
-  }
-
-  function clampMapScale(scale){
-    return Math.max(0.48, Math.min(1.85, Number(scale) || 1));
-  }
-
+  function isMobileMap(){ return window.matchMedia('(max-width: 860px)').matches; }
   function applyMapScale(scale, center=true){
-    mapScale = clampMapScale(scale);
+    mapScale = Math.max(0.42, Math.min(1.85, scale));
     svg.style.width = Math.round(MAP_W * mapScale) + 'px';
     svg.style.height = Math.round(MAP_H * mapScale) + 'px';
     svg.style.minWidth = Math.round(MAP_W * mapScale) + 'px';
-    svg.style.minHeight = Math.round(MAP_H * mapScale) + 'px';
-    svg.dataset.scale = mapScale.toFixed(3);
-
-    const resetBtn = document.getElementById('zoomResetBtn');
-    if(resetBtn) resetBtn.textContent = Math.round(mapScale * 100) + '%';
-
     if(center && svgScroll){
       requestAnimationFrame(() => {
         svgScroll.scrollLeft = Math.max(0, (svg.clientWidth - svgScroll.clientWidth) / 2);
@@ -414,61 +399,24 @@
       });
     }
   }
-
-  function fitMapToViewport(){
-    if(!svgScroll) return;
-
-    const availableW = Math.max(240, svgScroll.clientWidth - 18);
-    const availableH = Math.max(280, svgScroll.clientHeight - 18);
-    const fit = Math.min(availableW / MAP_W, availableH / MAP_H);
-
-    // On phones keep a readable minimum size and let the user pan/zoom for detail.
-    // On larger screens the map naturally fills the available diagram area.
-    const target = isMobileMap()
-      ? Math.max(0.52, Math.min(0.78, fit))
-      : Math.max(0.68, Math.min(1.0, fit));
-
-    applyMapScale(target, true);
+  function fitMapToMobile(){
+    if(!svgScroll || !isMobileMap()) { applyMapScale(1, false); return; }
+    const fit = Math.min(svgScroll.clientWidth / MAP_W, svgScroll.clientHeight / MAP_H);
+    // Keep the full architecture visible but avoid making the nodes unusably tiny.
+    applyMapScale(Math.max(0.52, Math.min(0.9, fit)), true);
   }
-
   function setupMapControls(){
     const fitBtn = document.getElementById('zoomFitBtn');
     const outBtn = document.getElementById('zoomOutBtn');
     const resetBtn = document.getElementById('zoomResetBtn');
     const inBtn = document.getElementById('zoomInBtn');
     if(!fitBtn || !outBtn || !resetBtn || !inBtn) return;
-
-    fitBtn.addEventListener('click', fitMapToViewport);
-    outBtn.addEventListener('click', () => applyMapScale(mapScale - 0.10, true));
+    fitBtn.addEventListener('click', fitMapToMobile);
+    outBtn.addEventListener('click', () => applyMapScale(mapScale - 0.12, true));
     resetBtn.addEventListener('click', () => applyMapScale(1, true));
-    inBtn.addEventListener('click', () => applyMapScale(mapScale + 0.10, true));
-
-    // Wheel zoom on desktop / trackpads. Ctrl/Meta is intentionally not required.
-    if(svgScroll){
-      svgScroll.addEventListener('wheel', (e) => {
-        if(isMobileMap()) return;
-        if(Math.abs(e.deltaY) < 1) return;
-        e.preventDefault();
-        applyMapScale(mapScale + (e.deltaY < 0 ? 0.06 : -0.06), false);
-      }, {passive:false});
-    }
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if(isMobileMap()) fitMapToViewport();
-        else applyMapScale(1, false);
-      }, 100);
-    });
-
-    // Initial responsive sizing after the SVG has been populated.
-    requestAnimationFrame(() => {
-      if(isMobileMap()) fitMapToViewport();
-      else applyMapScale(1, false);
-    });
+    inBtn.addEventListener('click', () => applyMapScale(mapScale + 0.12, true));
+    window.addEventListener('resize', () => { if(isMobileMap()) fitMapToMobile(); else applyMapScale(1, false); });
   }
-
   const CX = 600, CY = 450;
   const CANVAS_W = 1200, CANVAS_H = 900;
   const RINGS = {
@@ -519,37 +467,8 @@
   const pattern = el('pattern', {id:'grid', width:36, height:36, patternUnits:'userSpaceOnUse'});
   pattern.appendChild(el('path', {d:'M 36 0 L 0 0 0 36', fill:'none', stroke:'#1A2431', 'stroke-width':1}));
   defs.appendChild(pattern);
-
-  // Premium visual system: layered radial glow + glass-like node fills.
-  const bgGlow = el('radialGradient', {id:'bgGlow', cx:'50%', cy:'50%', r:'62%'});
-  bgGlow.appendChild(el('stop', {offset:'0%', 'stop-color':'#183445', 'stop-opacity':'0.46'}));
-  bgGlow.appendChild(el('stop', {offset:'48%', 'stop-color':'#15152D', 'stop-opacity':'0.30'}));
-  bgGlow.appendChild(el('stop', {offset:'100%', 'stop-color':'#0B0F14', 'stop-opacity':'0'}));
-  defs.appendChild(bgGlow);
-
-  const runtimeGrad = el('linearGradient', {id:'nodeRuntime', x1:'0%', y1:'0%', x2:'100%', y2:'100%'});
-  runtimeGrad.appendChild(el('stop', {offset:'0%', 'stop-color':'#182C3A'}));
-  runtimeGrad.appendChild(el('stop', {offset:'100%', 'stop-color':'#101C28'}));
-  defs.appendChild(runtimeGrad);
-
-  const trustGrad = el('linearGradient', {id:'nodeTrust', x1:'0%', y1:'0%', x2:'100%', y2:'100%'});
-  trustGrad.appendChild(el('stop', {offset:'0%', 'stop-color':'#241D3A'}));
-  trustGrad.appendChild(el('stop', {offset:'100%', 'stop-color':'#171529'}));
-  defs.appendChild(trustGrad);
-
-  const interactionGrad = el('linearGradient', {id:'nodeInteraction', x1:'0%', y1:'0%', x2:'100%', y2:'100%'});
-  interactionGrad.appendChild(el('stop', {offset:'0%', 'stop-color':'#382A18'}));
-  interactionGrad.appendChild(el('stop', {offset:'100%', 'stop-color':'#211A12'}));
-  defs.appendChild(interactionGrad);
-
-  const hubGrad = el('linearGradient', {id:'hubGrad', x1:'0%', y1:'0%', x2:'100%', y2:'100%'});
-  hubGrad.appendChild(el('stop', {offset:'0%', 'stop-color':'#1C2C3A'}));
-  hubGrad.appendChild(el('stop', {offset:'100%', 'stop-color':'#111923'}));
-  defs.appendChild(hubGrad);
-
   svg.appendChild(defs);
   svg.appendChild(el('rect', {x:0,y:0,width:CANVAS_W,height:CANVAS_H,fill:'url(#grid)'}));
-  svg.appendChild(el('rect', {x:0,y:0,width:CANVAS_W,height:CANVAS_H,fill:'url(#bgGlow)'}));
 
   // ring bands, boundaries, and centered labels
   const ringLayer = el('g', {id:'ringLayer'});
@@ -619,11 +538,6 @@
     const layerClass = c.layer ? ' node-layer-' + c.layer : '';
     const g = el('g', {class:'node-hit' + layerClass, id:'node-'+c.id, tabindex:'0', role:'button', 'aria-label':c.name, transform:`translate(${p.x},${p.y})`});
 
-    // Slightly larger invisible hit area improves touch usability without changing the visual node.
-    g.appendChild(el('rect', {
-      class:'node-hit-target', x:-(w+22)/2, y:-(h+22)/2, width:w+22, height:h+22, rx:18,
-      fill:'transparent', 'pointer-events':'all'
-    }));
     g.appendChild(el('rect', {
       class:'node-shape', x:-w/2, y:-h/2, width:w, height:h, rx:14
     }));
@@ -841,9 +755,7 @@
   // ---------------------------------------------------------------
   // GUIDE PANEL — reads the basket, shows the closest paths, lights the map
   // ---------------------------------------------------------------
-  // Guide UI is intentionally hidden in Premium v3; keep a detached compatibility target
-  // so Guided mode can continue to calculate and illuminate suggested attack paths.
-  const guideBody = document.getElementById('guideBody') || document.createElement('div');
+  const guideBody = document.getElementById('guideBody');
 
   function clearGuideVisuals(){
     guideArcLayer.innerHTML = '';
@@ -922,13 +834,9 @@
     top.forEach(c => drawGuideHint(c.chain, c.have, c.missing));
   }
 
-  const guideToggle = document.getElementById('guideToggle');
-  if(guideToggle){
-    guideToggle.addEventListener('click', () => {
-      const panel = document.getElementById('guidePanel');
-      if(panel) panel.classList.toggle('collapsed');
-    });
-  }
+  document.getElementById('guideToggle').addEventListener('click', () => {
+    document.getElementById('guidePanel').classList.toggle('collapsed');
+  });
 
   const modeGuidedBtn = document.getElementById('modeGuidedBtn');
   const modeExploreBtn = document.getElementById('modeExploreBtn');
@@ -1310,7 +1218,6 @@
     setTimeout(() => document.getElementById('introOverlay').remove(), 320);
   });
 
-  setupMapControls();
   updateStats();
   renderTray();
   renderLibrary();

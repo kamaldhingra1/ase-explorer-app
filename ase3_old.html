@@ -69,7 +69,7 @@
       <div class="svg-scroll" id="svgScroll">
         <svg id="diagramSvg" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
-      <div class="scroll-hint">Drag to pan · use + / − to zoom · tap a node for details</div>
+      <div class="scroll-hint">Scroll or pinch to see the full map ↔</div>
       <div class="map-controls" id="mapControls" aria-label="Map zoom controls">
         <button type="button" id="zoomFitBtn">Fit map</button>
         <button type="button" id="zoomOutBtn">-</button>
@@ -82,7 +82,15 @@
         <div class="item"><span class="dot" style="background:var(--sev-high)"></span>High</div>
         <div class="item"><span class="dot" style="background:var(--sev-critical)"></span>Critical</div>
       </div>
-      <!-- Guide panel intentionally removed in Premium v3. -->
+      <div class="guide-panel" id="guidePanel">
+        <div class="guide-head" id="guideToggle">
+          <span>🧭 Guide</span>
+          <span class="guide-caret" id="guideCaret">▾</span>
+        </div>
+        <div class="guide-body" id="guideBody">
+          <p class="guide-tip">Add any risk from a component to get started — I'll show you what it could connect to.</p>
+        </div>
+      </div>
     </div>
 
     <aside class="drawer" id="drawer">

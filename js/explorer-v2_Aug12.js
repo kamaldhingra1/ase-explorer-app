@@ -1,4 +1,3 @@
-// ASE vNext header consolidation note: tab/control IDs are preserved in the combined explorer bar.
 // ---------------------------------------------------------------
   // STATE
   // ---------------------------------------------------------------

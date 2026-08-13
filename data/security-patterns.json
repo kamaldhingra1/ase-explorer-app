@@ -1,0 +1,156 @@
+{
+  "version": "1.2",
+  "positioning": "ASE-first, framework-neutral security learning. Framework mappings are optional overlays.",
+  "patterns": [
+    {
+      "id": "input-context-validation",
+      "name": "Input and Context Validation",
+      "appliesTo": [
+        "Prompt Injection",
+        "Context Manipulation",
+        "Memory Poisoning"
+      ],
+      "components": [
+        "Inter-Agent Comms",
+        "Context Boundary Provenance",
+        "Memory Context Store",
+        "Retrieval RAG"
+      ],
+      "summary": "Validate user inputs, retrieved context, tool outputs, and agent-to-agent messages before those inputs influence decisions or actions.",
+      "defenses": [
+        "Input validation",
+        "Context separation",
+        "Source provenance",
+        "Instruction hierarchy checks",
+        "Unsafe content filtering"
+      ],
+      "businessImpact": [
+        "Incorrect decisions",
+        "Data leakage",
+        "Unauthorized actions",
+        "Operational disruption"
+      ]
+    },
+    {
+      "id": "tool-governance",
+      "name": "Tool Governance and Authorization",
+      "appliesTo": [
+        "Tool Abuse",
+        "MCP Misuse",
+        "Over-Permissioned Tools"
+      ],
+      "components": [
+        "Tool-Calling Layer",
+        "Agent Skills MCP Registry",
+        "Agent Identity AuthZ"
+      ],
+      "summary": "Constrain which tools an agent may call, what parameters are allowed, and when human or policy approval is required.",
+      "defenses": [
+        "Least privilege",
+        "Tool allowlists",
+        "Parameter validation",
+        "Approval gates",
+        "Scoped credentials"
+      ],
+      "businessImpact": [
+        "Unauthorized transactions",
+        "Data exfiltration",
+        "Service abuse",
+        "Compliance exposure"
+      ]
+    },
+    {
+      "id": "agent-identity-access",
+      "name": "Agent Identity and Access Control",
+      "appliesTo": [
+        "Identity Abuse",
+        "Privilege Escalation",
+        "Credential Leakage"
+      ],
+      "components": [
+        "Agent Identity AuthZ",
+        "Credentials Secrets",
+        "Human-in-the Loop"
+      ],
+      "summary": "Treat agents as accountable actors with explicit identity, scoped authorization, credential hygiene, and auditable delegation paths.",
+      "defenses": [
+        "Agent identity",
+        "Scoped authorization",
+        "Secret isolation",
+        "Delegation boundaries",
+        "Audit trails"
+      ],
+      "businessImpact": [
+        "Unauthorized access",
+        "Regulatory exposure",
+        "Financial loss",
+        "Reputation impact"
+      ]
+    },
+    {
+      "id": "memory-protection",
+      "name": "Memory Protection",
+      "appliesTo": [
+        "Memory Poisoning",
+        "Sensitive Data Retention",
+        "Stale Context"
+      ],
+      "components": [
+        "Memory Context Store",
+        "Retrieval RAG",
+        "Telemetry Integrity Evidence"
+      ],
+      "summary": "Protect long-lived memory and retrieved knowledge through provenance, retention controls, validation, and separation between trusted and untrusted context.",
+      "defenses": [
+        "Memory provenance",
+        "Retention limits",
+        "Content validation",
+        "Sensitive data filtering",
+        "Memory isolation"
+      ],
+      "businessImpact": [
+        "Persistent attacker influence",
+        "Sensitive data exposure",
+        "Incorrect workflow behavior"
+      ]
+    },
+    {
+      "id": "runtime-monitoring-containment",
+      "name": "Runtime Monitoring and Containment",
+      "appliesTo": [
+        "Runaway Autonomy",
+        "Policy Bypass",
+        "Unsafe Tool Execution"
+      ],
+      "components": [
+        "Execution Sandbox",
+        "Guardrails Monitoring",
+        "Telemetry Integrity Evidence",
+        "Human-in-the Loop"
+      ],
+      "summary": "Observe live agent behavior, enforce runtime policy, contain unsafe workflows, and interrupt high-risk actions before business impact occurs.",
+      "defenses": [
+        "Runtime policy checks",
+        "Sandboxing",
+        "Telemetry",
+        "Kill switches",
+        "Human approval"
+      ],
+      "businessImpact": [
+        "Operational disruption",
+        "Safety concerns",
+        "Financial loss",
+        "Loss of control"
+      ]
+    }
+  ],
+  "optionalFrameworkMappings": {
+    "note": "Framework mappings are optional overlays. ASE should remain useful without SATF or any other framework.",
+    "examples": [
+      "SATF",
+      "OWASP GenAI",
+      "NIST AI RMF",
+      "CSA guidance"
+    ]
+  }
+}

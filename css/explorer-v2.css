@@ -801,7 +801,7 @@
 
 
   .ring-circle{ fill:none; stroke:rgba(132,150,168,0.22); stroke-width:1.2; stroke-dasharray:5 8; }
-  .ring-label{ font-family:var(--font-mono); font-size:11px; fill:var(--muted-2); text-transform:uppercase; letter-spacing:0.12em; pointer-events:none; transform: translateX(12px); }
+  .ring-label{ font-family:var(--font-mono); font-size:11px; fill:var(--muted-2); text-transform:uppercase; letter-spacing:0.12em; pointer-events:none; text-indent: 14px;}
   .node-layer-runtime .node-shape{ stroke:rgba(79,193,232,0.55); }
   .node-layer-trustops .node-shape{ stroke:rgba(166,114,232,0.55); }
   .node-layer-interaction .node-shape{ stroke:rgba(232,163,61,0.55); }

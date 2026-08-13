@@ -5,22 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agentic Security Explorer (ASE)</title>
 <link rel="stylesheet" href="./css/explorer-v2.css">
-</head>
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/brand/ase-favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="./assets/brand/ase-favicon-16.png"><link rel="shortcut icon" href="./favicon.ico"></head>
 <body>
 <div class="ase-site-header">
-  <header class="topbar"><div class="brand"><h1>Agentic Security Explorer (ASE)</h1><p>Learn Agentic Attack Surfaces, Risks, and Business Impact</p><div class="context">Agentic Attack Surface</div></div><nav class="nav"><a data-nav="home" href="./index.html">Home</a><a data-nav="explorer" class="active" href="./ase3.html">Explorer</a><a data-nav="guide" href="./guide/index.html">Business Guide</a><a data-nav="architecture" href="./architecture/index.html">Architecture</a><a data-nav="learning" href="./learning/index.html">Learning</a><a data-nav="about" href="./about/index.html">About</a></nav></header>
+  <header class="topbar"><div class="brand"><img class="brand-logo" src="./assets/brand/ase-logo-wordmark.png" alt="ASE Agentic Security Explorer logo"><div class="brand-copy compact"><h1>Agentic Security Explorer (ASE)</h1><p>Learn Agentic Attack Surfaces, Risks, and Business Impact</p><div class="context">Agentic Attack Surface</div></div></div><nav class="nav"><a data-nav="home" href="./index.html">Home</a><a data-nav="explorer" class="active" href="./ase3.html">Explorer</a><a data-nav="guide" href="./guide/index.html">Business Guide</a><a data-nav="architecture" href="./architecture/index.html">Architecture</a><a data-nav="learning" href="./learning/index.html">Learning</a><a data-nav="about" href="./about/index.html">About</a></nav></header>
 </div>
-<style>
-.ase-site-header{position:sticky;top:0;z-index:210}
-.ase-site-header .topbar{background:rgba(12,17,23,.98)}
-.ase-site-header .brand h1{font-family:var(--font-display);font-size:18px;margin:0}
-.ase-site-header .brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
-.ase-site-header .brand .context{margin:2px 0 0;color:var(--amber);font-size:10.5px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em}
-.ase-site-header .nav{display:flex;gap:8px;flex-wrap:wrap}
-.ase-site-header .nav a{border:1px solid var(--hairline);background:rgba(255,255,255,.04);color:var(--text);border-radius:10px;padding:7px 10px;text-decoration:none;font-family:var(--font-body);font-size:13px}
-.ase-site-header .nav a.active{border-color:var(--amber);color:var(--amber)}
-@media(max-width:860px){.ase-site-header .topbar{padding:8px 10px}.ase-site-header .brand h1{font-size:14px}.ase-site-header .brand p{display:block;font-size:10px}.ase-site-header .nav{gap:4px;flex-wrap:nowrap;overflow-x:auto}.ase-site-header .nav a{font-size:11px;padding:6px 8px;white-space:nowrap}}
-</style>
+<style>.ase-site-header{position:sticky;top:0;z-index:210}.ase-site-header .topbar{background:rgba(12,17,23,.98)}.ase-site-header .brand{display:flex;align-items:center;gap:10px}.ase-site-header .brand-mark{width:42px;height:42px;flex:0 0 auto;filter:drop-shadow(0 0 10px rgba(0,163,255,.25))}.ase-site-header .brand-copy{min-width:0}.ase-site-header .brand h1{font-family:var(--font-display);font-size:18px;margin:0}.ase-site-header .brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.ase-site-header .brand .context{margin:2px 0 0;color:var(--amber);font-size:10.5px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em}.ase-site-header .nav{display:flex;gap:8px;flex-wrap:wrap}.ase-site-header .nav a{border:1px solid var(--hairline);background:rgba(255,255,255,.04);color:var(--text);border-radius:10px;padding:7px 10px;text-decoration:none;font-family:var(--font-body);font-size:13px}.ase-site-header .nav a.active{border-color:var(--amber);color:var(--amber)}@media(max-width:860px){.ase-site-header .topbar{padding:8px 10px}.ase-site-header .brand h1{font-size:14px}.ase-site-header .brand p{display:block;font-size:10px}.ase-site-header .nav{gap:4px;flex-wrap:nowrap;overflow-x:auto}.ase-site-header .nav a{font-size:11px;padding:6px 8px;white-space:nowrap}}</style>
 
 
 
@@ -36,7 +26,7 @@
       <div><span class="s">04</span> — Each path you unlock reveals the real 2025–2026 incident it echoes, in the Incident Library tab.</div>
       <div><span class="s">·</span> — Switch to Explore mode anytime to turn off the on-map guidance and work it out yourself.</div>
     </div>
-    <button class="start-btn" id="startBtn">Start exploring</button> <a href="/"> <button class="ghost" id="introHomeBtn">Home</button></a>
+    <button class="start-btn" id="startBtn">Start exploring</button> <a href="./index.html"><button class="ghost" id="introHomeBtn">Home</button></a>
   </div> 
 </div>
 
@@ -72,7 +62,7 @@
       <div class="svg-scroll" id="svgScroll">
         <svg id="diagramSvg" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
-      <div class="scroll-hint">Drag to pan · use + / − to zoom · tap a node for details</div>
+      <div class="scroll-hint">Scroll or pinch to see the full map ↔</div>
       <div class="map-controls" id="mapControls" aria-label="Map zoom controls">
         <button type="button" id="zoomFitBtn">Fit map</button>
         <button type="button" id="zoomOutBtn">-</button>
@@ -85,9 +75,9 @@
         <div class="item"><span class="dot" style="background:var(--sev-high)"></span>High</div>
         <div class="item"><span class="dot" style="background:var(--sev-critical)"></span>Critical</div>
       </div>
-      <div class="guide-panel" id="guidePanel" aria-live="polite">
-        <div class="guide-head" id="guideToggle" role="button" tabindex="0" aria-expanded="true">
-          <span>🧭 Guided Path</span>
+      <div class="guide-panel" id="guidePanel">
+        <div class="guide-head" id="guideToggle">
+          <span>🧭 Guide</span>
           <span class="guide-caret" id="guideCaret">▾</span>
         </div>
         <div class="guide-body" id="guideBody">
@@ -186,5 +176,5 @@
 </div>
 
 <script src="./js/explorer-v2.js"></script>
-</body>
+<script src="./js/page-summary.js"></script></body>
 </html>

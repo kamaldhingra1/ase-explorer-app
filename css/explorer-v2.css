@@ -801,11 +801,12 @@
 
 
   .ring-circle{ fill:none; stroke:rgba(132,150,168,0.22); stroke-width:1.2; stroke-dasharray:5 8; }
-  .ring-label{ font-family:var(--font-mono); font-size:11px; fill:var(--muted-2); text-transform:uppercase; letter-spacing:0.12em; pointer-events:none;}
+  .ring-label{ font-family:var(--font-mono); font-size:11px; fill:var(--muted-2); text-transform:uppercase; letter-spacing:0.12em; pointer-events:none; }
   .node-layer-runtime .node-shape{ stroke:rgba(79,193,232,0.55); }
   .node-layer-trustops .node-shape{ stroke:rgba(166,114,232,0.55); }
   .node-layer-interaction .node-shape{ stroke:rgba(232,163,61,0.55); }
   .node-hit.active .node-shape{ stroke:var(--amber) !important; }
+
 
   .ring-band{ fill:none; stroke-linecap:round; pointer-events:none; }
   .ring-band.runtime{ stroke:rgba(79,193,232,0.13); stroke-width:94; }
@@ -1589,3 +1590,13 @@
     padding:5px 6px;
   }
 }
+
+/* ASE v1.1 brand mark support for Explorer page */
+.ase-site-header .brand{display:flex;align-items:center;gap:10px;min-width:0}
+.ase-site-header .brand-mark{width:42px;height:42px;flex:0 0 auto;filter:drop-shadow(0 0 10px rgba(0,163,255,.25))}
+.ase-site-header .brand-copy{min-width:0}
+@media(max-width:860px){.ase-site-header .brand-mark{width:34px;height:34px}}
+
+
+/* ASE v1.1.1 Explorer header logo fit */
+.ase-site-header .brand-logo{height:42px;width:auto;max-width:240px;object-fit:contain;display:block;filter:drop-shadow(0 0 10px rgba(0,163,255,.25))}.ase-site-header .brand-copy.compact{display:none}.ase-site-header .topbar{align-items:center;gap:10px}.ase-site-header .brand{flex:0 0 auto;min-width:0}.ase-site-header .nav{flex:1 1 auto;justify-content:flex-end;min-width:0}.explorer-bar{top:66px}@media(max-width:900px){.ase-site-header .brand-logo{height:34px;max-width:150px}.ase-site-header .nav a{font-size:10.5px;padding:6px 7px}.explorer-bar{top:88px}}@media(max-width:520px){.ase-site-header .brand-logo{height:30px;max-width:118px}.ase-site-header .brand{max-width:122px}.ase-site-header .nav a{font-size:10px;padding:5px 6px}}

@@ -1,39 +1,96 @@
-<<<<<<< HEAD
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Architecture View</title><link rel="stylesheet" href="../css/main.css"><link rel="stylesheet" href="../css/architecture.css"><link rel="stylesheet" href="../css/mobile.css"><script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"; mermaid.initialize({startOnLoad:true,theme:"dark"});</script><link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/ase-favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="../assets/brand/ase-favicon-16.png"><link rel="shortcut icon" href="../favicon.ico"></head><body data-page="architecture" data-data-prefix="../"><div class="app-shell"><header class="topbar"><div class="brand"><img class="brand-logo" src="../assets/brand/ase-logo-wordmark.png" alt="ASE Agentic Security Explorer logo"><div class="brand-copy compact"><h1>Agentic Security Explorer (ASE)</h1><p>Learn Agentic Attack Surfaces, Risks, and Business Impact</p><div class="context">Architecture</div></div></div><nav class="nav"><a data-nav="home" href="../index.html">Home</a><a data-nav="explorer" href="../ase3.html">Explorer</a><a data-nav="guide" href="../guide/index.html">Business Guide</a><a data-nav="architecture" href="../architecture/index.html">Architecture</a><a data-nav="learning" href="../learning/index.html">Learning</a><a data-nav="about" href="../about/index.html">About</a></nav></header><main class="container"><section class="hero"><h2>Architecture View</h2><p>The Explorer wheel answers what can be attacked. This page explains how the agentic system operates and where trust boundaries and controls belong.</p></section><section class="section-title"><h2>Agentic System Architecture Diagrams</h2></section><div class="diagram-stack"><article class="card diagram-card"><h3>ASE Agentic System Overview</h3><p class="diagram-explainer">This view shows how users, agents, orchestration, memory, models, tools, enterprise systems, and TrustOps controls relate to each other.</p><div class="diagram-panel"><pre class="mermaid">flowchart LR
-=======
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Architecture View</title><link rel="stylesheet" href="../css/main.css"><link rel="stylesheet" href="../css/architecture.css"><link rel="stylesheet" href="../css/mobile.css"><script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"; mermaid.initialize({startOnLoad:true,theme:"dark"});</script><link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/ase-favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="../assets/brand/ase-favicon-16.png"><link rel="shortcut icon" href="../favicon.ico"></head><body data-page="architecture" data-data-prefix="../"><div class="app-shell"><header class="topbar"><div class="brand"><img class="brand-logo" src="../assets/brand/ase-logo-wordmark.png" alt="ASE Agentic Security Explorer logo"><div class="brand-tagline">Explore • Understand • Secure</div><div class="brand-copy compact"><h1>Agentic Security Explorer (ASE)</h1><p>Learn Agentic Attack Surfaces, Risks, and Business Impact</p><div class="context">Architecture</div></div></div><nav class="nav"><a data-nav="home" href="../index.html">Home</a><a data-nav="explorer" href="../ase3.html">Explorer</a><a data-nav="guide" href="../guide/index.html">Business Guide</a><a data-nav="architecture" href="../architecture/index.html">Architecture</a><a data-nav="learning" href="../learning/index.html">Learning</a><a data-nav="about" href="../about/index.html">About</a></nav></header><main class="container"><section class="hero"><h2>Architecture View</h2><p>The Explorer wheel answers what can be attacked. This page explains how the agentic system operates and where trust boundaries and controls belong.</p></section><section class="section-title"><h2>Agentic System Architecture Diagrams</h2></section><div class="diagram-stack"><article class="card diagram-card"><h3>ASE Agentic System Overview</h3><p class="diagram-explainer">This view shows how users, agents, orchestration, memory, models, tools, enterprise systems, and TrustOps controls relate to each other.</p><div class="diagram-panel"><pre class="mermaid">flowchart LR
->>>>>>> 9e03cf6 (NewV1.1)
-  User[User / Business Process] --&gt; Agent[Agent]
-  Agent --&gt; Orchestrator[Orchestrator]
-  Orchestrator --&gt; Memory[Memory / Context]
-  Orchestrator --&gt; Model[Model]
-  Orchestrator --&gt; Tools[Tool Calling]
-  Tools --&gt; Enterprise[Enterprise Systems]
-  Tools --&gt; External[External Services]
-  TrustOps[TrustOps Controls] --&gt; Orchestrator
-  TrustOps --&gt; Tools
-  TrustOps --&gt; Memory
-  Identity[Identity &amp; Authorization] --&gt; Agent
-  Identity --&gt; Tools
-</pre></div></article><article class="card diagram-card"><h3>Runtime Layer Flow</h3><p class="diagram-explainer">The runtime layer is where planning, sub-agent execution, memory, retrieval, tool calling, and sandboxed execution work together.</p><div class="diagram-panel"><pre class="mermaid">flowchart TB
-  Orchestrator --&gt; SubAgents[Sub-Agents]
-  Orchestrator --&gt; Memory[Memory]
-  Orchestrator --&gt; RAG[Retrieval / RAG]
-  Orchestrator --&gt; Tools[Tool Calling]
-  Tools --&gt; Sandbox[Execution Sandbox]
-</pre></div></article><article class="card diagram-card"><h3>Interaction Layer Flow</h3><p class="diagram-explainer">The interaction layer shows how users, prompts, files, external services, and outputs enter or leave the agentic ecosystem.</p><div class="diagram-panel"><pre class="mermaid">flowchart LR
-  Users[Users] --&gt; Inputs[Prompts / Files / Requests]
-  Inputs --&gt; Agent[Agent Interface]
-  External[External Services] --&gt; Agent
-  Agent --&gt; Outputs[Responses / Actions / Messages]
-</pre></div></article><article class="card diagram-card"><h3>TrustOps Control Flow</h3><p class="diagram-explainer">The TrustOps view highlights policy, authorization, approvals, monitoring, audit evidence, and governance review.</p><div class="diagram-panel"><pre class="mermaid">flowchart TB
-  Policy[Policy] --&gt; Authorization[Agent Identity &amp; Authorization]
-  Authorization --&gt; Actions[Agent Actions]
-  Monitoring[Runtime Monitoring] --&gt; Audit[Audit Evidence]
-  Approvals[Human-in-the-Loop] --&gt; Actions
-  Audit --&gt; Governance[Governance Review]
-<<<<<<< HEAD
-</pre></div></article></div></main><footer class="footer">Agentic Security Explorer (ASE). Built to support practical learning for the <a class="satf-link" href="https://github.com/kamaldhingra1/secure-agent-trust-framework/" target="_blank" rel="noopener noreferrer">Secure Agent Trust Framework (SATF)</a>.</footer></div><script type="module" src="../js/app.js"></script><script src="../js/page-summary.js"></script></body></html>
-=======
-</pre></div></article></div></main><footer class="footer">Agentic Security Explorer (ASE). Built to support practical learning for the <a class="satf-link" href="https://github.com/kamaldhingra1/secure-agent-trust-framework/" target="_blank" rel="noopener noreferrer">Secure Agent Trust Framework (SATF)</a>.</footer></div><script type="module" src="../js/app.js"></script><script src="../js/page-summary.js"></script><script src="../js/ask-ase.js"></script></body></html>
->>>>>>> 9e03cf6 (NewV1.1)
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Architecture View</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/architecture.css">
+  <link rel="stylesheet" href="../css/mobile.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/ase-favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/brand/ase-favicon-16.png">
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+<body data-page="architecture" data-data-prefix="../">
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/brand/ase-logo-wordmark.png" alt="ASE Agentic Security Explorer logo">
+      <div class="brand-tagline">Explore • Understand • Secure</div>
+      <div class="brand-copy compact"><h1>Agentic Security Explorer (ASE)</h1><p>Learn Agentic Attack Surfaces, Risks, and Business Impact</p><div class="context">Architecture</div></div>
+    </div>
+    <nav class="nav">
+      <a data-nav="home" href="../index.html">Home</a>
+      <a data-nav="explorer" href="../ase3.html">Explorer</a>
+      <a data-nav="guide" href="../guide/index.html">Business Guide</a>
+      <a data-nav="architecture" href="../architecture/index.html">Architecture</a>
+      <a data-nav="learning" href="../learning/index.html">Learning</a>
+      <a data-nav="about" href="../about/index.html">About</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="hero">
+      <h2>Architecture View</h2>
+      <p>The Explorer wheel answers what can be attacked. This page explains how the agentic system operates and where trust boundaries and controls belong. This version avoids diagram rendering dependencies so GitHub Pages renders reliably.</p>
+    </section>
+
+    <section class="section-title"><h2>Agentic System Architecture Views</h2><p class="muted">Framework-neutral architecture views for understanding ASE components, trust boundaries, and security patterns.</p></section>
+
+    <div class="diagram-stack">
+      <article class="card diagram-card static-diagram-card">
+        <h3>ASE Agentic System Overview</h3>
+        <p class="diagram-explainer">Users and business processes interact with an agent interface. The agent runtime coordinates orchestration, memory, models, retrieval, and tools. Tool calls may reach enterprise systems or external services. Identity, authorization, monitoring, and policy controls surround the workflow.</p>
+        <div class="arch-grid">
+          <div class="arch-node">User / Business Process</div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node highlight">Agent Interface</div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node accent">Orchestrator</div>
+          <div class="arch-node">Memory / Context</div>
+          <div class="arch-node">Model / Inference</div>
+          <div class="arch-node">Retrieval / RAG</div>
+          <div class="arch-node">Tool Calling</div>
+          <div class="arch-node warn">Enterprise / External Systems</div>
+        </div>
+      </article>
+
+      <article class="card diagram-card static-diagram-card">
+        <h3>Runtime Layer Flow</h3>
+        <p class="diagram-explainer">The runtime layer contains planning, sub-agent work, memory usage, retrieval, tool selection, and sandboxed execution.</p>
+        <ul class="list">
+          <li><strong>Orchestrator:</strong> plans tasks and coordinates agent workflow.</li>
+          <li><strong>Sub-agents:</strong> execute specialized task steps.</li>
+          <li><strong>Memory and retrieval:</strong> provide state, recall, and external knowledge.</li>
+          <li><strong>Tool calling:</strong> converts model intent into action.</li>
+          <li><strong>Execution sandbox:</strong> contains risky or external execution paths.</li>
+        </ul>
+      </article>
+
+      <article class="card diagram-card static-diagram-card">
+        <h3>Interaction Layer Flow</h3>
+        <p class="diagram-explainer">The interaction layer is where prompts, files, user requests, third-party services, and outputs enter or leave the agentic ecosystem.</p>
+        <div class="grid">
+          <article class="card"><h3>Inputs</h3><p class="muted">Prompts, files, requests, messages, retrieved content, and API responses.</p></article>
+          <article class="card"><h3>Agent Interface</h3><p class="muted">The boundary where instructions are interpreted and routed into the system.</p></article>
+          <article class="card"><h3>Outputs</h3><p class="muted">Responses, actions, tool results, messages, or workflow decisions.</p></article>
+        </div>
+      </article>
+
+      <article class="card diagram-card static-diagram-card">
+        <h3>Control Placement View</h3>
+        <p class="diagram-explainer">ASE uses framework-neutral security patterns. Framework mappings can be added later as optional overlays.</p>
+        <div class="pattern-list">
+          <article class="pattern-card"><h3>Input & Context Validation</h3><p class="muted">Validate prompts, retrieved context, and inter-agent messages.</p></article>
+          <article class="pattern-card"><h3>Tool Governance</h3><p class="muted">Use allowlists, scoped permissions, parameter validation, and approval gates.</p></article>
+          <article class="pattern-card"><h3>Runtime Monitoring</h3><p class="muted">Observe workflow behavior and interrupt high-risk actions.</p></article>
+          <article class="pattern-card"><h3>Agent Identity</h3><p class="muted">Make agent actions accountable, authorized, and auditable.</p></article>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="footer">Agentic Security Explorer (ASE). Framework-neutral learning with optional framework overlays.</footer>
+</div>
+<script type="module" src="../js/app.js"></script>
+<script src="../js/ask-ase.js"></script>
+</body>
+</html>

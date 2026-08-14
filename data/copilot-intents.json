@@ -1,0 +1,13 @@
+{
+  "chips": [
+    "Explain Risk",
+    "Recommend Controls",
+    "Business Impact",
+    "Incident Chain"
+  ],
+  "freeform_examples": [
+    "How should I defend tool calling?",
+    "Why should executives care about memory risk?",
+    "Show me the incident chain for prompt injection."
+  ]
+}

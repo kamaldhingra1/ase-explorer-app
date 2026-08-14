@@ -13,3 +13,15 @@ function askAseAnswer(q){const x=(q||'').toLowerCase(); if(x.includes('memory')|
 function renderAskAse(container,p){container.innerHTML=`<h4>${p.title}</h4><p>${p.answer}</p><div class="ask-ase-cols"><div><strong>Security patterns</strong><ul>${p.patterns.map(x=>`<li>${x}</li>`).join('')}</ul></div><div><strong>Possible impact</strong><ul>${p.impact.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><div class="next-step"><strong>Next step:</strong> ${p.next}</div><details class="framework-overlay"><summary>Optional framework mappings</summary><p class="muted">Framework overlays can be added later. ASE remains standalone and framework-neutral by default.</p></details><p class="small muted">Runs locally in the browser. No external API calls.</p>`;}
 function setupAskAse(){document.querySelectorAll('[data-ask-ase]').forEach(panel=>{const input=panel.querySelector('[data-ask-input]'); const output=panel.querySelector('[data-ask-output]'); const buttons=panel.querySelectorAll('[data-ask-prompt]'); const run=()=>renderAskAse(output,askAseAnswer(input.value)); panel.querySelector('[data-ask-run]')?.addEventListener('click',run); input?.addEventListener('keydown',e=>{if(e.key==='Enter')run();}); buttons.forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.askPrompt;run();})); renderAskAse(output,ASE_KB.default);});}
 document.addEventListener('DOMContentLoaded', setupAskAse);
+
+
+// ASE v2.0 M1 Simpilot loader. Keeps deployment incremental by loading Simpilot from existing ask-ase.js include.
+(function(){
+  if(window.__ASE_SIMPILOT_BOOTSTRAPPED__) return;
+  window.__ASE_SIMPILOT_BOOTSTRAPPED__ = true;
+  var prefix = (document.body && document.body.dataset && document.body.dataset.dataPrefix) || './';
+  var script = document.createElement('script');
+  script.src = prefix + 'js/simpilot.js';
+  script.defer = true;
+  document.head.appendChild(script);
+})();

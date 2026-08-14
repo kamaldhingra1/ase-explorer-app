@@ -41,7 +41,20 @@
     state = {type, key:keyFor(text), label:text, risk: type === 'risk' ? text : null};
     updateContextUI();
   }
+  function insightText(){
+    const label = (state.risk || state.label || '').toLowerCase();
+    const ctx = data.contexts?.[state.key] || data.fallback;
+    if(label.includes('prompt') || label.includes('injection')) return 'Prompt and context inputs often become the first place an attack tries to influence agent behavior.';
+    if(label.includes('tool') || label.includes('mcp') || label.includes('api')) return 'Tool calls convert agent decisions into real-world actions, so governance and approval gates matter.';
+    if(label.includes('memory')) return 'Memory improves continuity, but can preserve sensitive data, poisoned context, or stale assumptions.';
+    if(label.includes('identity') || label.includes('credential') || label.includes('access')) return 'Agent actions need accountable identity, scoped permissions, and auditable authorization boundaries.';
+    if(label.includes('runtime')) return 'Runtime controls are the last opportunity to observe, interrupt, or contain unsafe agent behavior.';
+    if(ctx && ctx.focus) return ctx.focus;
+    return 'Use Simpilot quick guidance to connect what you are viewing to risks, controls, incident chains, and business impact.';
+  }
+
   function inferFromClick(e){
+    if(e.target.closest('.simpilot-shell')) return;
     const risk = e.target.closest('.risk-chip, .risk-chip-head');
     if(risk){
       const name = clean(risk.querySelector?.('.rname')?.textContent || risk.textContent).split('\n')[0];
@@ -65,8 +78,7 @@
       <div class="simpilot-card simpilot-expanded">
         <div class="simpilot-head"><div class="simpilot-shield-wrap"><img class="simpilot-shield" src="${shield}" alt="ASE shield"></div><div><div class="simpilot-title">Simpilot</div><div class="simpilot-subtitle">Security Guide</div></div><button class="simpilot-close" type="button" aria-label="Collapse Simpilot">Close</button></div>
         <div class="simpilot-body">
-          <div class="simpilot-section-label">Current Context</div>
-          <div class="simpilot-context"><div class="simpilot-context-main" data-simpilot-context>${getCtx().label}</div><div class="simpilot-context-meta" data-simpilot-meta>${getCtx().meta}</div></div>
+          <div class="simpilot-topline"><div class="simpilot-context-pill">Context: <span data-simpilot-context>${getCtx().label}</span></div><div class="simpilot-insight-title">Key Insight</div><div class="simpilot-insight" data-simpilot-insight>${insightText()}</div><div class="simpilot-context-meta" data-simpilot-meta style="display:none">${getCtx().meta}</div></div>
           <div class="simpilot-section-label">Quick Guidance</div>
           <div class="simpilot-chips"><button class="simpilot-chip" data-intent="explain">Explain Risk</button><button class="simpilot-chip" data-intent="controls">Recommend Controls</button><button class="simpilot-chip" data-intent="impact">Business Impact</button><button class="simpilot-chip" data-intent="chain">Incident Chain</button></div>
           <div class="simpilot-section-label">Ask Simpilot</div>
@@ -89,7 +101,9 @@
     const c = getCtx();
     shell.querySelector('[data-simpilot-context]').textContent = c.label;
     shell.querySelector('[data-simpilot-meta]').textContent = c.meta;
-    shell.querySelector('[data-simpilot-status]').textContent = c.label && c.label !== 'ASE' ? 'Context Available' : 'Guidance Ready';
+    shell.querySelector('[data-simpilot-status]').textContent = c.label && c.label !== 'ASE' ? 'Guidance Available' : 'Guidance Ready';
+    const insight = shell.querySelector('[data-simpilot-insight]');
+    if(insight) insight.textContent = insightText();
   }
   function findRisk(query){
     const q = (query || '').toLowerCase();

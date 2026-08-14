@@ -67,25 +67,51 @@
     state = {type, key:keyFor(text), label:text, risk: type === 'risk' ? text : null};
     updateContextUI();
   }
+  function activeRiskDetailText(){
+    const chip = document.querySelector('.risk-chip.expanded');
+    if(!chip) return '';
+    const name = clean(chip.querySelector?.('.rname')?.textContent || '');
+    if(state.risk && name && name !== state.risk) return '';
+    const impact = clean(chip.querySelector?.('.field .field-value')?.textContent || '');
+    const mitigation = clean(Array.from(chip.querySelectorAll?.('.field') || []).find(f => /mitigation/i.test(f.textContent || ''))?.querySelector?.('.field-value')?.textContent || '');
+    return clean([impact, mitigation].filter(Boolean).join(' '));
+  }
+
+  function categoryInsight(label, detail=''){
+    const text = (label + ' ' + detail).toLowerCase();
+    if(/prompt|instruction|jailbreak|injection|override/.test(text)) return 'Prompt and instruction risks try to change agent behavior by manipulating user input, retrieved content, tool output, or hidden instructions.';
+    if(/tool|mcp|api|function|action|execution/.test(text)) return 'Tool and action risks matter because agent decisions can become real API calls, workflow actions, code execution, or data access.';
+    if(/sandbox|escape|isolation|container|boundary|segmentation|agent separation/.test(text)) return 'Isolation risks matter because weak boundaries can let one agent, tool, or execution context affect another, expanding blast radius.';
+    if(/privilege|escalation|permission|credential|secret|token|access|auth|identity|impersonat/.test(text)) return 'Privilege and access risks can turn a local agent failure into unauthorized actions, weak accountability, or broader system compromise.';
+    if(/memory|rag|retrieval|poison|embedding|vector|context|persistent|session/.test(text)) return 'Memory and retrieval risks can persist bad context, expose sensitive data, or influence later decisions long after the original interaction.';
+    if(/exfiltrat|leak|disclosure|sensitive|privacy|confidential|data/.test(text)) return 'Data exposure risks are important because agents can combine prompts, memory, tools, and outputs into unintended disclosure paths.';
+    if(/runtime|monitor|policy|guardrail|contain|egress|telemetry|audit|loop|resource|budget|cost/.test(text)) return 'Runtime security is the last opportunity to observe, interrupt, or contain unsafe agent behavior before business impact occurs.';
+    if(/chain|cascade|incident|blast|lateral/.test(text)) return 'Incident-chain risks show how separate weaknesses can compound into disruption, data exposure, audit findings, or loss of control.';
+    if(/planning|planner|orchestrat|workflow|delegation|handoff|coordination/.test(text)) return 'Planning and orchestration risks matter because one flawed decision can route the agent into unsafe tools, data, or downstream actions.';
+    if(/output|response|content|hallucination|decision|integrity|validation/.test(text)) return 'Output integrity risks affect how users, systems, and downstream workflows trust agent responses, summaries, and decisions.';
+    if(/supply|dependency|package|model|plugin|extension/.test(text)) return 'Supply chain risks can introduce compromised components into the agent path before runtime controls ever see the behavior.';
+    if(/availability|denial|dos|crash|failure|disruption|service/.test(text)) return 'Availability risks matter because agent loops, resource abuse, or brittle dependencies can disrupt workflows even without data theft.';
+    return '';
+  }
+
   function insightText(){
     const labelRaw = state.risk || state.label || '';
-    const label = labelRaw.toLowerCase();
     const ctx = data.contexts?.[state.key] || data.fallback;
 
     // Risk-specific playbook when available.
     const riskKey = findRisk(labelRaw);
     if(riskKey && data.risks?.[riskKey]?.what) return data.risks[riskKey].what;
 
-    // Deterministic fallback insights for ASE3 threat/risk names.
-    if(/prompt|instruction|jailbreak|injection|override/.test(label)) return 'Prompt and instruction risks try to change agent behavior by manipulating user input, retrieved content, tool output, or hidden instructions.';
-    if(/tool|mcp|api|function|action|execution/.test(label)) return 'Tool and action risks matter because agent decisions can become real API calls, workflow actions, code execution, or data access.';
-    if(/memory|rag|retrieval|poison|embedding|vector|context/.test(label)) return 'Memory and retrieval risks can persist bad context, expose sensitive data, or influence later decisions long after the original interaction.';
-    if(/identity|credential|secret|token|permission|privilege|access|auth|impersonat/.test(label)) return 'Identity and access risks can turn an agent mistake into privilege abuse, unauthorized action, or weak accountability.';
-    if(/exfiltrat|leak|disclosure|sensitive|privacy|confidential|data/.test(label)) return 'Data exposure risks are important because agents can combine prompts, memory, tools, and outputs into unintended disclosure paths.';
-    if(/runtime|sandbox|monitor|policy|guardrail|contain|egress/.test(label)) return 'Runtime security is the last opportunity to observe, interrupt, or contain unsafe agent behavior before business impact occurs.';
-    if(/chain|cascade|incident|blast|lateral/.test(label)) return 'Incident-chain risks show how separate weaknesses can compound into disruption, data exposure, audit findings, or loss of control.';
-    if(/planning|planner|orchestrat|workflow|delegation/.test(label)) return 'Planning and orchestration risks matter because one flawed decision can route the agent into unsafe tools, data, or downstream actions.';
-    if(/output|response|content|hallucination|decision/.test(label)) return 'Output integrity risks affect how users, systems, and downstream workflows trust agent responses, summaries, and decisions.';
+    // Use both the risk name and expanded ASE3 detail text so generic risk titles still get useful insight.
+    const detail = activeRiskDetailText();
+    const routed = categoryInsight(labelRaw, detail);
+    if(routed) return routed;
+
+    // Last-mile contextual fallback: do not show the generic ASE message once a risk has been selected.
+    if(state.risk){
+      const impact = detail ? ` The expanded details indicate: ${detail.split('.').slice(0,1).join('.')}.` : '';
+      return `${state.risk} can create a control gap in the selected agent component. Treat it as a risk that may expand blast radius, weaken governance, or increase business impact unless explicit prevention, detection, and containment controls are applied.${impact}`;
+    }
 
     if(ctx && ctx.focus) return ctx.focus;
     return 'Use Simpilot quick guidance to connect what you are viewing to risks, controls, incident chains, and business impact.';
@@ -245,5 +271,5 @@
     setInterval(updateAse3Dock, 900);
   }
 
-  loadData().then(()=>{ injectSimpilotStyles(); shell = makeShell(); updateContextUI(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); document.addEventListener('click',()=>setTimeout(scanExpandedAse3Risk,0), true); });
+  loadData().then(()=>{ injectSimpilotStyles(); shell = makeShell(); updateContextUI(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); document.addEventListener('click',()=>setTimeout(scanExpandedAse3Risk,0), true); setInterval(scanExpandedAse3Risk, 1200); });
 })();

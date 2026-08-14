@@ -718,6 +718,36 @@
     c.risks.forEach(r => risksWrap.appendChild(buildRiskChip(r)));
   }
 
+
+  const DEFENSE_PATTERNS = {
+    input:'Input and Context Validation', tool:'Tool Governance and Authorization', identity:'Agent Identity and Access Control', memory:'Memory Protection', runtime:'Runtime Monitoring and Containment'
+  };
+  function defensePatternsForRisk(r){
+    const t = (r.name + ' ' + r.impact + ' ' + r.mitigation).toLowerCase();
+    const out=[]; const add=x=>{ if(!out.includes(x)) out.push(x); };
+    if(/prompt|context|rag|injection|input|retriev/.test(t)) add(DEFENSE_PATTERNS.input);
+    if(/tool|mcp|api|execution|code|external|integration/.test(t)) add(DEFENSE_PATTERNS.tool);
+    if(/identity|auth|credential|secret|permission|privilege|impersonation/.test(t)) add(DEFENSE_PATTERNS.identity);
+    if(/memory|persistent|retention|session/.test(t)) add(DEFENSE_PATTERNS.memory);
+    if(/runtime|loop|sandbox|monitor|policy|resource|telemetry|egress|audit/.test(t)) add(DEFENSE_PATTERNS.runtime);
+    if(out.length===0){ add(DEFENSE_PATTERNS.input); add(DEFENSE_PATTERNS.runtime); }
+    return out.slice(0,3);
+  }
+  function businessImpactsForRisk(r){
+    const t = (r.name + ' ' + r.impact).toLowerCase();
+    const out=[]; const add=x=>{ if(!out.includes(x)) out.push(x); };
+    if(/data|secret|credential|leak|exfil/.test(t)) add('Data exposure');
+    if(/unauthorized|privilege|permission|tool|action|execute/.test(t)) add('Unauthorized action');
+    if(/cost|budget|resource|loop|compute/.test(t)) add('Operational cost or disruption');
+    if(/regulatory|audit|evidence|governance|compliance/.test(t)) add('Regulatory or audit exposure');
+    if(/crash|down|failure|disruption|service/.test(t)) add('Service disruption');
+    if(out.length===0){ add('Operational disruption'); add('Reputation impact'); }
+    return out.slice(0,3);
+  }
+  function relatedChainsForRisk(riskId){
+    return INCIDENT_CHAINS.filter(c => c.requires && c.requires.includes(riskId)).slice(0,2);
+  }
+
   function buildRiskChip(r){
     const wrap = document.createElement('div');
     wrap.className = 'risk-chip' + (state.basket.has(r.id) ? ' in-basket' : '');
@@ -748,9 +778,16 @@
 
     const body = document.createElement('div');
     body.className = 'risk-body';
+    const patterns = defensePatternsForRisk(r);
+    const impacts = businessImpactsForRisk(r);
+    const chains = relatedChainsForRisk(r.id);
     body.innerHTML = `
       <div class="field"><span class="field-label">Impact</span><span class="field-value">${r.impact}</span></div>
       <div class="field"><span class="field-label">Mitigation</span><span class="field-value">${r.mitigation}</span></div>
+      <div class="defense-panel"><h4>How to Defend</h4><ul>${patterns.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+      <div class="business-impact-panel"><h4>Business Impact</h4><ul>${impacts.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+      <div class="chain-panel"><h4>Related Incident Chain</h4>${chains.length ? `<ul>${chains.map(c=>`<li>${c.name}</li>`).join('')}</ul>` : '<p class="muted small">Add this risk to the basket to discover possible chains.</p>'}</div>
+      <details class="framework-overlay"><summary>Optional framework mappings</summary><p class="muted small">Framework overlays are intentionally optional. ASE guidance remains framework-neutral by default.</p></details>
     `;
     const addBtn = document.createElement('button');
     addBtn.className = 'add-btn' + (state.basket.has(r.id) ? ' added' : '');

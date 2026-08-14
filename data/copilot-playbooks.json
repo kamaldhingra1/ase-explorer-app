@@ -1,0 +1,63 @@
+{
+  "version": "1.3",
+  "purpose": "Local Ask ASE playbooks for the future static Copilot simulator.",
+  "modes": [
+    {
+      "id": "explain",
+      "label": "Explain",
+      "template": [
+        "What it is",
+        "Where it appears",
+        "Why it matters",
+        "Recommended security patterns"
+      ]
+    },
+    {
+      "id": "investigate",
+      "label": "Investigate",
+      "template": [
+        "Affected components",
+        "Likely incident chain",
+        "Business impact",
+        "Signals to watch"
+      ]
+    },
+    {
+      "id": "recommend",
+      "label": "Recommend Defenses",
+      "template": [
+        "Primary security patterns",
+        "Runtime controls",
+        "Approval points",
+        "Monitoring signals"
+      ]
+    },
+    {
+      "id": "compare",
+      "label": "Compare",
+      "template": [
+        "Similarity",
+        "Difference",
+        "Affected components",
+        "Defensive overlap"
+      ]
+    },
+    {
+      "id": "guide",
+      "label": "Guide Me",
+      "template": [
+        "Start with components",
+        "Inspect risks",
+        "Review incident chains",
+        "Apply security patterns"
+      ]
+    }
+  ],
+  "suggestedPrompts": [
+    "Explain prompt injection",
+    "How do I defend tool calling?",
+    "Show business impact for memory poisoning",
+    "What runtime controls matter?",
+    "Compare prompt injection and memory poisoning"
+  ]
+}

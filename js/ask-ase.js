@@ -1,85 +1,15 @@
 
 const ASE_KB = {
-  memory: {
-    title: 'Memory and Context Risk',
-    answer: 'Memory risk usually appears when untrusted, stale, or sensitive context is stored and reused by an agent. Key defenses include memory provenance, retention limits, context validation, and separation of trusted and untrusted memory.',
-    patterns: ['Memory Protection', 'Input and Context Validation'],
-    impact: ['Persistent attacker influence', 'Sensitive data exposure', 'Incorrect workflow behavior']
-  },
-  tool: {
-    title: 'Tool and Action Risk',
-    answer: 'Tool risk appears when model intent becomes real action through APIs, plugins, MCP services, or business systems. Key defenses include tool allowlists, scoped authorization, parameter validation, approval gates, and monitoring.',
-    patterns: ['Tool Governance and Authorization', 'Runtime Monitoring and Containment'],
-    impact: ['Unauthorized transactions', 'Data exfiltration', 'Service abuse']
-  },
-  identity: {
-    title: 'Agent Identity and Access Risk',
-    answer: 'Agent identity risk appears when agents act without clear accountability, scoped permissions, or safe credential handling. Treat agents as accountable actors with scoped authorization, secret isolation, delegation boundaries, and audit trails.',
-    patterns: ['Agent Identity and Access Control', 'Tool Governance and Authorization'],
-    impact: ['Unauthorized access', 'Regulatory exposure', 'Financial loss']
-  },
-  runtime: {
-    title: 'Runtime Security Risk',
-    answer: 'Runtime risk appears while agent workflows execute. Use runtime policy checks, sandboxing, telemetry, kill switches, and human approval to contain unsafe behavior before it becomes business impact.',
-    patterns: ['Runtime Monitoring and Containment', 'Tool Governance and Authorization'],
-    impact: ['Operational disruption', 'Safety concerns', 'Loss of control']
-  },
-  prompt: {
-    title: 'Prompt Injection and Context Manipulation',
-    answer: 'Prompt injection attempts to override instructions, manipulate context, or influence tool use. Treat it as an input, context, and action-control problem, not only a model problem.',
-    patterns: ['Input and Context Validation', 'Tool Governance and Authorization'],
-    impact: ['Incorrect actions', 'Data leakage', 'Privilege misuse']
-  },
-  incident: {
-    title: 'Incident Chain Thinking',
-    answer: 'A single weakness may not explain business impact. Incident chains help show how component risk, tool access, identity, memory, and runtime behavior combine into larger failure paths.',
-    patterns: ['Runtime Monitoring and Containment', 'Agent Identity and Access Control', 'Memory Protection'],
-    impact: ['Operational disruption', 'Regulatory exposure', 'Reputation impact']
-  },
-  business: {
-    title: 'Business Impact View',
-    answer: 'ASE maps technical risks to business outcomes such as operational disruption, financial loss, regulatory exposure, reputation impact, and safety concerns. This keeps security conversations understandable outside engineering teams.',
-    patterns: ['Runtime Monitoring and Containment', 'Tool Governance and Authorization', 'Agent Identity and Access Control'],
-    impact: ['Operational', 'Financial', 'Regulatory', 'Reputation', 'Safety']
-  },
-  default: {
-    title: 'Ask ASE Preview',
-    answer: 'Ask ASE is a lightweight, rule-based preview. Try asking about memory, tools, identity, runtime, prompt injection, incidents, or business impact. Future versions can become a fuller context-aware assistant.',
-    patterns: ['Input and Context Validation', 'Tool Governance and Authorization', 'Runtime Monitoring and Containment'],
-    impact: ['Learning support', 'Threat understanding', 'Control guidance']
-  }
+  memory: {title:'Memory and Context Risk', answer:'Memory risk usually appears when untrusted, stale, or sensitive context is stored and reused by an agent. Treat memory as a security boundary, not just a feature.', patterns:['Memory Protection','Input and Context Validation','Runtime Monitoring and Containment'], impact:['Persistent attacker influence','Sensitive data exposure','Incorrect workflow behavior'], next:'Inspect Memory Context Store risks and look for memory-related incident chains.'},
+  tool: {title:'Tool and Action Risk', answer:'Tool risk appears when model intent becomes real action through APIs, plugins, MCP services, code execution, or business systems. The key question is: what can this agent actually do?', patterns:['Tool Governance and Authorization','Agent Identity and Access Control','Runtime Monitoring and Containment'], impact:['Unauthorized transactions','Data exfiltration','Service abuse'], next:'Open a tool-related component and review the How to Defend section.'},
+  identity: {title:'Agent Identity and Access Risk', answer:'Agent identity risk appears when agents act without clear accountability, scoped permissions, or safe credential handling. Agents should be treated as accountable actors.', patterns:['Agent Identity and Access Control','Tool Governance and Authorization','Runtime Monitoring and Containment'], impact:['Unauthorized access','Regulatory exposure','Financial loss'], next:'Review Agent Identity AuthZ and Credentials/Secrets components.'},
+  runtime: {title:'Runtime Security Risk', answer:'Runtime risk appears while agent workflows execute. Runtime security focuses on policy checks, sandboxing, monitoring, kill switches, and high-risk action interruption.', patterns:['Runtime Monitoring and Containment','Tool Governance and Authorization','Agent Identity and Access Control'], impact:['Operational disruption','Safety concerns','Loss of control'], next:'Use the Explorer to connect runtime risks to tool and identity controls.'},
+  prompt: {title:'Prompt Injection and Context Manipulation', answer:'Prompt injection attempts to manipulate instructions, context, tool use, or decision logic. Treat the issue as an input, context, and action-control problem.', patterns:['Input and Context Validation','Tool Governance and Authorization','Runtime Monitoring and Containment'], impact:['Incorrect actions','Data leakage','Privilege misuse'], next:'Inspect risks in Agent Interface, Context Boundary, RAG, and Tool Calling.'},
+  incident: {title:'Incident Chain Thinking', answer:'A single weakness may not explain business impact. Incident chains show how component risk, identity, tools, memory, and runtime behavior combine into larger failure paths.', patterns:['Runtime Monitoring and Containment','Agent Identity and Access Control','Memory Protection'], impact:['Operational disruption','Regulatory exposure','Reputation impact'], next:'Add related risks to the basket to see which chains unlock.'},
+  business: {title:'Business Impact View', answer:'ASE maps technical risks to business outcomes such as operational disruption, financial loss, regulatory exposure, reputation impact, data exposure, and safety concerns.', patterns:['Runtime Monitoring and Containment','Tool Governance and Authorization','Agent Identity and Access Control'], impact:['Operational','Financial','Regulatory','Reputation','Safety'], next:'Use Business Guide for executive-friendly framing.'},
+  default: {title:'Ask ASE Preview', answer:'Ask ASE is a local, rule-based preview. It uses the ASE knowledge model in the browser and does not call an external API.', patterns:['Input and Context Validation','Tool Governance and Authorization','Runtime Monitoring and Containment'], impact:['Learning support','Threat understanding','Defense guidance'], next:'Try: Explain prompt injection, Defend tool calling, Show business impact, or Runtime controls.'}
 };
-function askAseAnswer(q){
-  const x=(q||'').toLowerCase();
-  if(x.includes('memory') || x.includes('rag') || x.includes('context')) return ASE_KB.memory;
-  if(x.includes('tool') || x.includes('mcp') || x.includes('api') || x.includes('plugin')) return ASE_KB.tool;
-  if(x.includes('identity') || x.includes('credential') || x.includes('auth') || x.includes('access')) return ASE_KB.identity;
-  if(x.includes('runtime') || x.includes('sandbox') || x.includes('monitor') || x.includes('policy')) return ASE_KB.runtime;
-  if(x.includes('prompt') || x.includes('injection')) return ASE_KB.prompt;
-  if(x.includes('incident') || x.includes('chain') || x.includes('attack path')) return ASE_KB.incident;
-  if(x.includes('business') || x.includes('impact') || x.includes('executive')) return ASE_KB.business;
-  return ASE_KB.default;
-}
-function renderAskAse(container, payload){
-  container.innerHTML = `
-    <h4>${payload.title}</h4>
-    <p>${payload.answer}</p>
-    <div class="ask-ase-cols">
-      <div><strong>Security patterns</strong><ul>${payload.patterns.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-      <div><strong>Possible impact</strong><ul>${payload.impact.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-    </div>
-    <p class="small muted">ASE-first guidance. Framework mappings can be added as optional overlays later.</p>`;
-}
-function setupAskAse(){
-  document.querySelectorAll('[data-ask-ase]').forEach(panel=>{
-    const input=panel.querySelector('[data-ask-input]');
-    const output=panel.querySelector('[data-ask-output]');
-    const buttons=panel.querySelectorAll('[data-ask-prompt]');
-    const run=()=>renderAskAse(output, askAseAnswer(input.value));
-    panel.querySelector('[data-ask-run]')?.addEventListener('click',run);
-    input?.addEventListener('keydown',e=>{ if(e.key==='Enter') run(); });
-    buttons.forEach(btn=>btn.addEventListener('click',()=>{ input.value=btn.dataset.askPrompt; run(); }));
-    renderAskAse(output, ASE_KB.default);
-  });
-}
+function askAseAnswer(q){const x=(q||'').toLowerCase(); if(x.includes('memory')||x.includes('rag')||x.includes('context'))return ASE_KB.memory; if(x.includes('tool')||x.includes('mcp')||x.includes('api')||x.includes('plugin'))return ASE_KB.tool; if(x.includes('identity')||x.includes('credential')||x.includes('auth')||x.includes('access'))return ASE_KB.identity; if(x.includes('runtime')||x.includes('sandbox')||x.includes('monitor')||x.includes('policy'))return ASE_KB.runtime; if(x.includes('prompt')||x.includes('injection'))return ASE_KB.prompt; if(x.includes('incident')||x.includes('chain')||x.includes('attack path'))return ASE_KB.incident; if(x.includes('business')||x.includes('impact')||x.includes('executive'))return ASE_KB.business; return ASE_KB.default;}
+function renderAskAse(container,p){container.innerHTML=`<h4>${p.title}</h4><p>${p.answer}</p><div class="ask-ase-cols"><div><strong>Security patterns</strong><ul>${p.patterns.map(x=>`<li>${x}</li>`).join('')}</ul></div><div><strong>Possible impact</strong><ul>${p.impact.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><div class="next-step"><strong>Next step:</strong> ${p.next}</div><details class="framework-overlay"><summary>Optional framework mappings</summary><p class="muted">Framework overlays can be added later. ASE remains standalone and framework-neutral by default.</p></details><p class="small muted">Runs locally in the browser. No external API calls.</p>`;}
+function setupAskAse(){document.querySelectorAll('[data-ask-ase]').forEach(panel=>{const input=panel.querySelector('[data-ask-input]'); const output=panel.querySelector('[data-ask-output]'); const buttons=panel.querySelectorAll('[data-ask-prompt]'); const run=()=>renderAskAse(output,askAseAnswer(input.value)); panel.querySelector('[data-ask-run]')?.addEventListener('click',run); input?.addEventListener('keydown',e=>{if(e.key==='Enter')run();}); buttons.forEach(btn=>btn.addEventListener('click',()=>{input.value=btn.dataset.askPrompt;run();})); renderAskAse(output,ASE_KB.default);});}
 document.addEventListener('DOMContentLoaded', setupAskAse);

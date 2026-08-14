@@ -1,0 +1,1095 @@
+{
+  "version": "1.3",
+  "mappings": [
+    {
+      "riskId": "orch-goal-manipulation",
+      "riskName": "Goal manipulation via prompt injection",
+      "componentId": "orchestrator",
+      "componentName": "Orchestrator",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "runaway-planner",
+          "name": "Runaway Planner",
+          "impact": "A single injected goal turns into a denial-of-service-style cost and availability incident across the whole system."
+        }
+      ],
+      "defenseSummary": "Separate trusted instructions from untrusted content; validate plans against an allow-listed goal schema before execution."
+    },
+    {
+      "riskId": "orch-resource-exhaustion",
+      "riskName": "Infinite loop / resource exhaustion",
+      "componentId": "orchestrator",
+      "componentName": "Orchestrator",
+      "severity": "medium",
+      "businessImpacts": [
+        "Operational cost or disruption"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "runaway-planner",
+          "name": "Runaway Planner",
+          "impact": "A single injected goal turns into a denial-of-service-style cost and availability incident across the whole system."
+        }
+      ],
+      "defenseSummary": "Enforce hard step/time/cost budgets per task and detect repeated subtask signatures."
+    },
+    {
+      "riskId": "orch-spof",
+      "riskName": "Single point of failure",
+      "componentId": "orchestrator",
+      "componentName": "Orchestrator",
+      "severity": "high",
+      "businessImpacts": [
+        "Service disruption"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Add plan-integrity checks, redundancy, and circuit breakers so a single bad plan can't cascade."
+    },
+    {
+      "riskId": "orch-insecure-delegation",
+      "riskName": "Insecure delegation logic",
+      "componentId": "orchestrator",
+      "componentName": "Orchestrator",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "runaway-planner",
+          "name": "Runaway Planner",
+          "impact": "A single injected goal turns into a denial-of-service-style cost and availability incident across the whole system."
+        }
+      ],
+      "defenseSummary": "Base delegation on verified capability and trust tiers, not on agent self-reported claims."
+    },
+    {
+      "riskId": "sub-role-confusion",
+      "riskName": "Role confusion / impersonation",
+      "componentId": "subagents",
+      "componentName": "Sub-Agents",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "confused-deputy",
+          "name": "Confused Deputy Cascade",
+          "impact": "Trust relationships meant to enable coordination instead let one forged message impersonate authority across the whole agent network."
+        }
+      ],
+      "defenseSummary": "Give every agent a signed, verifiable identity that other agents check before trusting a message."
+    },
+    {
+      "riskId": "sub-excessive-agency",
+      "riskName": "Excessive agency",
+      "componentId": "subagents",
+      "componentName": "Sub-Agents",
+      "severity": "critical",
+      "businessImpacts": [
+        "Data exposure",
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "trojan-doc",
+          "name": "The Trojan Document",
+          "impact": "A single poisoned document turns into unauthorized tool execution, with no external attacker needing direct access to the system at any point."
+        },
+        {
+          "id": "rubber-stamp",
+          "name": "Rubber-Stamp Bypass",
+          "impact": "The human checkpoint that was supposed to be the last line of defense turns out to add almost no real friction at all."
+        }
+      ],
+      "defenseSummary": "Scope each agent's permissions tightly to the minimum needed for its specific role, and re-evaluate scope per task."
+    },
+    {
+      "riskId": "sub-insecure-trust",
+      "riskName": "Insecure inter-agent trust",
+      "componentId": "subagents",
+      "componentName": "Sub-Agents",
+      "severity": "high",
+      "businessImpacts": [
+        "Service disruption"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "confused-deputy",
+          "name": "Confused Deputy Cascade",
+          "impact": "Trust relationships meant to enable coordination instead let one forged message impersonate authority across the whole agent network."
+        }
+      ],
+      "defenseSummary": "Treat inter-agent messages as untrusted input and apply the same validation used for external data."
+    },
+    {
+      "riskId": "tool-poisoning",
+      "riskName": "Tool poisoning",
+      "componentId": "toolcalling",
+      "componentName": "Tool-Calling Layer",
+      "severity": "critical",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "trojan-doc",
+          "name": "The Trojan Document",
+          "impact": "A single poisoned document turns into unauthorized tool execution, with no external attacker needing direct access to the system at any point."
+        }
+      ],
+      "defenseSummary": "Pin tool definitions, verify their source/signature, and diff them against a known-good baseline before use."
+    },
+    {
+      "riskId": "tool-arbitrary-exec",
+      "riskName": "Arbitrary code execution",
+      "componentId": "toolcalling",
+      "componentName": "Tool-Calling Layer",
+      "severity": "critical",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "sandbox-relay",
+          "name": "Sandbox Breakout Relay",
+          "impact": "A contained execution risk becomes a system-wide compromise the moment isolation between agents fails."
+        }
+      ],
+      "defenseSummary": "Run tool execution inside a hardened sandbox with no default access to secrets, network, or the filesystem."
+    },
+    {
+      "riskId": "tool-unvalidated-output",
+      "riskName": "Unvalidated trust in tool output",
+      "componentId": "toolcalling",
+      "componentName": "Tool-Calling Layer",
+      "severity": "high",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Validate and type-check tool outputs before they re-enter the agent's context."
+    },
+    {
+      "riskId": "mem-poisoning",
+      "riskName": "Memory poisoning",
+      "componentId": "memory",
+      "componentName": "Memory / Context Store",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Memory Protection"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "memory-bomb",
+          "name": "Memory Time Bomb",
+          "impact": "One-time access becomes an ongoing, self-triggering compromise that can resurface weeks later and affect users who were never directly targeted."
+        }
+      ],
+      "defenseSummary": "Validate and provenance-tag anything written to persistent memory; treat recalled memory as untrusted input."
+    },
+    {
+      "riskId": "mem-cross-session-leak",
+      "riskName": "Cross-session data leakage",
+      "componentId": "memory",
+      "componentName": "Memory / Context Store",
+      "severity": "high",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Memory Protection"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "memory-bomb",
+          "name": "Memory Time Bomb",
+          "impact": "One-time access becomes an ongoing, self-triggering compromise that can resurface weeks later and affect users who were never directly targeted."
+        }
+      ],
+      "defenseSummary": "Strictly partition memory stores per user/tenant with enforced access boundaries."
+    },
+    {
+      "riskId": "mem-persistent-injection",
+      "riskName": "Persistent prompt injection",
+      "componentId": "memory",
+      "componentName": "Memory / Context Store",
+      "severity": "high",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Memory Protection",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "memory-bomb",
+          "name": "Memory Time Bomb",
+          "impact": "One-time access becomes an ongoing, self-triggering compromise that can resurface weeks later and affect users who were never directly targeted."
+        }
+      ],
+      "defenseSummary": "Sanitize content before storage and periodically re-validate stored memory against current policy."
+    },
+    {
+      "riskId": "comms-spoofing",
+      "riskName": "Message spoofing",
+      "componentId": "comms",
+      "componentName": "Inter-Agent Comms",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "confused-deputy",
+          "name": "Confused Deputy Cascade",
+          "impact": "Trust relationships meant to enable coordination instead let one forged message impersonate authority across the whole agent network."
+        }
+      ],
+      "defenseSummary": "Sign inter-agent messages and verify sender identity before acting on message content."
+    },
+    {
+      "riskId": "comms-mitm-injection",
+      "riskName": "Man-in-the-middle injection",
+      "componentId": "comms",
+      "componentName": "Inter-Agent Comms",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Encrypt and authenticate the transport layer end to end between agents."
+    },
+    {
+      "riskId": "comms-no-integrity",
+      "riskName": "Lack of message integrity checks",
+      "componentId": "comms",
+      "componentName": "Inter-Agent Comms",
+      "severity": "medium",
+      "businessImpacts": [
+        "Service disruption"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Add integrity verification (hashes/signatures) on every inter-agent message."
+    },
+    {
+      "riskId": "rag-indirect-injection",
+      "riskName": "Indirect prompt injection via retrieved content",
+      "componentId": "rag",
+      "componentName": "Retrieval / RAG",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "trojan-doc",
+          "name": "The Trojan Document",
+          "impact": "A single poisoned document turns into unauthorized tool execution, with no external attacker needing direct access to the system at any point."
+        }
+      ],
+      "defenseSummary": "Isolate retrieved content as data, not instructions, and strip or flag embedded imperative language."
+    },
+    {
+      "riskId": "rag-data-poisoning",
+      "riskName": "Data poisoning of the knowledge base",
+      "componentId": "rag",
+      "componentName": "Retrieval / RAG",
+      "severity": "high",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Control write-access to the knowledge base and monitor it for anomalous or injected content."
+    },
+    {
+      "riskId": "rag-source-spoofing",
+      "riskName": "Source spoofing",
+      "componentId": "rag",
+      "componentName": "Retrieval / RAG",
+      "severity": "medium",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "context-laundering-chain",
+          "name": "Context Laundering Loop",
+          "impact": "Bad evidence becomes trusted decision material, leading to confident but unsafe action recommendations that are difficult to trace back to the original source."
+        }
+      ],
+      "defenseSummary": "Track and surface provenance for every retrieved passage."
+    },
+    {
+      "riskId": "sandbox-escape",
+      "riskName": "Sandbox escape",
+      "componentId": "sandbox",
+      "componentName": "Execution Sandbox",
+      "severity": "critical",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "sandbox-relay",
+          "name": "Sandbox Breakout Relay",
+          "impact": "A contained execution risk becomes a system-wide compromise the moment isolation between agents fails."
+        }
+      ],
+      "defenseSummary": "Use hardened, regularly patched isolation technology and least-privilege container configuration."
+    },
+    {
+      "riskId": "sandbox-privesc",
+      "riskName": "Privilege escalation",
+      "componentId": "sandbox",
+      "componentName": "Execution Sandbox",
+      "severity": "critical",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Run sandboxed processes as non-root with no unnecessary capabilities, and audit for escalation paths."
+    },
+    {
+      "riskId": "sandbox-insufficient-isolation",
+      "riskName": "Insufficient isolation between agents",
+      "componentId": "sandbox",
+      "componentName": "Execution Sandbox",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "sandbox-relay",
+          "name": "Sandbox Breakout Relay",
+          "impact": "A contained execution risk becomes a system-wide compromise the moment isolation between agents fails."
+        }
+      ],
+      "defenseSummary": "Give each agent (or task) its own isolated execution context rather than a shared runtime."
+    },
+    {
+      "riskId": "ext-over-permissioned",
+      "riskName": "Over-permissioned API scopes",
+      "componentId": "external",
+      "componentName": "External Integrations",
+      "severity": "high",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Request the narrowest OAuth/API scopes possible and review them regularly."
+    },
+    {
+      "riskId": "ext-supply-chain",
+      "riskName": "Third-party supply chain compromise",
+      "componentId": "external",
+      "componentName": "External Integrations",
+      "severity": "high",
+      "businessImpacts": [
+        "Service disruption"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "key-doormat",
+          "name": "Key Under the Doormat",
+          "impact": "A single small leak \u2014 the kind that's easy to overlook \u2014 becomes broad, cross-system access rather than a contained incident."
+        }
+      ],
+      "defenseSummary": "Vet integration partners, monitor advisories, and limit blast radius with scoped credentials."
+    },
+    {
+      "riskId": "ext-exfil-legit-channel",
+      "riskName": "Data exfiltration via a legitimate channel",
+      "componentId": "external",
+      "componentName": "External Integrations",
+      "severity": "critical",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Monitor outbound data volume/destination patterns on integrations, not just their authorization status."
+    },
+    {
+      "riskId": "cred-leakage-logs",
+      "riskName": "Secret leakage via logs or output",
+      "componentId": "credentials",
+      "componentName": "Credentials & Secrets",
+      "severity": "critical",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "key-doormat",
+          "name": "Key Under the Doormat",
+          "impact": "A single small leak \u2014 the kind that's easy to overlook \u2014 becomes broad, cross-system access rather than a contained incident."
+        }
+      ],
+      "defenseSummary": "Scrub secrets from logs and outputs automatically; never place raw credentials in prompts or context."
+    },
+    {
+      "riskId": "cred-long-lived",
+      "riskName": "Long-lived static credentials",
+      "componentId": "credentials",
+      "componentName": "Credentials & Secrets",
+      "severity": "high",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Use short-lived, automatically rotated tokens instead of static keys."
+    },
+    {
+      "riskId": "cred-reuse",
+      "riskName": "Credential reuse across agents",
+      "componentId": "credentials",
+      "componentName": "Credentials & Secrets",
+      "severity": "high",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "key-doormat",
+          "name": "Key Under the Doormat",
+          "impact": "A single small leak \u2014 the kind that's easy to overlook \u2014 becomes broad, cross-system access rather than a contained incident."
+        }
+      ],
+      "defenseSummary": "Issue distinct, narrowly scoped credentials per agent so compromise doesn't generalize."
+    },
+    {
+      "riskId": "human-approval-fatigue",
+      "riskName": "Approval fatigue / rubber-stamping",
+      "componentId": "human",
+      "componentName": "Human-in-the-Loop",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "rubber-stamp",
+          "name": "Rubber-Stamp Bypass",
+          "impact": "The human checkpoint that was supposed to be the last line of defense turns out to add almost no real friction at all."
+        }
+      ],
+      "defenseSummary": "Reserve human review for genuinely high-risk actions and make requests specific enough to actually evaluate."
+    },
+    {
+      "riskId": "human-bypassable-gate",
+      "riskName": "Bypassable confirmation step",
+      "componentId": "human",
+      "componentName": "Human-in-the-Loop",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "rubber-stamp",
+          "name": "Rubber-Stamp Bypass",
+          "impact": "The human checkpoint that was supposed to be the last line of defense turns out to add almost no real friction at all."
+        }
+      ],
+      "defenseSummary": "Enforce approval at the permission layer itself, not just in the conversational flow that's easy to sidestep."
+    },
+    {
+      "riskId": "human-unclear-accountability",
+      "riskName": "Unclear accountability",
+      "componentId": "human",
+      "componentName": "Human-in-the-Loop",
+      "severity": "medium",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Log exactly what was shown to the approver at decision time, not just that approval occurred."
+    },
+    {
+      "riskId": "id-rogue-registration",
+      "riskName": "Rogue agent registration",
+      "componentId": "identityauth",
+      "componentName": "Agent Identity & AuthZ",
+      "severity": "critical",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Require signed registration, verified ownership, approval workflows, and continuous inventory reconciliation for agent identities."
+    },
+    {
+      "riskId": "id-broken-delegation",
+      "riskName": "Broken delegated authorization",
+      "componentId": "identityauth",
+      "componentName": "Agent Identity & AuthZ",
+      "severity": "high",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Bind delegated permissions to task, actor, time, data scope, and action type; re-check authorization at every sensitive call."
+    },
+    {
+      "riskId": "id-stale-token-reuse",
+      "riskName": "Stale or revoked token reuse",
+      "componentId": "identityauth",
+      "componentName": "Agent Identity & AuthZ",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Use short-lived tokens, revocation checks, audience binding, and continuous token introspection."
+    },
+    {
+      "riskId": "skill-malicious-install",
+      "riskName": "Malicious skill or MCP package installation",
+      "componentId": "skills",
+      "componentName": "Agent Skills / MCP Registry",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "poisoned-skill-chain",
+          "name": "Poisoned Skill Chain",
+          "impact": "A trusted behavior package becomes a durable supply-chain foothold that can exfiltrate data without triggering obvious tool-abuse signals."
+        }
+      ],
+      "defenseSummary": "Install only from verified publishers; scan behavior, scripts, manifests, and natural-language instructions before activation."
+    },
+    {
+      "riskId": "skill-typosquat",
+      "riskName": "Skill typosquatting / brand impersonation",
+      "componentId": "skills",
+      "componentName": "Agent Skills / MCP Registry",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Agent Identity and Access Control"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Verify publisher identity, package signing, reputation, namespace ownership, and exact dependency names."
+    },
+    {
+      "riskId": "skill-unsigned-update",
+      "riskName": "Unsigned or unpinned skill update",
+      "componentId": "skills",
+      "componentName": "Agent Skills / MCP Registry",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "poisoned-skill-chain",
+          "name": "Poisoned Skill Chain",
+          "impact": "A trusted behavior package becomes a durable supply-chain foothold that can exfiltrate data without triggering obvious tool-abuse signals."
+        }
+      ],
+      "defenseSummary": "Pin versions, require signed updates, diff manifests and instructions, and stage updates before production use."
+    },
+    {
+      "riskId": "ctx-boundary-collapse",
+      "riskName": "Context boundary collapse",
+      "componentId": "context",
+      "componentName": "Context Boundary & Provenance",
+      "severity": "critical",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "context-laundering-chain",
+          "name": "Context Laundering Loop",
+          "impact": "Bad evidence becomes trusted decision material, leading to confident but unsafe action recommendations that are difficult to trace back to the original source."
+        }
+      ],
+      "defenseSummary": "Use explicit context labels and enforce instruction/data separation before model invocation and tool execution."
+    },
+    {
+      "riskId": "ctx-provenance-loss",
+      "riskName": "Provenance loss across hops",
+      "componentId": "context",
+      "componentName": "Context Boundary & Provenance",
+      "severity": "high",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization",
+        "Memory Protection"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "context-laundering-chain",
+          "name": "Context Laundering Loop",
+          "impact": "Bad evidence becomes trusted decision material, leading to confident but unsafe action recommendations that are difficult to trace back to the original source."
+        }
+      ],
+      "defenseSummary": "Carry provenance metadata with every context fragment and block trust elevation without verification."
+    },
+    {
+      "riskId": "ctx-evidence-laundering",
+      "riskName": "Evidence laundering through summaries",
+      "componentId": "context",
+      "componentName": "Context Boundary & Provenance",
+      "severity": "high",
+      "businessImpacts": [
+        "Regulatory or audit exposure"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Link summaries back to original evidence, distinguish claims from verified facts, and require source-level validation."
+    },
+    {
+      "riskId": "model-unsafe-fallback",
+      "riskName": "Unsafe model fallback",
+      "componentId": "modelrouting",
+      "componentName": "Model / Inference Routing",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Define approved fallback tiers and require policy equivalence checks before automatic failover."
+    },
+    {
+      "riskId": "model-template-injection",
+      "riskName": "Prompt template injection",
+      "componentId": "modelrouting",
+      "componentName": "Model / Inference Routing",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Treat prompt templates as code, protect them with change control, signing, review, and runtime integrity checks."
+    },
+    {
+      "riskId": "model-denial-wallet",
+      "riskName": "Unbounded reasoning / denial of wallet",
+      "componentId": "modelrouting",
+      "componentName": "Model / Inference Routing",
+      "severity": "medium",
+      "businessImpacts": [
+        "Operational cost or disruption"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Set token, cost, retry, and reasoning-duration budgets per task and per tenant."
+    },
+    {
+      "riskId": "egress-covert-exfil",
+      "riskName": "Covert exfiltration through normal output",
+      "componentId": "egress",
+      "componentName": "Output & Egress Channels",
+      "severity": "critical",
+      "businessImpacts": [
+        "Data exposure"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "poisoned-skill-chain",
+          "name": "Poisoned Skill Chain",
+          "impact": "A trusted behavior package becomes a durable supply-chain foothold that can exfiltrate data without triggering obvious tool-abuse signals."
+        }
+      ],
+      "defenseSummary": "Inspect outbound content for sensitive data, abnormal destinations, and encoded or transformed payloads."
+    },
+    {
+      "riskId": "egress-malicious-artifact",
+      "riskName": "Malicious generated artifact",
+      "componentId": "egress",
+      "componentName": "Output & Egress Channels",
+      "severity": "high",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Scan generated artifacts before release and require review for executable or automation-triggering outputs."
+    },
+    {
+      "riskId": "egress-downstream-automation",
+      "riskName": "Downstream automation abuse",
+      "componentId": "egress",
+      "componentName": "Output & Egress Channels",
+      "severity": "high",
+      "businessImpacts": [
+        "Service disruption"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Apply policy gates at automation boundaries and require explicit approval for actions that can trigger downstream effects."
+    },
+    {
+      "riskId": "life-shadow-agents",
+      "riskName": "Shadow agents outside governance",
+      "componentId": "lifecycle",
+      "componentName": "Agent Lifecycle & Governance",
+      "severity": "high",
+      "businessImpacts": [
+        "Regulatory or audit exposure"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Continuously discover agent workloads and require registration, owner assignment, and risk tiering before production use."
+    },
+    {
+      "riskId": "life-missing-killswitch",
+      "riskName": "Missing kill switch or rollback path",
+      "componentId": "lifecycle",
+      "componentName": "Agent Lifecycle & Governance",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Design emergency disablement, credential revocation, workflow pause, and configuration rollback into the runtime architecture."
+    },
+    {
+      "riskId": "life-version-drift",
+      "riskName": "Untracked agent version drift",
+      "componentId": "lifecycle",
+      "componentName": "Agent Lifecycle & Governance",
+      "severity": "medium",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Version prompts, tools, models, policies, and skills as release artifacts with promotion controls and change history."
+    },
+    {
+      "riskId": "tel-agent-tampering",
+      "riskName": "Agent-generated telemetry tampering",
+      "componentId": "telemetry",
+      "componentName": "Telemetry Integrity & Evidence",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Write audit events to an append-only external store that agents cannot modify."
+    },
+    {
+      "riskId": "tel-incomplete-replayability",
+      "riskName": "Incomplete replayability",
+      "componentId": "telemetry",
+      "componentName": "Telemetry Integrity & Evidence",
+      "severity": "high",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Input and Context Validation",
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Capture structured traces across planning, context retrieval, tool execution, approvals, and egress with sensitive-data controls."
+    },
+    {
+      "riskId": "tel-nonrepudiation-failure",
+      "riskName": "Non-repudiation failure",
+      "componentId": "telemetry",
+      "componentName": "Telemetry Integrity & Evidence",
+      "severity": "medium",
+      "businessImpacts": [
+        "Unauthorized action",
+        "Service disruption"
+      ],
+      "securityPatterns": [
+        "Agent Identity and Access Control",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Bind actions to signed agent identity, user authority, policy decision, timestamp, and immutable evidence."
+    },
+    {
+      "riskId": "guard-bypass-obfuscation",
+      "riskName": "Guardrail bypass via obfuscation",
+      "componentId": "guardrails",
+      "componentName": "Guardrails & Monitoring",
+      "severity": "critical",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "silent-alarm",
+          "name": "Silent Alarm",
+          "impact": "Every individual layer of defense degrades a little, and together those small gaps add up to an attack that runs to completion undetected."
+        }
+      ],
+      "defenseSummary": "Layer semantic and behavioral detection on top of pattern matching, and test guardrails against adversarial phrasing."
+    },
+    {
+      "riskId": "guard-blind-spots",
+      "riskName": "Blind spots / incomplete logging",
+      "componentId": "guardrails",
+      "componentName": "Guardrails & Monitoring",
+      "severity": "high",
+      "businessImpacts": [
+        "Unauthorized action"
+      ],
+      "securityPatterns": [
+        "Tool Governance and Authorization",
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "silent-alarm",
+          "name": "Silent Alarm",
+          "impact": "Every individual layer of defense degrades a little, and together those small gaps add up to an attack that runs to completion undetected."
+        }
+      ],
+      "defenseSummary": "Log at every hop \u2014 planning, tool calls, and inter-agent messages \u2014 not just final outputs."
+    },
+    {
+      "riskId": "guard-alert-fatigue",
+      "riskName": "Alert fatigue",
+      "componentId": "guardrails",
+      "componentName": "Guardrails & Monitoring",
+      "severity": "medium",
+      "businessImpacts": [
+        "Operational disruption",
+        "Reputation impact"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [
+        {
+          "id": "silent-alarm",
+          "name": "Silent Alarm",
+          "impact": "Every individual layer of defense degrades a little, and together those small gaps add up to an attack that runs to completion undetected."
+        }
+      ],
+      "defenseSummary": "Tune alert thresholds to a manageable, high-signal volume and triage by severity."
+    },
+    {
+      "riskId": "guard-telemetry-tampering",
+      "riskName": "Telemetry tampering / false audit trail",
+      "componentId": "guardrails",
+      "componentName": "Guardrails & Monitoring",
+      "severity": "high",
+      "businessImpacts": [
+        "Regulatory or audit exposure"
+      ],
+      "securityPatterns": [
+        "Runtime Monitoring and Containment"
+      ],
+      "relatedIncidentChains": [],
+      "defenseSummary": "Write logs to append-only systems, preserve chain-of-custody, and verify agent reports against independent telemetry."
+    }
+  ]
+}

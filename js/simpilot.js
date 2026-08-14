@@ -71,16 +71,17 @@
     const labelRaw = state.risk || state.label || '';
     const label = labelRaw.toLowerCase();
     const ctx = data.contexts?.[state.key] || data.fallback;
+
+    // Risk-specific playbook when available.
     const riskKey = findRisk(labelRaw);
     if(riskKey && data.risks?.[riskKey]?.what) return data.risks[riskKey].what;
 
-    // Specific ASE risk / threat phrasing. These keep Key Insight useful even when the selected risk
-    // is not explicitly present in copilot-playbooks.json yet.
+    // Deterministic fallback insights for ASE3 threat/risk names.
     if(/prompt|instruction|jailbreak|injection|override/.test(label)) return 'Prompt and instruction risks try to change agent behavior by manipulating user input, retrieved content, tool output, or hidden instructions.';
     if(/tool|mcp|api|function|action|execution/.test(label)) return 'Tool and action risks matter because agent decisions can become real API calls, workflow actions, code execution, or data access.';
     if(/memory|rag|retrieval|poison|embedding|vector|context/.test(label)) return 'Memory and retrieval risks can persist bad context, expose sensitive data, or influence later decisions long after the original interaction.';
     if(/identity|credential|secret|token|permission|privilege|access|auth|impersonat/.test(label)) return 'Identity and access risks can turn an agent mistake into privilege abuse, unauthorized action, or weak accountability.';
-    if(/exfiltrat|leak|disclosure|sensitive|privacy|confidential|data/.test(label)) return 'Data exposure risks are especially important because agents can combine prompts, memory, tools, and outputs into unintended disclosure paths.';
+    if(/exfiltrat|leak|disclosure|sensitive|privacy|confidential|data/.test(label)) return 'Data exposure risks are important because agents can combine prompts, memory, tools, and outputs into unintended disclosure paths.';
     if(/runtime|sandbox|monitor|policy|guardrail|contain|egress/.test(label)) return 'Runtime security is the last opportunity to observe, interrupt, or contain unsafe agent behavior before business impact occurs.';
     if(/chain|cascade|incident|blast|lateral/.test(label)) return 'Incident-chain risks show how separate weaknesses can compound into disruption, data exposure, audit findings, or loss of control.';
     if(/planning|planner|orchestrat|workflow|delegation/.test(label)) return 'Planning and orchestration risks matter because one flawed decision can route the agent into unsafe tools, data, or downstream actions.';
@@ -92,14 +93,12 @@
 
   function inferFromClick(e){
     if(e.target.closest('.simpilot-shell')) return;
-    const risk = e.target.closest('[data-risk], [data-threat], .risk-chip, .risk-chip-head, .risk-item, .threat-item, .risk-card, .threat-card, li, .pill');
+    const risk = e.target.closest('.risk-chip, .risk-chip-head');
     if(risk){
-      let name = clean(risk.getAttribute('data-risk') || risk.getAttribute('data-threat') || risk.querySelector?.('.rname,.risk-name,.threat-name,h4,h5,strong')?.textContent || risk.textContent).split('\n')[0];
-      name = name.replace(/^(risk|threat|selected|add|remove)[:\s-]*/i,'').trim();
-      if(name && name.length <= 96 && /(prompt|injection|tool|mcp|api|memory|poison|identity|credential|secret|token|permission|privilege|access|runtime|sandbox|monitor|exfiltrat|leak|disclosure|data|chain|incident|planning|orchestrat|workflow|output|hallucination|jailbreak|policy|guardrail)/i.test(name)){
-        setContext(name,'risk');
-        return;
-      }
+      const chip = risk.closest('.risk-chip') || risk;
+      const name = clean(chip.querySelector?.('.rname')?.textContent || risk.querySelector?.('.rname')?.textContent || risk.textContent).split('\n')[0];
+      if(name) setContext(name,'risk');
+      return;
     }
     const node = e.target.closest('[data-component], [data-id], .node, .component, .component-card, .wheel-card, .card, button');
     if(!node) return;
@@ -195,6 +194,14 @@
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 
+
+  function scanExpandedAse3Risk(){
+    if(!shell) return;
+    const expanded = document.querySelector('.risk-chip.expanded .rname');
+    const name = clean(expanded?.textContent || '');
+    if(name && name !== state.risk) setContext(name,'risk');
+  }
+
   function isAse3Page(){
     const page = (document.body?.dataset?.page || '').toLowerCase();
     const path = (location.pathname || '').toLowerCase();
@@ -238,5 +245,5 @@
     setInterval(updateAse3Dock, 900);
   }
 
-  loadData().then(()=>{ injectSimpilotStyles(); shell = makeShell(); updateContextUI(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); });
+  loadData().then(()=>{ injectSimpilotStyles(); shell = makeShell(); updateContextUI(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); document.addEventListener('click',()=>setTimeout(scanExpandedAse3Risk,0), true); });
 })();

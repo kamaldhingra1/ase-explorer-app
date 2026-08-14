@@ -28,7 +28,7 @@
 .simpilot-body{padding:14px;overflow:auto;max-height:calc(78vh - 86px);background:linear-gradient(145deg,rgba(18,20,24,.97),rgba(11,16,24,.96))}.simpilot-section-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#e8a33d;margin-bottom:7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.simpilot-context{display:none !important}
 .simpilot-topline{position:relative;border:1px solid rgba(232,163,61,.30);background:linear-gradient(145deg,rgba(232,163,61,.11),rgba(79,193,232,.045));border-radius:14px;padding:11px 34px 11px 12px;margin-bottom:13px}.simpilot-topline.hidden{display:none}.simpilot-topline.collapsed{padding:9px 34px 9px 12px}.simpilot-topline.collapsed .simpilot-insight-title,.simpilot-topline.collapsed .simpilot-insight{display:none}.simpilot-hide-insight{position:absolute;right:8px;top:8px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#cbd5e1;border-radius:8px;width:22px;height:22px;line-height:18px;cursor:pointer;font-weight:800}.simpilot-hide-insight:hover{border-color:rgba(232,163,61,.45);color:#fff}.simpilot-context-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(232,163,61,.34);background:rgba(232,163,61,.12);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;color:#ffdca0;margin-bottom:8px;max-width:100%}.simpilot-context-pill span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.simpilot-insight-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#e8a33d;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-bottom:4px}.simpilot-insight{font-size:13px;color:#cbd5e1;line-height:1.45}
 .simpilot-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}.simpilot-chip{border:1px solid rgba(232,163,61,.28);background:linear-gradient(145deg,rgba(232,163,61,.12),rgba(79,193,232,.05));color:#f4f7fb;border-radius:12px;padding:10px 9px;cursor:pointer;font-weight:700;font-size:12px;text-align:left;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.simpilot-chip:hover{transform:translateY(-1px);border-color:rgba(232,163,61,.62);box-shadow:0 0 20px rgba(232,163,61,.13)}.simpilot-ask{display:grid;gap:8px;margin-bottom:13px}.simpilot-input{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.12);background:#0e151e;color:#f4f7fb;border-radius:12px;padding:11px 12px}.simpilot-run{border:1px solid rgba(232,163,61,.45);background:linear-gradient(135deg,rgba(232,163,61,.24),rgba(0,163,255,.10));color:#f4f7fb;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer}.simpilot-run:hover{border-color:rgba(232,163,61,.75)}
-.simpilot-output{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);border-radius:14px;padding:12px;min-height:110px}.simpilot-output h4{margin:0 0 7px;color:#ffe0a6}.simpilot-output h5{margin:12px 0 5px;color:#f4f7fb;font-size:13px}.simpilot-output p{margin:0 0 8px;color:#cbd5e1}.simpilot-output ul{margin:4px 0 8px 18px;padding:0;color:#cbd5e1}.simpilot-output li{margin:3px 0}.simpilot-note{font-size:11px;color:#94a3b8;margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
+.simpilot-output-wrap{display:grid;gap:8px}.simpilot-copy-row{display:flex;justify-content:flex-end}.simpilot-copy{border:1px solid rgba(232,163,61,.38);background:rgba(232,163,61,.10);color:#ffe0a6;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer}.simpilot-copy:hover{border-color:rgba(232,163,61,.70);background:rgba(232,163,61,.16)}.simpilot-output{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);border-radius:14px;padding:12px;min-height:110px}.simpilot-output h4{margin:0 0 7px;color:#ffe0a6}.simpilot-output h5{margin:12px 0 5px;color:#f4f7fb;font-size:13px}.simpilot-output p{margin:0 0 8px;color:#cbd5e1}.simpilot-output ul{margin:4px 0 8px 18px;padding:0;color:#cbd5e1}.simpilot-output li{margin:3px 0}.simpilot-note{font-size:11px;color:#94a3b8;margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
 @keyframes simpilot-breathe{0%,100%{filter:drop-shadow(0 0 6px rgba(232,163,61,.24));transform:scale(1)}50%{filter:drop-shadow(0 0 15px rgba(232,163,61,.55));transform:scale(1.04)}}@keyframes simpilot-dot{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.12)}}@keyframes simpilot-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .simpilot-shell.simpilot-left-mode{left:22px !important;right:auto !important}.simpilot-shell:not(.simpilot-left-mode){right:22px !important;left:auto !important}.simpilot-shell{transition:left .25s ease,right .25s ease,bottom .25s ease}
 @media(max-width:700px){.simpilot-shell{right:12px !important;left:12px !important;bottom:12px !important}.simpilot-collapsed{width:auto}.simpilot-card{width:100%;max-height:72vh;border-radius:18px}.simpilot-chips{grid-template-columns:1fr}.simpilot-body{max-height:calc(72vh - 86px)}}`;
@@ -148,7 +148,7 @@
           <div class="simpilot-chips"><button class="simpilot-chip" data-intent="explain">Explain Risk</button><button class="simpilot-chip" data-intent="controls">Recommend Controls</button><button class="simpilot-chip" data-intent="impact">Business Impact</button><button class="simpilot-chip" data-intent="chain">Incident Chain</button></div>
           <div class="simpilot-section-label">Ask Simpilot</div>
           <div class="simpilot-ask"><input class="simpilot-input" data-simpilot-input placeholder="Ask about tools, memory, identity, runtime, or impact"><button class="simpilot-run" data-simpilot-run>Generate Guidance</button></div>
-          <div class="simpilot-output" data-simpilot-output><h4>Welcome to Simpilot</h4><p>Select a quick guidance option, or click an Explorer component or risk to make Simpilot context-aware.</p><div class="simpilot-note">Runs locally in the browser. No API calls and no data leaves the page.</div></div>
+          <div class="simpilot-output-wrap"><div class="simpilot-copy-row"><button class="simpilot-copy" type="button" data-simpilot-copy>Copy Guidance</button></div><div class="simpilot-output" data-simpilot-output><h4>Welcome to Simpilot</h4><p>Select a quick guidance option, or click an Explorer component or risk to make Simpilot context-aware.</p><div class="simpilot-note">Runs locally in the browser. No API calls and no data leaves the page.</div></div></div>
         </div>
       </div>`;
     document.body.appendChild(shell);
@@ -157,6 +157,15 @@
     shell.querySelector('.simpilot-close').addEventListener('click',()=>shell.classList.remove('open'));
     shell.querySelectorAll('.simpilot-chip').forEach(b=>b.addEventListener('click',()=>render(b.dataset.intent)));
     shell.querySelector('[data-simpilot-run]').addEventListener('click',()=>render('freeform'));
+    shell.querySelector('[data-simpilot-copy]').addEventListener('click', async ()=>{
+      const btn = shell.querySelector('[data-simpilot-copy]');
+      const output = shell.querySelector('[data-simpilot-output]');
+      const text = clean(output?.innerText || output?.textContent || '');
+      if(!text) return;
+      try { await navigator.clipboard.writeText(text); }
+      catch(err){ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+      btn.textContent='Copied'; setTimeout(()=>{btn.textContent='Copy Guidance';},1300);
+    });
     const hideBtn = shell.querySelector('[data-simpilot-hide-insight]');
     if(hideBtn) hideBtn.addEventListener('click',()=>{
       const top = shell.querySelector('[data-simpilot-topline]');
@@ -179,6 +188,64 @@
     const insight = shell.querySelector('[data-simpilot-insight]');
     if(insight) insight.textContent = insightText();
   }
+
+  function activeRiskSnapshot(){
+    const chip = document.querySelector('.risk-chip.expanded');
+    let name = state.risk || '';
+    if(chip){ name = clean(chip.querySelector?.('.rname')?.textContent || name); }
+    const fields = {};
+    if(chip){
+      chip.querySelectorAll?.('.field').forEach(f=>{
+        const k = clean(f.querySelector?.('.field-label')?.textContent || '');
+        const v = clean(f.querySelector?.('.field-value')?.textContent || '');
+        if(k && v) fields[k.toLowerCase()] = v;
+      });
+    }
+    const controls = [];
+    chip?.querySelectorAll?.('.defense-panel li').forEach(li=>{ const v=clean(li.textContent); if(v) controls.push(v); });
+    const impacts = [];
+    chip?.querySelectorAll?.('.business-impact-panel li').forEach(li=>{ const v=clean(li.textContent); if(v) impacts.push(v); });
+    const chains = [];
+    chip?.querySelectorAll?.('.chain-panel li').forEach(li=>{ const v=clean(li.textContent); if(v) chains.push(v); });
+    return {name: name || state.label || getCtx().label, impact: fields.impact || '', mitigation: fields.mitigation || '', controls, impacts, chains, insight: insightText()};
+  }
+  function activeComponentName(){
+    const active = document.querySelector('.node-hit.active');
+    const label = clean(active?.getAttribute('aria-label') || active?.querySelector?.('text.node-label')?.textContent || '');
+    return label || (state.type === 'component' ? state.label : '') || document.body?.dataset?.page || 'ASE';
+  }
+  function bullets(items){ const cleanItems = (items || []).map(x=>clean(x)).filter(Boolean); return cleanItems.length ? `<ul>${cleanItems.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>` : ''; }
+  function genericControlsFor(snapshot){
+    const items = [];
+    if(snapshot.mitigation) items.push(snapshot.mitigation);
+    snapshot.controls.forEach(x=>items.push(x));
+    const text = (snapshot.name + ' ' + snapshot.impact + ' ' + snapshot.mitigation).toLowerCase();
+    if(/isolation|sandbox|escape|boundary|segmentation/.test(text)) items.push('Enforce per-agent execution boundaries and separate workspace, memory, and runtime contexts.','Add containment, termination, and audit controls for cross-agent or cross-tool behavior.');
+    else if(/tool|mcp|api|function|action/.test(text)) items.push('Apply scoped tool permissions, allowlisted actions, and approval gates for high-impact calls.','Log tool inputs, outputs, caller identity, and downstream effects for investigation.');
+    else if(/prompt|instruction|injection|jailbreak/.test(text)) items.push('Sanitize and label untrusted instructions from retrieved content, files, and tool output.','Apply instruction hierarchy, prompt injection detection, and deny rules for policy override attempts.');
+    else if(/identity|credential|secret|token|privilege|access/.test(text)) items.push('Use least-privilege identities with short-lived credentials and explicit authorization boundaries.','Monitor privileged agent actions and require step-up approval for sensitive operations.');
+    else if(/memory|retrieval|rag|poison|context/.test(text)) items.push('Separate trusted and untrusted memory, validate retrieved context, and expire stale or sensitive entries.','Track provenance for memory writes and retrieval sources.');
+    else items.push('Define explicit prevention, detection, and containment controls for this risk.','Capture audit evidence that links the risk, selected component, and applied controls.');
+    return [...new Set(items)].slice(0,5);
+  }
+  function renderContextRich(intent){
+    const snap = activeRiskSnapshot();
+    const component = activeComponentName();
+    const title = escapeHtml(snap.name || getCtx().label);
+    const riskLine = state.risk ? `<p><strong>Selected risk:</strong> ${title}</p>` : `<p><strong>Current context:</strong> ${escapeHtml(getCtx().label)}</p>`;
+    if(intent === 'explain') return `<h4>Explain Risk</h4>${riskLine}<p><strong>Component:</strong> ${escapeHtml(component)}</p><p>${escapeHtml(snap.insight)}</p>${snap.impact ? `<h5>Why It Matters</h5><p>${escapeHtml(snap.impact)}</p>` : ''}${snap.mitigation ? `<h5>Existing Mitigation</h5><p>${escapeHtml(snap.mitigation)}</p>` : ''}<div class="simpilot-note">Use this as a concise risk explanation for workshops, threat modeling notes, or review discussions.</div>`;
+    if(intent === 'controls') return `<h4>Recommended Controls</h4>${riskLine}<p><strong>Component:</strong> ${escapeHtml(component)}</p>${bullets(genericControlsFor(snap))}<h5>Control Objective</h5><p>Reduce likelihood, limit blast radius, and produce audit evidence when this risk appears in an agent workflow.</p><div class="simpilot-note">Controls are generated locally from the selected ASE context and visible risk details.</div>`;
+    if(intent === 'impact'){
+      const impacts = snap.impacts.length ? snap.impacts : [snap.impact || 'Operational disruption', 'Governance or audit exposure', 'Expanded blast radius across agent workflows'];
+      return `<h4>Business Impact</h4>${riskLine}<p><strong>Component:</strong> ${escapeHtml(component)}</p>${bullets(impacts)}<h5>Executive Framing</h5><p>This risk should be explained in terms of business process disruption, unauthorized action, data exposure, audit readiness, or loss of control over agent behavior.</p><div class="simpilot-note">Use this for non-technical stakeholder communication.</div>`;
+    }
+    if(intent === 'chain'){
+      if(snap.chains.length) return `<h4>Incident Chain</h4>${riskLine}<p><strong>Related chain candidates:</strong></p>${bullets(snap.chains)}<h5>How It Can Progress</h5><p>A local weakness in ${escapeHtml(component)} can combine with prompt, memory, identity, or tool weaknesses and become a broader incident chain.</p><div class="simpilot-note">Related chains are based on the selected ASE risk when available.</div>`;
+      return `<h4>Incident Chain</h4>${riskLine}<p><strong>Plausible local chain:</strong></p><ul><li>A selected risk appears in ${escapeHtml(component)}.</li><li>The agent trusts or acts on unsafe context, permissions, memory, or tool behavior.</li><li>The weakness crosses a boundary such as data, identity, runtime, or workflow scope.</li><li>Business impact appears as disruption, unauthorized action, data exposure, or audit concern.</li></ul><div class="simpilot-note">No explicit related chain was visible, so Simpilot generated a local chain pattern from the selected context.</div>`;
+    }
+    return '';
+  }
+
   function findRisk(query){
     const q = (query || '').toLowerCase();
     const risks = data.risks || {};
@@ -194,6 +261,15 @@
     const input = shell.querySelector('[data-simpilot-input]');
     const q = clean(input.value);
     if(q) state.key = keyFor(q);
+    if(intent !== 'freeform'){
+      const rich = renderContextRich(intent);
+      if(rich){
+        shell.querySelector('[data-simpilot-output]').innerHTML = rich;
+        shell.classList.add('open');
+        updateContextUI();
+        return;
+      }
+    }
     const m = model(q);
     const chain = data.incidents || fallbackData.incidents;
     let html = `<h4>${escapeHtml(m.label || getCtx().label)}</h4>`;

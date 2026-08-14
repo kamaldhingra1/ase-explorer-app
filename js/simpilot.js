@@ -26,7 +26,7 @@
 .simpilot-title{font-weight:800;letter-spacing:.02em;line-height:1.1;color:#120e08}.simpilot-subtitle{font-size:12px;color:rgba(18,14,8,.78);margin-top:2px}.simpilot-status{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(18,14,8,.86);margin-top:6px}.simpilot-dot{width:7px;height:7px;border-radius:99px;background:#14100a;box-shadow:0 0 10px rgba(255,255,255,.42);animation:simpilot-dot 3.8s ease-in-out infinite}
 .simpilot-head{padding:15px;border-bottom:1px solid rgba(255,224,166,.32);display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#f8c75a 0%,#e8a33d 54%,#8a5418 100%) !important;color:#16120a}.simpilot-head .simpilot-title{color:#120e08}.simpilot-head .simpilot-subtitle{color:rgba(18,14,8,.78)}.simpilot-close{margin-left:auto;border:1px solid rgba(18,14,8,.25);background:rgba(18,14,8,.13);color:#16120a;border-radius:10px;padding:5px 9px;cursor:pointer;font-weight:800}.simpilot-close:hover{filter:brightness(1.06)}
 .simpilot-body{padding:14px;overflow:auto;max-height:calc(78vh - 86px);background:linear-gradient(145deg,rgba(18,20,24,.97),rgba(11,16,24,.96))}.simpilot-section-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#e8a33d;margin-bottom:7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.simpilot-context{display:none !important}
-.simpilot-topline{position:relative;border:1px solid rgba(232,163,61,.30);background:linear-gradient(145deg,rgba(232,163,61,.11),rgba(79,193,232,.045));border-radius:14px;padding:11px 34px 11px 12px;margin-bottom:13px}.simpilot-topline.hidden{display:none}.simpilot-hide-insight{position:absolute;right:8px;top:8px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#cbd5e1;border-radius:8px;width:22px;height:22px;line-height:18px;cursor:pointer}.simpilot-hide-insight:hover{border-color:rgba(232,163,61,.45);color:#fff}.simpilot-context-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(232,163,61,.34);background:rgba(232,163,61,.12);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;color:#ffdca0;margin-bottom:8px;max-width:100%}.simpilot-context-pill span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.simpilot-insight-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#e8a33d;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-bottom:4px}.simpilot-insight{font-size:13px;color:#cbd5e1;line-height:1.45}
+.simpilot-topline{position:relative;border:1px solid rgba(232,163,61,.30);background:linear-gradient(145deg,rgba(232,163,61,.11),rgba(79,193,232,.045));border-radius:14px;padding:11px 34px 11px 12px;margin-bottom:13px}.simpilot-topline.hidden{display:none}.simpilot-topline.collapsed{padding:9px 34px 9px 12px}.simpilot-topline.collapsed .simpilot-insight-title,.simpilot-topline.collapsed .simpilot-insight{display:none}.simpilot-hide-insight{position:absolute;right:8px;top:8px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#cbd5e1;border-radius:8px;width:22px;height:22px;line-height:18px;cursor:pointer;font-weight:800}.simpilot-hide-insight:hover{border-color:rgba(232,163,61,.45);color:#fff}.simpilot-context-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(232,163,61,.34);background:rgba(232,163,61,.12);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;color:#ffdca0;margin-bottom:8px;max-width:100%}.simpilot-context-pill span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.simpilot-insight-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#e8a33d;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-bottom:4px}.simpilot-insight{font-size:13px;color:#cbd5e1;line-height:1.45}
 .simpilot-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}.simpilot-chip{border:1px solid rgba(232,163,61,.28);background:linear-gradient(145deg,rgba(232,163,61,.12),rgba(79,193,232,.05));color:#f4f7fb;border-radius:12px;padding:10px 9px;cursor:pointer;font-weight:700;font-size:12px;text-align:left;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.simpilot-chip:hover{transform:translateY(-1px);border-color:rgba(232,163,61,.62);box-shadow:0 0 20px rgba(232,163,61,.13)}.simpilot-ask{display:grid;gap:8px;margin-bottom:13px}.simpilot-input{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.12);background:#0e151e;color:#f4f7fb;border-radius:12px;padding:11px 12px}.simpilot-run{border:1px solid rgba(232,163,61,.45);background:linear-gradient(135deg,rgba(232,163,61,.24),rgba(0,163,255,.10));color:#f4f7fb;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer}.simpilot-run:hover{border-color:rgba(232,163,61,.75)}
 .simpilot-output{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);border-radius:14px;padding:12px;min-height:110px}.simpilot-output h4{margin:0 0 7px;color:#ffe0a6}.simpilot-output h5{margin:12px 0 5px;color:#f4f7fb;font-size:13px}.simpilot-output p{margin:0 0 8px;color:#cbd5e1}.simpilot-output ul{margin:4px 0 8px 18px;padding:0;color:#cbd5e1}.simpilot-output li{margin:3px 0}.simpilot-note{font-size:11px;color:#94a3b8;margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
 @keyframes simpilot-breathe{0%,100%{filter:drop-shadow(0 0 6px rgba(232,163,61,.24));transform:scale(1)}50%{filter:drop-shadow(0 0 15px rgba(232,163,61,.55));transform:scale(1.04)}}@keyframes simpilot-dot{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.12)}}@keyframes simpilot-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -68,24 +68,38 @@
     updateContextUI();
   }
   function insightText(){
-    const label = (state.risk || state.label || '').toLowerCase();
+    const labelRaw = state.risk || state.label || '';
+    const label = labelRaw.toLowerCase();
     const ctx = data.contexts?.[state.key] || data.fallback;
-    if(label.includes('prompt') || label.includes('injection')) return 'Prompt and context inputs often become the first place an attack tries to influence agent behavior.';
-    if(label.includes('tool') || label.includes('mcp') || label.includes('api')) return 'Tool calls convert agent decisions into real-world actions, so governance and approval gates matter.';
-    if(label.includes('memory')) return 'Memory improves continuity, but can preserve sensitive data, poisoned context, or stale assumptions.';
-    if(label.includes('identity') || label.includes('credential') || label.includes('access')) return 'Agent actions need accountable identity, scoped permissions, and auditable authorization boundaries.';
-    if(label.includes('runtime')) return 'Runtime controls are the last opportunity to observe, interrupt, or contain unsafe agent behavior.';
+    const riskKey = findRisk(labelRaw);
+    if(riskKey && data.risks?.[riskKey]?.what) return data.risks[riskKey].what;
+
+    // Specific ASE risk / threat phrasing. These keep Key Insight useful even when the selected risk
+    // is not explicitly present in copilot-playbooks.json yet.
+    if(/prompt|instruction|jailbreak|injection|override/.test(label)) return 'Prompt and instruction risks try to change agent behavior by manipulating user input, retrieved content, tool output, or hidden instructions.';
+    if(/tool|mcp|api|function|action|execution/.test(label)) return 'Tool and action risks matter because agent decisions can become real API calls, workflow actions, code execution, or data access.';
+    if(/memory|rag|retrieval|poison|embedding|vector|context/.test(label)) return 'Memory and retrieval risks can persist bad context, expose sensitive data, or influence later decisions long after the original interaction.';
+    if(/identity|credential|secret|token|permission|privilege|access|auth|impersonat/.test(label)) return 'Identity and access risks can turn an agent mistake into privilege abuse, unauthorized action, or weak accountability.';
+    if(/exfiltrat|leak|disclosure|sensitive|privacy|confidential|data/.test(label)) return 'Data exposure risks are especially important because agents can combine prompts, memory, tools, and outputs into unintended disclosure paths.';
+    if(/runtime|sandbox|monitor|policy|guardrail|contain|egress/.test(label)) return 'Runtime security is the last opportunity to observe, interrupt, or contain unsafe agent behavior before business impact occurs.';
+    if(/chain|cascade|incident|blast|lateral/.test(label)) return 'Incident-chain risks show how separate weaknesses can compound into disruption, data exposure, audit findings, or loss of control.';
+    if(/planning|planner|orchestrat|workflow|delegation/.test(label)) return 'Planning and orchestration risks matter because one flawed decision can route the agent into unsafe tools, data, or downstream actions.';
+    if(/output|response|content|hallucination|decision/.test(label)) return 'Output integrity risks affect how users, systems, and downstream workflows trust agent responses, summaries, and decisions.';
+
     if(ctx && ctx.focus) return ctx.focus;
     return 'Use Simpilot quick guidance to connect what you are viewing to risks, controls, incident chains, and business impact.';
   }
 
   function inferFromClick(e){
     if(e.target.closest('.simpilot-shell')) return;
-    const risk = e.target.closest('.risk-chip, .risk-chip-head');
+    const risk = e.target.closest('[data-risk], [data-threat], .risk-chip, .risk-chip-head, .risk-item, .threat-item, .risk-card, .threat-card, li, .pill');
     if(risk){
-      const name = clean(risk.querySelector?.('.rname')?.textContent || risk.textContent).split('\n')[0];
-      if(name) setContext(name,'risk');
-      return;
+      let name = clean(risk.getAttribute('data-risk') || risk.getAttribute('data-threat') || risk.querySelector?.('.rname,.risk-name,.threat-name,h4,h5,strong')?.textContent || risk.textContent).split('\n')[0];
+      name = name.replace(/^(risk|threat|selected|add|remove)[:\s-]*/i,'').trim();
+      if(name && name.length <= 96 && /(prompt|injection|tool|mcp|api|memory|poison|identity|credential|secret|token|permission|privilege|access|runtime|sandbox|monitor|exfiltrat|leak|disclosure|data|chain|incident|planning|orchestrat|workflow|output|hallucination|jailbreak|policy|guardrail)/i.test(name)){
+        setContext(name,'risk');
+        return;
+      }
     }
     const node = e.target.closest('[data-component], [data-id], .node, .component, .component-card, .wheel-card, .card, button');
     if(!node) return;
@@ -104,7 +118,7 @@
       <div class="simpilot-card simpilot-expanded">
         <div class="simpilot-head"><div class="simpilot-shield-wrap"><img class="simpilot-shield" src="${shield}" alt="ASE shield"></div><div><div class="simpilot-title">Simpilot</div><div class="simpilot-subtitle">Security Guide</div></div><button class="simpilot-close" type="button" aria-label="Collapse Simpilot">Close</button></div>
         <div class="simpilot-body">
-          <div class="simpilot-topline" data-simpilot-topline><button type="button" class="simpilot-hide-insight" data-simpilot-hide-insight aria-label="Hide key insight">×</button><div class="simpilot-context-pill">Context: <span data-simpilot-context>${getCtx().label}</span></div><div class="simpilot-insight-title">Key Insight</div><div class="simpilot-insight" data-simpilot-insight>${insightText()}</div><div class="simpilot-context-meta" data-simpilot-meta style="display:none">${getCtx().meta}</div></div>
+          <div class="simpilot-topline" data-simpilot-topline><button type="button" class="simpilot-hide-insight" data-simpilot-hide-insight aria-label="Collapse key insight" title="Collapse key insight">−</button><div class="simpilot-context-pill">Context: <span data-simpilot-context>${getCtx().label}</span></div><div class="simpilot-insight-title">Key Insight</div><div class="simpilot-insight" data-simpilot-insight>${insightText()}</div><div class="simpilot-context-meta" data-simpilot-meta style="display:none">${getCtx().meta}</div></div>
           <div class="simpilot-section-label">Quick Guidance</div>
           <div class="simpilot-chips"><button class="simpilot-chip" data-intent="explain">Explain Risk</button><button class="simpilot-chip" data-intent="controls">Recommend Controls</button><button class="simpilot-chip" data-intent="impact">Business Impact</button><button class="simpilot-chip" data-intent="chain">Incident Chain</button></div>
           <div class="simpilot-section-label">Ask Simpilot</div>
@@ -119,7 +133,14 @@
     shell.querySelectorAll('.simpilot-chip').forEach(b=>b.addEventListener('click',()=>render(b.dataset.intent)));
     shell.querySelector('[data-simpilot-run]').addEventListener('click',()=>render('freeform'));
     const hideBtn = shell.querySelector('[data-simpilot-hide-insight]');
-    if(hideBtn) hideBtn.addEventListener('click',()=>shell.querySelector('[data-simpilot-topline]')?.classList.add('hidden'));
+    if(hideBtn) hideBtn.addEventListener('click',()=>{
+      const top = shell.querySelector('[data-simpilot-topline]');
+      if(!top) return;
+      const collapsed = top.classList.toggle('collapsed');
+      hideBtn.textContent = collapsed ? '+' : '−';
+      hideBtn.setAttribute('aria-label', collapsed ? 'Expand key insight' : 'Collapse key insight');
+      hideBtn.setAttribute('title', collapsed ? 'Expand key insight' : 'Collapse key insight');
+    });
     shell.querySelector('[data-simpilot-input]').addEventListener('keydown',e=>{ if(e.key==='Enter') render('freeform'); });
     return shell;
   }

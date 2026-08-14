@@ -117,3 +117,10 @@
 body[data-page="explorer"] .simpilot-shell, body[data-page="ase3"] .simpilot-shell{position:fixed !important;z-index:2147483000 !important;right:22px !important;bottom:22px !important;transform:none !important;filter:none !important;mix-blend-mode:normal !important;pointer-events:auto !important}
 body[data-page="explorer"] .simpilot-card, body[data-page="ase3"] .simpilot-card{transform:none !important;position:relative !important;overflow:hidden !important}
 @media(max-width:700px){body[data-page="explorer"] .simpilot-shell,body[data-page="ase3"] .simpilot-shell{right:12px !important;left:12px !important;bottom:12px !important}}
+
+
+/* ASE v2.0 M1.3 Simpilot smart ASE3 dock */
+.simpilot-shell.simpilot-left-mode{left:22px !important;right:auto !important}
+.simpilot-shell:not(.simpilot-left-mode){right:22px !important;left:auto !important}
+.simpilot-shell{transition:left .25s ease,right .25s ease,bottom .25s ease}
+@media(max-width:700px){.simpilot-shell.simpilot-left-mode{left:12px !important;right:12px !important}}

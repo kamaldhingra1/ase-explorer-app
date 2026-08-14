@@ -189,19 +189,16 @@
   }
 
   function ase3DetailsOpen(){
-    const selectors = [
-      '#detailsPanel','#detailPanel','#nodeDetails','#node-details','#details-pane','#detail-pane',
-      '.details-panel','.detail-panel','.node-details','.node-detail','.details-pane','.detail-pane',
-      '.inspector-panel','.inspector','.side-panel','.right-panel','.drawer','.info-panel',
-      '[class*="detail"]','[id*="detail"]','[class*="inspector"]','[id*="inspector"]'
-    ];
-    for(const sel of selectors){
-      const nodes = document.querySelectorAll(sel);
-      for(const node of nodes){
-        const text = (node.textContent || '').replace(/\s+/g,' ').trim();
-        if(visibleBox(node) && text.length > 40) return true;
-      }
-    }
+    // True Option 2 behavior: move left only when a real ASE3 node/component is selected.
+    // ASE3 keeps its right-side details container in the DOM even before exploration starts,
+    // so visual panel detection is too aggressive. The reliable signal is the active node.
+    const activeNode = document.querySelector('.node-hit.active, g.node-hit.active, [id^="node-"].active');
+    if(activeNode) return true;
+
+    // Fallback for future ASE3 variants that may expose selected component state through body/class attributes.
+    const bodySignal = document.body?.getAttribute('data-active-component') || document.body?.getAttribute('data-selected-component');
+    if(bodySignal && bodySignal.trim()) return true;
+
     return false;
   }
 

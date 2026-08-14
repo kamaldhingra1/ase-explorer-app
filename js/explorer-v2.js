@@ -715,7 +715,7 @@
 
     const risksWrap = document.getElementById('dRisks');
     risksWrap.innerHTML = '';
-    c.risks.forEach(r => risksWrap.appendChild(buildRiskChip(r)));
+    (c.risks || []).forEach(r => risksWrap.appendChild(buildRiskChip(r)));
   }
 
 
@@ -745,7 +745,7 @@
     return out.slice(0,3);
   }
   function relatedChainsForRisk(riskId){
-    return INCIDENT_CHAINS.filter(c => c.requires && c.requires.includes(riskId)).slice(0,2);
+    return CHAINS.filter(c => c.requires && c.requires.includes(riskId)).slice(0,2);
   }
 
   function buildRiskChip(r){

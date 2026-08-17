@@ -1,196 +1,63 @@
 {
-  "patterns": {
-    "input": "Input and Context Validation",
-    "tool": "Tool Governance",
-    "identity": "Agent Identity and Access Control",
-    "memory": "Memory Protection",
-    "runtime": "Runtime Monitoring and Containment",
-    "approval": "Human Approval Gates"
-  },
-  "contexts": {
-    "home": {
-      "label": "ASE Overview",
-      "focus": "Use ASE to connect components, threats, incident chains, and business impact.",
-      "controls": [
-        "Start with the Explorer",
-        "Use the Business Guide for impact framing",
-        "Use Simpilot chips for fast guidance"
-      ],
-      "impact": [
-        "Shared security language",
-        "Faster learning",
-        "Better executive communication"
+  "version": "1.3",
+  "purpose": "Local Ask ASE playbooks for the future static Copilot simulator.",
+  "modes": [
+    {
+      "id": "explain",
+      "label": "Explain",
+      "template": [
+        "What it is",
+        "Where it appears",
+        "Why it matters",
+        "Recommended security patterns"
       ]
     },
-    "explorer": {
-      "label": "Interactive Explorer",
-      "focus": "Inspect agentic components, risks, mitigations, and incident chains.",
-      "controls": [
-        "Select a component",
-        "Expand risks",
-        "Add related risks to the basket"
-      ],
-      "impact": [
-        "Hands-on threat discovery",
-        "Attack-chain awareness",
-        "Better control placement"
+    {
+      "id": "investigate",
+      "label": "Investigate",
+      "template": [
+        "Affected components",
+        "Likely incident chain",
+        "Business impact",
+        "Signals to watch"
       ]
     },
-    "tool": {
-      "label": "Tool Calling Layer",
-      "focus": "Tool calls can turn agent reasoning into real-world actions, API calls, code execution, or data access.",
-      "controls": [
-        "Tool Governance",
-        "Agent Identity and Access Control",
-        "Runtime Monitoring and Containment",
-        "Human Approval Gates"
-      ],
-      "impact": [
-        "Unauthorized actions",
-        "Cost or operational disruption",
-        "Compliance exposure"
+    {
+      "id": "recommend",
+      "label": "Recommend Defenses",
+      "template": [
+        "Primary security patterns",
+        "Runtime controls",
+        "Approval points",
+        "Monitoring signals"
       ]
     },
-    "memory": {
-      "label": "Memory Layer",
-      "focus": "Memory can preserve useful context, but it can also retain sensitive data, poisoned instructions, or stale assumptions.",
-      "controls": [
-        "Memory Protection",
-        "Input and Context Validation",
-        "Runtime Monitoring and Containment"
-      ],
-      "impact": [
-        "Data exposure",
-        "Privacy risk",
-        "Decision integrity issues"
+    {
+      "id": "compare",
+      "label": "Compare",
+      "template": [
+        "Similarity",
+        "Difference",
+        "Affected components",
+        "Defensive overlap"
       ]
     },
-    "prompt": {
-      "label": "Prompt and Context Layer",
-      "focus": "Prompt and context inputs shape agent behavior and can be manipulated through instructions, retrieved content, or tool output.",
-      "controls": [
-        "Input and Context Validation",
-        "Prompt Isolation",
-        "Runtime Monitoring and Containment"
-      ],
-      "impact": [
-        "Policy bypass",
-        "Data leakage",
-        "Incorrect decisions"
-      ]
-    },
-    "identity": {
-      "label": "Agent Identity and Access",
-      "focus": "Agents need accountable identities, scoped permissions, and clear authorization boundaries.",
-      "controls": [
-        "Agent Identity and Access Control",
-        "Least Privilege",
-        "Approval Gates",
-        "Audit Logging"
-      ],
-      "impact": [
-        "Privilege abuse",
-        "Untraceable actions",
-        "Audit gaps"
-      ]
-    },
-    "runtime": {
-      "label": "Runtime Layer",
-      "focus": "Runtime controls observe and contain agent behavior while workflows are executing.",
-      "controls": [
-        "Runtime Monitoring and Containment",
-        "Sandboxing",
-        "Policy Enforcement",
-        "Egress Controls"
-      ],
-      "impact": [
-        "Service disruption",
-        "Unsafe execution",
-        "Operational cost spikes"
+    {
+      "id": "guide",
+      "label": "Guide Me",
+      "template": [
+        "Start with components",
+        "Inspect risks",
+        "Review incident chains",
+        "Apply security patterns"
       ]
     }
-  },
-  "risks": {
-    "prompt injection": {
-      "label": "Prompt Injection",
-      "what": "Attackers manipulate instructions, documents, retrieved content, or tool outputs to influence agent behavior.",
-      "controls": [
-        "Input and Context Validation",
-        "Prompt Isolation",
-        "Runtime Monitoring and Containment",
-        "Human Approval Gates"
-      ],
-      "impact": [
-        "Data exposure",
-        "Unauthorized actions",
-        "Incorrect decisions"
-      ]
-    },
-    "tool abuse": {
-      "label": "Tool Abuse",
-      "what": "An agent is induced to call tools, APIs, or functions in unsafe, unauthorized, or unintended ways.",
-      "controls": [
-        "Tool Governance",
-        "Scoped Authorization",
-        "Parameter Validation",
-        "Approval Gates"
-      ],
-      "impact": [
-        "Unauthorized execution",
-        "Financial cost",
-        "Operational disruption"
-      ]
-    },
-    "memory poisoning": {
-      "label": "Memory Poisoning",
-      "what": "Long-lived memory is polluted with malicious or misleading content that influences later decisions.",
-      "controls": [
-        "Memory Protection",
-        "Context Validation",
-        "Retention Controls",
-        "Auditability"
-      ],
-      "impact": [
-        "Persistent compromise",
-        "Bad decisions",
-        "Trust erosion"
-      ]
-    },
-    "credential exposure": {
-      "label": "Credential Exposure",
-      "what": "Secrets, tokens, or delegated credentials become visible to the agent, model context, logs, tools, or attackers.",
-      "controls": [
-        "Secret Isolation",
-        "Agent Identity and Access Control",
-        "Least Privilege",
-        "Runtime Monitoring"
-      ],
-      "impact": [
-        "Account takeover",
-        "Data breach",
-        "Regulatory exposure"
-      ]
-    }
-  },
-  "incidents": [
-    "A prompt or retrieved document manipulates the agent.",
-    "The agent trusts the manipulated context and selects a risky action.",
-    "A tool, memory, or identity boundary is crossed.",
-    "Business impact appears as data exposure, disruption, financial loss, or audit concern."
   ],
-  "fallback": {
-    "label": "Agentic AI Security Context",
-    "focus": "Use Simpilot to reason from the current page, selected component, or visible risk.",
-    "controls": [
-      "Input and Context Validation",
-      "Tool Governance",
-      "Agent Identity and Access Control",
-      "Runtime Monitoring and Containment"
-    ],
-    "impact": [
-      "Operational disruption",
-      "Data exposure",
-      "Compliance or audit exposure"
-    ]
-  }
+  "suggestedPrompts": [
+    "Explain prompt injection",
+    "How do I defend tool calling?",
+    "Show business impact for memory poisoning",
+    "What runtime controls matter?",
+    "Compare prompt injection and memory poisoning"
+  ]
 }

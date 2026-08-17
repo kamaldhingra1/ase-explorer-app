@@ -69,7 +69,13 @@
   .simpilot-output ul{margin-left:14px !important}
   .simpilot-note{font-size:10px !important;margin-top:7px !important;padding-top:6px !important}
 }
-@media(max-width:700px){.simpilot-shell{right:12px !important;left:12px !important;bottom:12px !important}.simpilot-collapsed{width:auto}.simpilot-card{width:100%;max-height:72vh;border-radius:18px}.simpilot-chips{grid-template-columns:1fr}.simpilot-body{max-height:calc(72vh - 86px)}}`;
+@media(max-width:700px){.simpilot-shell{right:12px !important;left:12px !important;bottom:12px !important}.simpilot-collapsed{width:auto}.simpilot-card{width:100%;max-height:72vh;border-radius:18px}.simpilot-chips{grid-template-columns:1fr}.simpilot-body{max-height:calc(72vh - 86px)}}
+/* ASE v2.0.1 - hide duplicate shield in expanded mobile Simpilot */
+@media(max-width:700px){
+  .simpilot-expanded .simpilot-head .simpilot-shield-wrap{display:none !important}
+  .simpilot-expanded .simpilot-head{grid-template-columns:1fr auto !important}
+}
+`;
     const style = document.createElement('style');
     style.id = 'ase-simpilot-runtime-styles';
     style.textContent = css;

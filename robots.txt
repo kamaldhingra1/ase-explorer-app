@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kamaldhingra1.github.io/agentic-security-explorer/sitemap.xml

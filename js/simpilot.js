@@ -5,12 +5,14 @@
 
   const prefix = document.body?.dataset?.dataPrefix || './';
   const shield = prefix + 'assets/brand/ase-shield-icon.png';
+  
   const fallbackData = {
     fallback:{label:'Agentic AI Security Context',focus:'Use Simpilot to reason from the current page, selected component, or visible risk.',controls:['Input and Context Validation','Tool Governance','Agent Identity and Access Control','Runtime Monitoring and Containment'],impact:['Operational disruption','Data exposure','Compliance or audit exposure']},
     contexts:{},risks:{},incidents:['A prompt or retrieved document manipulates the agent.','The agent trusts the manipulated context and selects a risky action.','A tool, memory, or identity boundary is crossed.','Business impact appears as data exposure, disruption, financial loss, or audit concern.']
   };
   let data = fallbackData;
   let state = { type:'page', key: document.body?.dataset?.page || 'home', label: pageLabel(), risk:null };
+  let riskInteractionAt = 0;
 
 
   function injectSimpilotStyles(){
@@ -90,7 +92,9 @@
   }
 
   function loadData(){
-    return fetch(prefix + 'data/copilot-playbooks.json').then(r=>r.ok?r.json():fallbackData).catch(()=>fallbackData).then(d=>{ data=d; });
+    const playbookReq = fetch(prefix + 'data/copilot-playbooks.json').then(r=>r.ok?r.json():fallbackData).catch(()=>fallbackData);
+    const pathsReq = fetch(prefix + 'data/copilot-paths.json').then(r=>r.ok?r.json():{version:'2.1',paths:{}}).catch(()=>({version:'2.1',paths:{}}));
+    return Promise.all([playbookReq, pathsReq]).then(([d, paths])=>{ data=d || fallbackData; data.paths = paths.paths || {}; });
   }
   function pageLabel(){
     const h = document.querySelector('main h2, .hero h2, h1');
@@ -115,6 +119,8 @@
   function setContext(label,type='component'){
     const text = clean(label);
     if(!text || text.length < 2) return;
+    if(type === 'risk') riskInteractionAt = Date.now();
+    else riskInteractionAt = 0;
     state = {type, key:keyFor(text), label:text, risk: type === 'risk' ? text : null};
     updateContextUI();
   }
@@ -177,10 +183,17 @@
       if(name) setContext(name,'risk');
       return;
     }
+    if(e.target.closest('#diagramSvg, .node-hit, svg')){
+      riskInteractionAt = 0;
+      setTimeout(()=>{
+        const componentName = clean(document.querySelector('#dName')?.textContent || document.querySelector('.drawer-head h2')?.textContent || '');
+        if(componentName) setContext(componentName,'component');
+      }, 60);
+    }
     const node = e.target.closest('[data-component], [data-id], .node, .component, .component-card, .wheel-card, .card, button');
     if(!node) return;
     let txt = clean(node.getAttribute('data-component') || node.getAttribute('data-id') || node.querySelector?.('h3,h4,.label,.name')?.textContent || node.textContent);
-    if(txt && txt.length <= 80 && /(tool|memory|prompt|identity|runtime|agent|orchestrator|planner|trust|risk|chain|impact)/i.test(txt)) setContext(txt,'component');
+    if(txt && txt.length <= 80 && /(tool|memory|prompt|identity|runtime|agent|orchestrator|planner|trust|chain|impact|sandbox|guardrail|credential|secret|model|output|egress|lifecycle|telemetry|context|rag|retrieval)/i.test(txt)) setContext(txt,'component');
   }
   function makeShell(){
     const shell = document.createElement('aside');
@@ -234,10 +247,11 @@
     if(!shell) return;
     const c = getCtx();
     shell.querySelector('[data-simpilot-context]').textContent = c.label;
-    shell.querySelector('[data-simpilot-meta]').textContent = c.meta;
-    shell.querySelector('[data-simpilot-status]').textContent = c.label && c.label !== 'ASE' ? 'Guidance Available' : 'Guidance Ready';
+    shell.querySelector('[data-simpilot-meta]').textContent = modeName();
+    shell.querySelector('[data-simpilot-status]').textContent = c.label && c.label !== 'ASE' ? modeName() : 'Guidance Ready';
     const insight = shell.querySelector('[data-simpilot-insight]');
     if(insight) insight.textContent = insightText();
+    updateModeLabels();
   }
 
   function activeRiskSnapshot(){
@@ -264,6 +278,73 @@
     const active = document.querySelector('.node-hit.active');
     const label = clean(active?.getAttribute('aria-label') || active?.querySelector?.('text.node-label')?.textContent || '');
     return label || (state.type === 'component' ? state.label : '') || document.body?.dataset?.page || 'ASE';
+  }
+  function adaptiveMode(){
+    if(state.risk) return 'analysis';
+    if(state.type === 'component' && state.label && !/^home$|^guide$|^learning$|^architecture$|^about$/i.test(state.label)) return 'exploration';
+    return 'learning';
+  }
+  function modeName(){
+    const mode = adaptiveMode();
+    if(mode === 'analysis') return 'Analysis Mode';
+    if(mode === 'exploration') return 'Exploration Mode';
+    return 'Learning Mode';
+  }
+  function suggestedPathKey(){
+    const base = (state.risk || state.label || state.key || document.body?.dataset?.page || 'home').toLowerCase();
+    if(/prompt|injection|context/.test(base)) return 'prompt';
+    if(/tool|mcp|api|function/.test(base)) return 'tool';
+    if(/memory|rag|retrieval/.test(base)) return 'memory';
+    if(/identity|credential|secret|auth|permission|privilege/.test(base)) return 'identity';
+    if(/sandbox|runtime|monitor|guardrail|telemetry|execution/.test(base)) return 'runtime';
+    if(/incident|chain|attack path/.test(base)) return 'chain';
+    if(/business|impact|executive/.test(base)) return 'business';
+    if(/architecture|diagram|layer|component/.test(base)) return 'architecture';
+    return keyFor(base);
+  }
+  function recommendedNext(){
+    const key = suggestedPathKey();
+    const path = data.paths?.[key] || data.paths?.default || [];
+    return (path || []).slice(0,3);
+  }
+  function nextExplorationHtml(){
+    const items = recommendedNext();
+    if(!items.length) return '';
+    return `<h5>Recommended Next Exploration</h5><ul>${items.map(x=>`<li>${escapeHtml(x.label || x)}</li>`).join('')}</ul>`;
+  }
+  function updateModeLabels(){
+    if(!shell) return;
+    const mode = adaptiveMode();
+    const labels = mode === 'analysis'
+      ? {explain:'Explain Risk', controls:'Recommend Controls', impact:'Business Impact', chain:'Incident Chain'}
+      : mode === 'exploration'
+        ? {explain:'What Is This?', controls:'Common Risks', impact:'Security Focus', chain:'Next Exploration'}
+        : {explain:'Explain Topic', controls:'Best Practices', impact:'Business Value', chain:'Common Failure Paths'};
+    Object.entries(labels).forEach(([intent,label])=>{
+      const btn = shell.querySelector(`.simpilot-chip[data-intent="${intent}"]`);
+      if(btn) btn.textContent = label;
+    });
+    const labelEl = shell.querySelector('.simpilot-section-label');
+    if(labelEl) labelEl.textContent = mode === 'analysis' ? 'Quick Guidance' : (mode === 'exploration' ? 'Explore Guidance' : 'Learning Guidance');
+  }
+  function renderAdaptiveGuidance(intent){
+    const mode = adaptiveMode();
+    if(mode === 'analysis') return '';
+    const ctx = getCtx();
+    const label = escapeHtml(ctx.label || 'Agentic Security Explorer');
+    const next = nextExplorationHtml();
+    if(mode === 'exploration'){
+      if(intent === 'explain') return `<h4>What Is This?</h4><p><strong>Selected component:</strong> ${label}</p><p>${escapeHtml(insightText())}</p>${next}<div class="simpilot-note">Exploration Mode uses the selected component or visible page context to guide what to inspect next.</div>`;
+      if(intent === 'controls') return `<h4>Common Risks</h4><p><strong>Selected component:</strong> ${label}</p><ul><li>Unsafe trust in context, memory, messages, or tool output.</li><li>Over-permissioned actions that convert agent decisions into real-world impact.</li><li>Weak monitoring or missing containment during runtime behavior.</li></ul>${next}<div class="simpilot-note">Select a specific risk to switch Simpilot into Analysis Mode.</div>`;
+      if(intent === 'impact') return `<h4>Security Focus</h4><p><strong>Selected component:</strong> ${label}</p><ul><li>Clarify trust boundaries around this component.</li><li>Identify what data, tools, or identities this component can influence.</li><li>Look for how local failure could chain into business impact.</li></ul>${next}`;
+      if(intent === 'chain') return `<h4>Next Exploration</h4><p>Continue by inspecting related components or threats that commonly connect to <strong>${label}</strong>.</p>${next}<div class="simpilot-note">Simpilot recommends adjacent topics using the local ASE knowledge model.</div>`;
+    }
+    // learning mode
+    if(intent === 'explain') return `<h4>Explain Topic</h4><p>ASE helps you understand agentic AI systems by connecting architecture components, threats, incident chains, security patterns, and business impact.</p>${next}<div class="simpilot-note">Start with the Explorer if you want a visual walkthrough, or use Learning for a structured path.</div>`;
+    if(intent === 'controls') return `<h4>Best Practices</h4><ul><li>Separate trusted instructions from untrusted content.</li><li>Constrain tool use with explicit authorization and approval gates.</li><li>Protect memory and retrieval with provenance and validation.</li><li>Monitor runtime behavior and preserve audit evidence.</li></ul>${next}`;
+    if(intent === 'impact') return `<h4>Business Value</h4><p>ASE translates technical agentic risks into business outcomes such as operational disruption, data exposure, unauthorized action, regulatory exposure, and reputation impact.</p>${next}`;
+    if(intent === 'chain') return `<h4>Common Failure Paths</h4><ul><li>Prompt injection influences context or planning.</li><li>Poisoned memory or retrieval persists unsafe instructions.</li><li>Tool access turns reasoning into unauthorized action.</li><li>Runtime blind spots allow the chain to complete unnoticed.</li></ul>${next}`;
+    return '';
   }
   function bullets(items){ const cleanItems = (items || []).map(x=>clean(x)).filter(Boolean); return cleanItems.length ? `<ul>${cleanItems.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>` : ''; }
   function genericControlsFor(snapshot){
@@ -313,6 +394,13 @@
     const q = clean(input.value);
     if(q) state.key = keyFor(q);
     if(intent !== 'freeform'){
+      const adaptive = renderAdaptiveGuidance(intent);
+      if(adaptive){
+        shell.querySelector('[data-simpilot-output]').innerHTML = adaptive;
+        shell.classList.add('open');
+        updateContextUI();
+        return;
+      }
       const rich = renderContextRich(intent);
       if(rich){
         shell.querySelector('[data-simpilot-output]').innerHTML = rich;
@@ -352,7 +440,8 @@
     if(!shell) return;
     const expanded = document.querySelector('.risk-chip.expanded .rname');
     const name = clean(expanded?.textContent || '');
-    if(name && name !== state.risk) setContext(name,'risk');
+    const recentRiskClick = Date.now() - riskInteractionAt < 1800;
+    if(name && (recentRiskClick || state.type === 'risk') && name !== state.risk) setContext(name,'risk');
     updateAse3Dock();
   }
 

@@ -30,7 +30,7 @@
 .simpilot-body{padding:14px;overflow:auto;max-height:calc(78vh - 86px);background:linear-gradient(145deg,rgba(18,20,24,.97),rgba(11,16,24,.96))}.simpilot-section-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#e8a33d;margin-bottom:7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.simpilot-context{display:none !important}
 .simpilot-topline{position:relative;border:1px solid rgba(232,163,61,.30);background:linear-gradient(145deg,rgba(232,163,61,.11),rgba(79,193,232,.045));border-radius:14px;padding:11px 34px 11px 12px;margin-bottom:13px}.simpilot-topline.hidden{display:none}.simpilot-topline.collapsed{padding:9px 34px 9px 12px}.simpilot-topline.collapsed .simpilot-insight-title,.simpilot-topline.collapsed .simpilot-insight{display:none}.simpilot-hide-insight{position:absolute;right:8px;top:8px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#cbd5e1;border-radius:8px;width:22px;height:22px;line-height:18px;cursor:pointer;font-weight:800}.simpilot-hide-insight:hover{border-color:rgba(232,163,61,.45);color:#fff}.simpilot-context-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(232,163,61,.34);background:rgba(232,163,61,.12);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;color:#ffdca0;margin-bottom:8px;max-width:100%}.simpilot-context-pill span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.simpilot-insight-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#e8a33d;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-bottom:4px}.simpilot-insight{font-size:13px;color:#cbd5e1;line-height:1.45}
 .simpilot-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}.simpilot-chip{border:1px solid rgba(232,163,61,.28);background:linear-gradient(145deg,rgba(232,163,61,.12),rgba(79,193,232,.05));color:#f4f7fb;border-radius:12px;padding:10px 9px;cursor:pointer;font-weight:700;font-size:12px;text-align:left;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.simpilot-chip:hover{transform:translateY(-1px);border-color:rgba(232,163,61,.62);box-shadow:0 0 20px rgba(232,163,61,.13)}.simpilot-ask{display:grid;gap:8px;margin-bottom:13px}.simpilot-input{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.12);background:#0e151e;color:#f4f7fb;border-radius:12px;padding:11px 12px}.simpilot-run{border:1px solid rgba(232,163,61,.45);background:linear-gradient(135deg,rgba(232,163,61,.24),rgba(0,163,255,.10));color:#f4f7fb;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer}.simpilot-run:hover{border-color:rgba(232,163,61,.75)}
-.simpilot-output-wrap{display:grid;gap:8px}.simpilot-copy-row{display:flex;justify-content:flex-end}.simpilot-copy{border:1px solid rgba(232,163,61,.38);background:rgba(232,163,61,.10);color:#ffe0a6;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer}.simpilot-copy:hover{border-color:rgba(232,163,61,.70);background:rgba(232,163,61,.16)}.simpilot-output{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);border-radius:14px;padding:12px;min-height:110px}.simpilot-output h4{margin:0 0 7px;color:#ffe0a6}.simpilot-output h5{margin:12px 0 5px;color:#f4f7fb;font-size:13px}.simpilot-output p{margin:0 0 8px;color:#cbd5e1}.simpilot-output ul{margin:4px 0 8px 18px;padding:0;color:#cbd5e1}.simpilot-output li{margin:3px 0}.simpilot-note{font-size:11px;color:#94a3b8;margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
+.simpilot-output-wrap{display:grid;gap:8px}.simpilot-copy-row{display:flex;justify-content:flex-end}.simpilot-copy{border:1px solid rgba(232,163,61,.38);background:rgba(232,163,61,.10);color:#ffe0a6;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer}.simpilot-copy:hover{border-color:rgba(232,163,61,.70);background:rgba(232,163,61,.16)}.simpilot-output{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);border-radius:14px;padding:12px;min-height:110px}.simpilot-output h4{margin:0 0 7px;color:#ffe0a6}.simpilot-output h5{margin:12px 0 5px;color:#f4f7fb;font-size:13px}.simpilot-output p{margin:0 0 8px;color:#cbd5e1}.simpilot-output ul{margin:4px 0 8px 18px;padding:0;color:#cbd5e1}.simpilot-output li{margin:3px 0}.simpilot-next-list{display:grid;gap:7px;margin:7px 0 10px}.simpilot-next{width:100%;text-align:left;border:1px solid rgba(232,163,61,.30);background:rgba(232,163,61,.08);color:#ffe0a6;border-radius:10px;padding:8px 9px;cursor:pointer;font-size:12px;line-height:1.35}.simpilot-next:hover{border-color:rgba(232,163,61,.68);background:rgba(232,163,61,.14)}.simpilot-shell.simpilot-safe-top{bottom:auto !important;top:92px !important}.simpilot-note{font-size:11px;color:#94a3b8;margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
 @keyframes simpilot-breathe{0%,100%{filter:drop-shadow(0 0 6px rgba(232,163,61,.24));transform:scale(1)}50%{filter:drop-shadow(0 0 15px rgba(232,163,61,.55));transform:scale(1.04)}}@keyframes simpilot-dot{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.12)}}@keyframes simpilot-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .simpilot-shell.simpilot-left-mode{left:22px !important;right:auto !important}.simpilot-shell:not(.simpilot-left-mode){right:22px !important;left:auto !important}.simpilot-shell{transition:left .25s ease,right .25s ease,bottom .25s ease}
 
@@ -195,6 +195,26 @@
     let txt = clean(node.getAttribute('data-component') || node.getAttribute('data-id') || node.querySelector?.('h3,h4,.label,.name')?.textContent || node.textContent);
     if(txt && txt.length <= 80 && /(tool|memory|prompt|identity|runtime|agent|orchestrator|planner|trust|chain|impact|sandbox|guardrail|credential|secret|model|output|egress|lifecycle|telemetry|context|rag|retrieval)/i.test(txt)) setContext(txt,'component');
   }
+  function ensureWhatsNextNav(){
+    const nav = document.querySelector('.ase-site-header .nav, nav.nav');
+    if(!nav || nav.querySelector('[data-nav="whats-next"]')) return;
+    const a=document.createElement('a');
+    a.dataset.nav='whats-next';
+    a.href=prefix+'whats-next.html';
+    a.textContent="What's Next";
+    nav.appendChild(a);
+  }
+  function ensureIncidentLibraryNote(){
+    const library=document.querySelector('#libraryView, .library-view, [data-view="incidents"]');
+    if(!library || library.querySelector('.ase-incident-library-note')) return;
+    const note=document.createElement('aside');
+    note.className='ase-incident-library-note';
+    note.setAttribute('role','note');
+    note.innerHTML='<strong>About this library</strong><p>The Incident Library contains representative incident-chain scenarios designed for learning and exploration. It is not an exhaustive catalog. Additional attack paths, threat combinations, and incident patterns may emerge based on architecture, autonomy, trust boundaries, connected tools, data, and runtime controls.</p>';
+    note.style.cssText='margin:14px 0;padding:12px 14px;border:1px solid rgba(232,163,61,.35);border-radius:12px;background:rgba(232,163,61,.08);color:inherit;font-size:12px;line-height:1.5';
+    const first=library.firstElementChild;
+    first ? first.insertAdjacentElement('afterend',note) : library.prepend(note);
+  }
   function makeShell(){
     const shell = document.createElement('aside');
     shell.className = 'simpilot-shell';
@@ -221,6 +241,7 @@
     shell.querySelector('.simpilot-close').addEventListener('click',()=>shell.classList.remove('open'));
     shell.querySelectorAll('.simpilot-chip').forEach(b=>b.addEventListener('click',()=>render(b.dataset.intent)));
     shell.querySelector('[data-simpilot-run]').addEventListener('click',()=>render('freeform'));
+    shell.addEventListener('click',e=>{ const next=e.target.closest('.simpilot-next'); if(next) activateRecommendedTarget(next.dataset.simpilotTarget); });
     shell.querySelector('[data-simpilot-copy]').addEventListener('click', async ()=>{
       const btn = shell.querySelector('[data-simpilot-copy]');
       const output = shell.querySelector('[data-simpilot-output]');
@@ -310,8 +331,28 @@
   function nextExplorationHtml(){
     const items = recommendedNext();
     if(!items.length) return '';
-    return `<h5>Recommended Next Exploration</h5><ul>${items.map(x=>`<li>${escapeHtml(x.label || x)}</li>`).join('')}</ul>`;
+    return `<h5>Recommended Next Exploration</h5><div class="simpilot-next-list">${items.map(x=>`<button type="button" class="simpilot-next" data-simpilot-target="${escapeHtml(x.target || '')}">▶ ${escapeHtml(x.label || x)}</button>`).join('')}</div>`;
   }
+  function activateRecommendedTarget(target){
+    const value = clean(target);
+    if(!value) return;
+    if(/^(\.\/|\.\.\/|\/|https?:)/i.test(value)){
+      window.location.href = value;
+      return;
+    }
+    const wanted = value.toLowerCase();
+    const nodes = Array.from(document.querySelectorAll('.node-hit,[data-component],.component-card,.wheel-card'));
+    const match = nodes.find(el => clean(el.getAttribute('aria-label') || el.getAttribute('data-component') || el.textContent).toLowerCase().includes(wanted));
+    if(match){
+      match.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window}));
+      match.scrollIntoView?.({behavior:'smooth',block:'center',inline:'center'});
+      return;
+    }
+    const tabs = Array.from(document.querySelectorAll('a,button'));
+    const tab = tabs.find(el => clean(el.textContent).toLowerCase().includes(wanted));
+    if(tab) tab.click();
+  }
+
   function updateModeLabels(){
     if(!shell) return;
     const mode = adaptiveMode();
@@ -492,21 +533,53 @@
     });
   }
 
+  function visibleActionByText(pattern){
+    return Array.from(document.querySelectorAll('button,a,[role="button"]')).find(el=>{
+      if(!pattern.test(clean(el.textContent))) return false;
+      const st=getComputedStyle(el); const r=el.getBoundingClientRect();
+      return st.display!=='none' && st.visibility!=='hidden' && r.width>20 && r.height>18 && r.bottom>0 && r.top<innerHeight;
+    });
+  }
+  function rectsOverlap(a,b,pad=8){
+    return !(a.right+pad<b.left || a.left-pad>b.right || a.bottom+pad<b.top || a.top-pad>b.bottom);
+  }
+  let ase3WasOpen=false;
   function updateAse3Dock(){
     if(!shell || !isAse3Page()) return;
-    const moveLeft = isMobileViewport() ? (ase3DetailsOpen() || ase3MobileRightSideBusy()) : ase3DetailsOpen();
+    const detailsOpen=ase3DetailsOpen();
+    if(ase3WasOpen && !detailsOpen && (state.type==='component' || state.type==='risk')){
+      setContext(pageLabel(),'page');
+    }
+    ase3WasOpen=detailsOpen;
+    let moveLeft = isMobileViewport() ? (detailsOpen || ase3MobileRightSideBusy()) : detailsOpen;
+    shell.classList.remove('simpilot-safe-top');
+    shell.style.bottom='';
     shell.classList.toggle('simpilot-left-mode', moveLeft);
+    const action=visibleActionByText(/view on map|show on map|open on map/i);
+    if(action){
+      const actionRect=action.getBoundingClientRect();
+      requestAnimationFrame(()=>{
+        let shellRect=shell.getBoundingClientRect();
+        if(rectsOverlap(shellRect,actionRect,10)){
+          shell.classList.toggle('simpilot-left-mode',!shell.classList.contains('simpilot-left-mode'));
+          requestAnimationFrame(()=>{
+            shellRect=shell.getBoundingClientRect();
+            if(rectsOverlap(shellRect,actionRect,10)) shell.classList.add('simpilot-safe-top');
+          });
+        }
+      });
+    }
   }
 
   function startAse3DockObserver(){
     if(!isAse3Page()) return;
     updateAse3Dock();
-    const observer = new MutationObserver(()=>updateAse3Dock());
+    const observer = new MutationObserver(()=>{ updateAse3Dock(); ensureIncidentLibraryNote(); ensureWhatsNextNav(); });
     observer.observe(document.body,{attributes:true,childList:true,subtree:true,attributeFilter:['class','style','hidden','aria-hidden']});
     window.addEventListener('resize', updateAse3Dock);
     window.addEventListener('scroll', updateAse3Dock, true);
     setInterval(updateAse3Dock, 900);
   }
 
-  loadData().then(()=>{ injectSimpilotStyles(); shell = makeShell(); updateContextUI(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); document.addEventListener('click',()=>setTimeout(scanExpandedAse3Risk,0), true); setInterval(scanExpandedAse3Risk, 1200); });
+  loadData().then(()=>{ injectSimpilotStyles(); ensureWhatsNextNav(); ensureIncidentLibraryNote(); shell = makeShell(); updateContextUI(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); document.addEventListener('click',()=>setTimeout(scanExpandedAse3Risk,0), true); setInterval(scanExpandedAse3Risk, 1200); });
 })();

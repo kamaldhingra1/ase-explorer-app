@@ -3,59 +3,147 @@
   "purpose": "Local adaptive Simpilot next-exploration guidance. No API or backend dependency.",
   "paths": {
     "home": [
-      {"label": "Open the Explorer and inspect the Runtime Layer"},
-      {"label": "Review Threat Catalog for common agentic risks"},
-      {"label": "Use Business Guide to connect risk to impact"}
+      {
+        "label": "Open the Explorer and inspect the Runtime Layer",
+        "target": "./ase3.html"
+      },
+      {
+        "label": "Review Threat Catalog for common agentic risks",
+        "target": "Threat Catalog"
+      },
+      {
+        "label": "Use Business Guide to connect risk to impact",
+        "target": "./guide/index.html"
+      }
     ],
     "explorer": [
-      {"label": "Start with Orchestrator and Tool-Calling Layer"},
-      {"label": "Inspect Memory / Context Store risks"},
-      {"label": "Add related risks to unlock an incident chain"}
+      {
+        "label": "Start with Orchestrator and Tool-Calling Layer",
+        "target": "Orchestrator"
+      },
+      {
+        "label": "Inspect Memory / Context Store risks",
+        "target": "Memory / Context"
+      },
+      {
+        "label": "Add related risks to unlock an incident chain"
+      }
     ],
     "prompt": [
-      {"label": "Tool-Calling Layer: prompt injection often leads to unsafe actions"},
-      {"label": "Memory / Context Store: injected content can persist"},
-      {"label": "Context Boundary & Provenance: separate instructions from data"}
+      {
+        "label": "Tool-Calling Layer: prompt injection often leads to unsafe actions",
+        "target": "Tool-Calling"
+      },
+      {
+        "label": "Memory / Context Store: injected content can persist",
+        "target": "Memory / Context"
+      },
+      {
+        "label": "Context Boundary & Provenance: separate instructions from data",
+        "target": "Context Boundary"
+      }
     ],
     "tool": [
-      {"label": "Agent Identity & AuthZ: verify who can invoke tools"},
-      {"label": "Execution Sandbox: contain code and tool execution"},
-      {"label": "Output & Egress Channels: inspect downstream effects"}
+      {
+        "label": "Agent Identity & AuthZ: verify who can invoke tools",
+        "target": "Agent Identity"
+      },
+      {
+        "label": "Execution Sandbox: contain code and tool execution",
+        "target": "Execution Sandbox"
+      },
+      {
+        "label": "Output & Egress Channels: inspect downstream effects",
+        "target": "Output & Egress"
+      }
     ],
     "memory": [
-      {"label": "Retrieval / RAG: validate sources and provenance"},
-      {"label": "Context Boundary & Provenance: avoid trust laundering"},
-      {"label": "Guardrails & Monitoring: detect persistent unsafe behavior"}
+      {
+        "label": "Retrieval / RAG: validate sources and provenance",
+        "target": "Retrieval / RAG"
+      },
+      {
+        "label": "Context Boundary & Provenance: avoid trust laundering",
+        "target": "Context Boundary"
+      },
+      {
+        "label": "Guardrails & Monitoring: detect persistent unsafe behavior",
+        "target": "Guardrails"
+      }
     ],
     "identity": [
-      {"label": "Credentials & Secrets: reduce credential blast radius"},
-      {"label": "Inter-Agent Comms: verify sender identity"},
-      {"label": "Telemetry Integrity: preserve accountability"}
+      {
+        "label": "Credentials & Secrets: reduce credential blast radius",
+        "target": "Credentials"
+      },
+      {
+        "label": "Inter-Agent Comms: verify sender identity",
+        "target": "Inter-Agent"
+      },
+      {
+        "label": "Telemetry Integrity: preserve accountability",
+        "target": "Telemetry"
+      }
     ],
     "runtime": [
-      {"label": "Execution Sandbox: isolate agent actions"},
-      {"label": "Guardrails & Monitoring: observe unsafe behavior"},
-      {"label": "Agent Lifecycle & Governance: design kill switches and rollback"}
+      {
+        "label": "Execution Sandbox: isolate agent actions",
+        "target": "Execution Sandbox"
+      },
+      {
+        "label": "Guardrails & Monitoring: observe unsafe behavior",
+        "target": "Guardrails"
+      },
+      {
+        "label": "Agent Lifecycle & Governance: design kill switches and rollback",
+        "target": "Agent Lifecycle"
+      }
     ],
     "chain": [
-      {"label": "Review affected components in the chain"},
-      {"label": "Identify which control would break the chain earliest"},
-      {"label": "Translate technical failure into business impact"}
+      {
+        "label": "Review affected components in the chain"
+      },
+      {
+        "label": "Identify which control would break the chain earliest"
+      },
+      {
+        "label": "Translate technical failure into business impact"
+      }
     ],
     "business": [
-      {"label": "Map risk to operational, financial, regulatory, and reputation outcomes"},
-      {"label": "Review Business Guide for executive framing"},
-      {"label": "Use Simpilot Copy Guidance for stakeholder notes"}
+      {
+        "label": "Map risk to operational, financial, regulatory, and reputation outcomes"
+      },
+      {
+        "label": "Review Business Guide for executive framing",
+        "target": "./guide/index.html"
+      },
+      {
+        "label": "Use Simpilot Copy Guidance for stakeholder notes"
+      }
     ],
     "architecture": [
-      {"label": "Review trust boundaries between runtime, TrustOps, and interaction layers"},
-      {"label": "Identify control placement points"},
-      {"label": "Compare architecture flow with Explorer components"}
+      {
+        "label": "Review trust boundaries between runtime, TrustOps, and interaction layers"
+      },
+      {
+        "label": "Identify control placement points"
+      },
+      {
+        "label": "Compare architecture flow with Explorer components"
+      }
     ],
     "default": [
-      {"label": "Explore a component in the ASE system map"},
-      {"label": "Select a specific risk to switch into Analysis Mode"},
-      {"label": "Review Security Patterns for practical defenses"}
+      {
+        "label": "Explore a component in the ASE system map"
+      },
+      {
+        "label": "Select a specific risk to switch into Analysis Mode"
+      },
+      {
+        "label": "Review Security Patterns for practical defenses",
+        "target": "./learning/security-patterns.html"
+      }
     ]
   }
 }

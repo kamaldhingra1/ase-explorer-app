@@ -33,11 +33,13 @@
 .simpilot-output-wrap{display:grid;gap:8px}.simpilot-copy-row{display:flex;justify-content:flex-end}.simpilot-copy{border:1px solid rgba(232,163,61,.38);background:rgba(232,163,61,.10);color:#ffe0a6;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer}.simpilot-copy:hover{border-color:rgba(232,163,61,.70);background:rgba(232,163,61,.16)}.simpilot-output{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);border-radius:14px;padding:12px;min-height:110px}.simpilot-output h4{margin:0 0 7px;color:#ffe0a6}.simpilot-output h5{margin:12px 0 5px;color:#f4f7fb;font-size:13px}.simpilot-output p{margin:0 0 8px;color:#cbd5e1}.simpilot-output ul{margin:4px 0 8px 18px;padding:0;color:#cbd5e1}.simpilot-output li{margin:3px 0}.simpilot-note{font-size:11px;color:#94a3b8;margin-top:10px;border-top:1px solid rgba(255,255,255,.08);padding-top:9px}
 @keyframes simpilot-breathe{0%,100%{filter:drop-shadow(0 0 6px rgba(232,163,61,.24));transform:scale(1)}50%{filter:drop-shadow(0 0 15px rgba(232,163,61,.55));transform:scale(1.04)}}@keyframes simpilot-dot{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.12)}}@keyframes simpilot-orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .simpilot-shell.simpilot-left-mode{left:22px !important;right:auto !important}.simpilot-shell:not(.simpilot-left-mode){right:22px !important;left:auto !important}.simpilot-shell{transition:left .25s ease,right .25s ease,bottom .25s ease}
+.simpilot-shell.simpilot-safe-dock{left:auto !important;right:22px !important;bottom:104px !important}
 
 /* ASE v2.0 Phase 3.2 - Simpilot mobile optimization */
 @media(max-width:700px){
   .simpilot-shell{right:12px !important;left:auto !important;bottom:12px !important;transition:left .25s ease,right .25s ease,bottom .25s ease !important}
   .simpilot-shell.simpilot-left-mode{left:12px !important;right:auto !important}
+  .simpilot-shell.simpilot-safe-dock{left:auto !important;right:12px !important;bottom:72px !important}
   .simpilot-shell:not(.simpilot-left-mode){right:12px !important;left:auto !important}
   .simpilot-card{width:min(238px,calc(100vw - 24px)) !important;max-height:58vh !important;border-radius:16px !important}
   .simpilot-collapsed{width:48px !important;height:48px !important;padding:0 !important;border-radius:999px !important;display:grid !important;place-items:center !important;gap:0 !important;box-shadow:0 12px 30px rgba(0,0,0,.44),0 0 24px rgba(232,163,61,.34) !important}
@@ -498,6 +500,35 @@
     shell.classList.toggle('simpilot-left-mode', moveLeft);
   }
 
+  function resetToPageContext(){
+    state = { type:'page', key: document.body?.dataset?.page || 'home', label: pageLabel(), risk:null };
+    riskInteractionAt = 0;
+    updateContextUI();
+  }
+  function updateSafeDock(){
+    if(!shell || !isAse3Page()) return;
+    const libraryActive = document.getElementById('libraryView')?.classList.contains('active');
+    const chainModalOpen = document.getElementById('chainModal')?.classList.contains('show');
+    shell.classList.toggle('simpilot-safe-dock', !!(libraryActive || chainModalOpen));
+  }
+  function bindAse3CompletionEvents(){
+    if(!isAse3Page()) return;
+    document.getElementById('drawerClose')?.addEventListener('click', () => {
+      resetToPageContext();
+      shell?.classList.remove('simpilot-left-mode');
+      setTimeout(updateSafeDock, 0);
+    });
+    document.getElementById('tabLibraryBtn')?.addEventListener('click', () => setTimeout(updateSafeDock, 0));
+    document.getElementById('tabMapBtn')?.addEventListener('click', () => setTimeout(updateSafeDock, 0));
+    document.getElementById('tabCatalogBtn')?.addEventListener('click', () => setTimeout(updateSafeDock, 0));
+    document.getElementById('mClose')?.addEventListener('click', () => setTimeout(updateSafeDock, 0));
+    document.getElementById('mViewLibrary')?.addEventListener('click', () => setTimeout(updateSafeDock, 0));
+    document.getElementById('iBackToLibrary')?.addEventListener('click', () => { resetToPageContext(); setTimeout(updateSafeDock, 0); });
+    document.addEventListener('click', (event) => {
+      if(event.target.closest('.view-map-btn')) setTimeout(updateSafeDock, 0);
+    }, true);
+    updateSafeDock();
+  }
   function startAse3DockObserver(){
     if(!isAse3Page()) return;
     updateAse3Dock();
@@ -508,5 +539,5 @@
     setInterval(updateAse3Dock, 900);
   }
 
-  loadData().then(()=>{ injectSimpilotStyles(); shell = makeShell(); updateContextUI(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); document.addEventListener('click',()=>setTimeout(scanExpandedAse3Risk,0), true); setInterval(scanExpandedAse3Risk, 1200); });
+  loadData().then(()=>{ injectSimpilotStyles(); shell = makeShell(); updateContextUI(); bindAse3CompletionEvents(); startAse3DockObserver(); document.addEventListener('click', inferFromClick, true); document.addEventListener('click',()=>setTimeout(scanExpandedAse3Risk,0), true); setInterval(scanExpandedAse3Risk, 1200); });
 })();

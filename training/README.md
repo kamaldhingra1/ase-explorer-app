@@ -113,14 +113,17 @@ Every lesson `.md` uses frontmatter for the sidebar, then:
 
 ## Next (product backlog, not yet built)
 
-- Annotate-and-export on top of a generated report (learner deliverable).
-- Printable worksheet generator (STRIDE sheets, catalogs).
 - Lesson authoring: simple frontmatter + markdown — no app changes needed.
 
 > **Built:** Quiz/assessment mode with completion tracking (3-question quick check per
 > lesson, pass at ≥50%, progress bar in sidebar + header, `localStorage` persistence,
-> "✓ Mark complete") and the spoil guard (mitigations hidden behind an answer key until
-> the lesson's quiz is passed or the reveal button is clicked).
+> "✓ Mark complete"), the spoil guard (mitigations hidden behind an answer key until the
+> lesson's quiz is passed or the reveal button is clicked), annotate-and-export (per-lesson
+> notes pane with autosave → **Export** compiles the course into a markdown deliverable),
+> printable worksheets (**Worksheets** button: STRIDE-PIMT, OWASP LLM Top 10, ATLAS
+> attack-chain, component taxonomy — print/save-PDF or download as `.md`), and a responsive
+> theme (mobile hides the lesson list by default, tables scroll in-card, layout stacks and
+> nav auto-closes after selecting a lesson).
 
 ## How to add/modify a lesson
 
@@ -135,3 +138,11 @@ Every lesson `.md` uses frontmatter for the sidebar, then:
   html=True)` — a pure mount, zero effect on existing routes.
 - `docker-compose.yml` mounts `./training:/opt/ai-tm/training` so content updates are live.
 - The page is self-contained: custom markdown renderer, no CDN, offline-safe.
+- **Static deploy (e.g. GitHub Pages):** publish the `training/` folder as-is (relative refs
+  work from any subpath). Also publish `samples/*.png` (lesson 09–12 deep-dive images) and
+  `static/logo.ico` at the site root. If the site is served under a path prefix
+  (e.g. `user.github.io/repo/`), set `<script>window.TM_BASE = "/repo";</script>` before the
+  training script so `/samples`, `/static/logo.ico` and the home link resolve correctly.
+- **Mobile:** lesson list is hidden by default (<900px) — open with **▸ Lessons**; it closes
+  automatically after selecting a lesson. Tables scroll in-card; print sheets use `@media
+  print` (only the worksheet is emitted).

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Threat Modeling Training — Danaher</title>
-<link rel="icon" href="/assets/brand/ase-favicon-64.png">
+<link rel="icon" href="/static/logo.ico">
 <style>
   :root { --main:#8B5CF6; --main-dark:#7C3AED; --main-tint:#f3f0ff; --ink:#1e1b2e; --muted:#5b5b6e; --line:#e0d8f6; --bg:#f8f7fc; --ok:#116b2f; --okbg:#e3f7e8; --planned:#7a5c00; --plannedbg:#fff2cc; }
   * { box-sizing:border-box; }
@@ -90,20 +90,88 @@
   .quiz-result.bad { background:#fdecea; color:#b3261e; }
   .spoiler-btn { font-family:inherit; font-size:13px; font-weight:700; padding:7px 14px; border-radius:8px; cursor:pointer; border:1px solid #1f5cbf; background:#1f5cbf; color:#fff; margin:2px 0 10px; }
   .spoiler-btn:hover { background:#14428a; }
+  .notes { border:1px dashed var(--main); border-radius:8px; padding:14px 16px; margin:26px 0 0; background:#fffdf7; }
+  .notes-head { font-weight:800; font-size:13px; color:var(--main-dark); margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+  .notes-count { font-size:11px; color:var(--muted); font-weight:600; }
+  #notesBox { width:100%; min-height:110px; font:inherit; font-size:13.5px; padding:10px 12px; border:1px solid var(--line); border-radius:7px; resize:vertical; background:#fff; color:var(--ink); }
+  #notesBox:focus { outline:2px solid var(--main); outline-offset:1px; }
+  .notes-foot { display:flex; align-items:center; gap:10px; margin-top:8px; }
+  #notesSaved { font-size:11.5px; color:var(--ok); font-weight:600; }
+  .token-btn { font-family:inherit; font-size:12px; font-weight:700; padding:6px 10px; border-radius:7px; cursor:pointer; border:1px solid var(--main); background:var(--main-tint); color:var(--main-dark); margin-left:auto; }
+  .token-btn:hover { background:#fff; }
+  .ws-overlay { position:fixed; inset:0; background:rgba(30,27,46,.45); z-index:20; display:flex; align-items:center; justify-content:center; padding:18px; }
+  .ws-overlay[hidden] { display:none; }
+  .ws-panel { background:#fff; border:1px solid var(--line); border-radius:12px; max-width:920px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:0 18px 50px rgba(30,27,46,.25); }
+  .ws-head { display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#fff; }
+  .ws-head strong { color:var(--main-dark); font-size:15px; }
+  .ws-close { margin-left:auto; }
+  .ws-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; padding:18px 20px; }
+  .ws-card { border:1px solid var(--line); border-radius:9px; padding:12px 14px; cursor:pointer; background:var(--bg); transition:all .12s ease; }
+  .ws-card:hover { border-color:var(--main); background:var(--main-tint); }
+  .ws-card h3 { margin:0 0 4px; font-size:14px; color:var(--main-dark); }
+  .ws-card p { margin:0; font-size:12px; color:var(--muted); }
+  .ws-card .ws-tags { margin-top:8px; font-size:10.5px; font-weight:700; color:var(--main-dark); }
+  .ws-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:14px 20px; border-top:1px solid var(--line); }
+  .ws-hint { font-size:12px; color:var(--muted); }
+  .ws-body { padding:18px 20px 30px; }
+  #wsSheet { background:#fff; border:1px solid var(--line); border-radius:9px; padding:24px 26px; color:var(--ink); }
+  #wsSheet h2 { margin:0 0 2px; color:var(--main-dark); font-size:19px; }
+  #wsSheet .ws-sub { color:var(--muted); font-size:12.5px; margin:0 0 14px; }
+  #wsSheet table { border-collapse:collapse; width:100%; font-size:12.5px; margin:12px 0; }
+  #wsSheet th, #wsSheet td { border:1px solid #b6aee8; padding:7px 9px; vertical-align:top; text-align:left; }
+  #wsSheet th { background:var(--main-tint); color:var(--main-dark); }
+  #wsSheet td.blank { height:34px; }
+  #wsSheet .ws-note { font-size:11.5px; color:var(--muted); }
+  @media print {
+    body * { visibility:hidden !important; }
+    #wsSheetWrap, #wsSheetWrap * { visibility:visible !important; }
+    #wsSheetWrap { position:absolute; left:0; top:0; width:100%; padding:0; max-height:none; overflow:visible; }
+    #wsSheet { border:none; padding:0; }
+    .ws-overlay { position:static; padding:0; display:block; }
+    .ws-panel { max-height:none; box-shadow:none; border:none; }
+    .ws-body { padding:0; }
+    .no-print { display:none !important; }
+    .docnav, .notes, .hprog, .quiz, .fix, .risk, .exercise, .callout { display:none !important; }
+  }
   footer { color:var(--muted); font-size:12px; text-align:center; margin:26px 0 40px; }
-  @media (max-width:900px) { .layout { flex-direction:column; } aside { width:100%; flex-basis:auto; position:static; max-height:none; border-bottom:1px solid var(--line); } .resizer { display:none; } .doc { padding:22px 18px; } }
+  @media (max-width:900px) {
+    .layout { flex-direction:column; align-items:stretch; }
+    aside { width:100%; flex-basis:auto; position:static; max-height:none; border-bottom:1px solid var(--line); }
+    .resizer { display:none; }
+    header { flex-wrap:wrap; row-gap:8px; padding:12px 14px; }
+    main { padding:14px 10px 60px; }
+    .doc { padding:20px 16px; }
+    .doc table { display:block; overflow-x:auto; }
+    .docnav { flex-wrap:wrap; gap:8px; }
+    .navpos { width:100%; text-align:center; margin:2px 0 4px; }
+    .navbtn { flex:1 1 auto; min-width:0; }
+    #markDone { flex-basis:100%; }
+    .prog-track { width:84px; height:8px; }
+    .hprog { font-size:11px; }
+  }
+  @media (max-width:480px) {
+    header { gap:10px; }
+    header img { height:26px; width:26px; }
+    header .sub { display:none; }
+    header h1 { font-size:15px; }
+    .doc h1 { font-size:22px; }
+    .quiz { padding:12px 12px; }
+    .doc pre { font-size:12px; padding:12px; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <img src="/assets/brand/ase-favicon-64.png" alt="logo">
+  <img src="/static/logo.ico" alt="logo">
   <div>
     <h1>AI Security Threat Modeling Training</h1>
     <div class="sub">Hands-on: explain · play · generate real threats, risks and mitigations</div>
   </div>
   <button id="sideToggle" class="toggle" title="Toggle lesson list">◂ Lessons</button>
+  <button id="wsBtn" class="toggle" title="Printable worksheets">Worksheets</button>
+  <button id="exportBtn" class="toggle" title="Download your annotations as a markdown deliverable">Export</button>
   <div class="hprog" title="Lessons completed"><span id="hPct">0%</span><div class="prog-track"><div class="prog-fill" id="hFill"></div></div></div>
-  <!-- <a class="home" href="/">← Threat Modeler app</a> -->
+  <a class="home" href="/">← Threat Modeler app</a>
 </header>
 <div class="layout">
   <aside id="sidebar">
@@ -115,6 +183,18 @@
     <div class="doc" id="doc"><h1>Pick a lesson</h1><p>Select a lesson from the left. Each lesson pairs a short explainer with a hands-on exercise that uses the sample architecture diagrams and the threat modeler tool.</p></div>
     <footer>For training purposes only — always review model findings before acting.</footer>
   </main>
+</div>
+<div class="ws-overlay" id="wsModal" hidden>
+  <div class="ws-panel">
+    <div class="ws-head no-print"><strong>Printable worksheets</strong><button type="button" class="quiz-retake ws-close" id="wsClose">Close</button></div>
+    <div class="ws-grid no-print" id="wsGrid"></div>
+    <div class="ws-actions no-print" id="wsActions" hidden>
+      <button type="button" class="quiz-check" id="wsPrint">Print / Save PDF</button>
+      <button type="button" class="quiz-retake" id="wsDownload">Download .md</button>
+      <span class="ws-hint" id="wsHint"></span>
+    </div>
+    <div class="ws-body" id="wsSheetWrap" hidden><div id="wsSheet"></div></div>
+  </div>
 </div>
 
 <script>
@@ -141,6 +221,10 @@ const $ = (id) => document.getElementById(id);
 
 // ---- progress tracking (localStorage) ----
 const PROG_KEY = 'tm-progress';
+const NAV_TOGGLE_STORE = 'tm-nav';
+const NOTES_KEY = 'tm-notes';
+let NOTES = {};
+try { NOTES = JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) {}
 let PROGRESS = {};
 try { PROGRESS = JSON.parse(localStorage.getItem(PROG_KEY)) || {}; } catch (e) {}
 function saveProgress() { try { localStorage.setItem(PROG_KEY, JSON.stringify(PROGRESS)); } catch (e) {} }
@@ -148,6 +232,7 @@ function lessonPassed(file) { const p = PROGRESS[file]; return !!(p && p.passed)
 function lessonRevealed(file) { const p = PROGRESS[file]; return !!(p && p.revealed); }
 function idxOf(file) { return MANIFEST.lessons.findIndex(l => l.file === file); }
 let QUIZ_SEQ = 0;
+const BASE = (window.TM_BASE || '').replace(/\/+$/, '');
 
 // ---- minimal markdown renderer (offline, no dependencies) ----
 function inline(s) {
@@ -335,6 +420,11 @@ function renderSidebar() {
     e.preventDefault();
     setActiveLesson(a.dataset.file);
     loadLesson(a.dataset.file);
+    if (window.matchMedia('(max-width:900px)').matches) {
+      document.body.classList.add('nav-hidden');
+      updateSideToggle();
+      try { localStorage.setItem(NAV_TOGGLE_STORE, 'hidden'); } catch (err) {}
+    }
   }));
   $('sideFoot').innerHTML =
     '<div class="side-prog"><div class="prog-track"><div class="prog-fill" id="pFill"></div></div></div>' +
@@ -395,16 +485,19 @@ resizer.addEventListener('mousedown', (e) => {
 });
 
 const sideToggle = $('sideToggle');
+function updateSideToggle() {
+  sideToggle.textContent = document.body.classList.contains('nav-hidden') ? '▸ Lessons' : '◂ Lessons';
+}
 sideToggle.addEventListener('click', () => {
   document.body.classList.toggle('nav-hidden');
-  sideToggle.textContent = document.body.classList.contains('nav-hidden') ? '▸ Lessons' : '◂ Lessons';
-  try { localStorage.setItem('tm-nav', document.body.classList.contains('nav-hidden') ? 'hidden' : 'shown'); } catch (e) {}
+  updateSideToggle();
+  try { localStorage.setItem(NAV_TOGGLE_STORE, document.body.classList.contains('nav-hidden') ? 'hidden' : 'shown'); } catch (e) {}
 });
 try {
-  if (localStorage.getItem('tm-nav') === 'hidden') {
-    document.body.classList.add('nav-hidden');
-    sideToggle.textContent = '▸ Lessons';
-  }
+  const stored = localStorage.getItem(NAV_TOGGLE_STORE);
+  const narrow = window.matchMedia('(max-width:900px)').matches;
+  const hidden = stored ? stored === 'hidden' : narrow;
+  if (hidden) { document.body.classList.add('nav-hidden'); updateSideToggle(); }
 } catch (e) {}
 
 function navHTML(idx) {
@@ -436,16 +529,18 @@ async function loadLesson(file) {
       `<h1>${meta.title || ''}</h1>` +
       `<div class="meta">${fields.filter(Boolean).map(v => `<span>${v}</span>`).join('')}</div>` +
       mdToHtml(stripLeadH1(body), { spoiler: hasQuiz }) +
-      navHTML(idx);
+      navHTML(idx) +
+      notesHTML();
 
     const base = file.substring(0, file.lastIndexOf('/') + 1);
     doc.querySelectorAll('img').forEach(img => {
       const s = img.getAttribute('src');
-      if (s && !/^(https?:)?\/\//.test(s) && !s.startsWith('/') && !/^data:/.test(s)) img.src = base + s;
+      if (s && !/^(https?:)?\/\//.test(s) && !/^data:/.test(s)) img.src = s.startsWith('/') ? BASE + s : base + s;
     });
     doc.querySelectorAll('a[href^="http"]').forEach(a => a.setAttribute('target', '_blank'));
     setActiveLesson(file);
     wireLessonControls(file);
+    bindNotes(file);
     location.hash = '#/' + file;
     window.scrollTo({ top: 0 });
   } catch (err) {
@@ -541,6 +636,214 @@ function goTo(i) {
   loadLesson(MANIFEST.lessons[i].file);
 }
 
+// ---- per-lesson annotations (learner deliverable) ----
+function notesHTML() {
+  return '<div class="notes no-print"><div class="notes-head">Your annotations <span class="notes-count" id="notesCount"></span></div>' +
+    '<textarea id="notesBox" placeholder="Capture observations, examples, and report drafts from this lesson — they are saved locally and included when you use Export."></textarea>' +
+    '<div class="notes-foot"><span id="notesSaved"></span>' +
+    '<button type="button" class="token-btn" id="notesClear">Clear</button>' +
+    '<button type="button" class="token-btn" id="notesCopy">Copy as markdown</button></div></div>';
+}
+function bindNotes(file) {
+  const box = document.getElementById('notesBox');
+  const saved = document.getElementById('notesSaved');
+  const count = document.getElementById('notesCount');
+  if (!box) return;
+  box.value = (NOTES[file] || '').replace(/^\s+/, '');
+  let t = null;
+  const sync = (label) => {
+    NOTES[file] = box.value;
+    try { localStorage.setItem(NOTES_KEY, JSON.stringify(NOTES)); } catch (e) {}
+    if (count) count.textContent = box.value.trim() ? box.value.trim().split(/\s+/).length + ' words' : 'empty';
+    if (saved) saved.textContent = label || '';
+  };
+  box.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => sync('Saved'), 400); });
+  sync('');
+  const clearBtn = document.getElementById('notesClear');
+  if (clearBtn) clearBtn.addEventListener('click', () => { box.value = ''; sync('Cleared'); box.focus(); });
+  const copyBtn = document.getElementById('notesCopy');
+  if (copyBtn) copyBtn.addEventListener('click', () => {
+    const h1 = document.querySelector('#doc h1');
+    const md = '## ' + (h1 ? h1.textContent : 'Lesson') + '\n\n' + box.value + '\n';
+    const doneOk = () => { if (saved) saved.textContent = 'Copied to clipboard'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(md).then(doneOk).catch(() => { fallbackCopy(md); doneOk(); });
+    } else { fallbackCopy(md); doneOk(); }
+  });
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  ta.remove();
+}
+
+// ---- Export: compile the whole course into one markdown deliverable ----
+function downloadText(filename, text) {
+  const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 4000);
+}
+function buildExport() {
+  const L = [];
+  const total = MANIFEST.lessons.length;
+  const done = MANIFEST.lessons.filter(l => lessonPassed(l.file)).length;
+  L.push('# AI Security Threat Modeling Training — Annotations');
+  L.push('');
+  L.push('Exported ' + new Date().toISOString().slice(0, 10) + ' from /training.');
+  L.push('');
+  L.push('**Progress:** ' + done + ' of ' + total + ' lessons passed · ' + Math.round(done / total * 100) + '%');
+  L.push('');
+  MANIFEST.lessons.forEach((l, i) => {
+    const p = PROGRESS[l.file];
+    L.push('## ' + (i + 1) + '. ' + l.title + ' — ' + l.module + ' (' + l.level + ')');
+    L.push('- Status: ' + (p && p.passed ? '**passed**' : 'not passed') + (p && p.total ? ' · quiz ' + p.correct + '/' + p.total : ''));
+    L.push('');
+    const note = (NOTES[l.file] || '').trim();
+    if (note) L.push(note);
+    else L.push('_No annotations yet._');
+    L.push('');
+  });
+  return L.join('\n');
+}
+
+// ---- printable worksheet generator ----
+function wsTableHTML(head, rows, blanks) {
+  let h = '<table><thead><tr>' + head.map(c => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>';
+  rows.forEach(r => {
+    h += '<tr>' + r.map((c, i) => '<td' + (blanks && blanks.includes(i) ? ' class="blank"' : '') + '>' + c + '</td>').join('') + '</tr>';
+  });
+  return h + '</tbody></table>';
+}
+function wsDoc(title, sub, body, note) {
+  return '<h2>' + title + '</h2><p class="ws-sub">' + sub + '</p>' + body +
+    (note ? '<p class="ws-note">' + note + '</p>' : '');
+}
+const WS_DEFS = [
+  { id: 'stride', name: 'STRIDE-PIMT Worksheet', tags: 'Lesson 07', desc: 'Run S·T·R·I·D·E plus Poisoning, Injection, Misinformation and Theft against each component.', build: function () {
+    const rows = [
+      ['S', 'Spoofing', 'Forge a human/system identity in conversation; poisoned model posing as legit'],
+      ['T', 'Tampering', 'Modify conversation memory, retrieved context, or prompt templates'],
+      ['R', 'Repudiation', 'Non-deterministic outputs; "the agent did it"; poisoned trail'],
+      ['I', 'Info Disclosure', 'System prompts, chain-of-thought, training data or PII via normal-looking output'],
+      ['D', 'Denial of Service', 'Context-window flooding, token/cost exhaustion, runaway loops, retrieval storms'],
+      ['E', 'Elevation of Privilege', 'Excessive agency — reaching tools and permissions never intended'],
+      ['P', 'Poisoning', 'Training, fine-tuning or RAG index adversarially edited'],
+      ['I', 'Injection', 'Attacker text becomes instructions — direct or indirect'],
+      ['M', 'Misinformation', 'Overreliance on persuasive but invented output'],
+      ['T', 'Theft', 'Model extraction (AML.T0025) via legitimate queries']
+    ];
+    const body = '<p>For <strong>each component</strong> of your architecture, mark every letter that applies and note why:</p>' +
+      wsTableHTML(['Letter', 'Threat', 'AI augmentation (reference)', 'Example in YOUR system', 'Control at the path'], rows.map(r => [r[0], r[1], r[2], '', '']), [3, 4]);
+    return wsDoc('STRIDE-PIMT Worksheet', 'Component analysis grid — used in Lesson 07', body, 'Fill one worksheet per pattern you model. Map each row onto the OWASP (LLM0x) and ATLAS (AML.T…) IDs your report cites.');
+  } },
+  { id: 'llm', name: 'OWASP LLM Top 10', tags: 'Lesson 05', desc: 'Match each of the ten LLM failure modes to a component and a concrete path in your stack.', build: function () {
+    const rows = [
+      ['LLM01', 'Prompt Injection', 'Direct attacker text or instructions hidden in retrieved content'],
+      ['LLM02', 'Sensitive Information Disclosure', 'Secrets, PII, training data, internal context'],
+      ['LLM03', 'Supply Chain', 'Tainted weights, poisoned fine-tuning, malicious packages'],
+      ['LLM04', 'Data & Model Poisoning', 'Control of training / indexing data to bias or backdoor'],
+      ['LLM05', 'Improper Output Handling', 'Model output trusted as code, SQL, shell, HTML'],
+      ['LLM06', 'Excessive Agency', 'More function/permission/autonomy than needed'],
+      ['LLM07', 'System Prompt Leakage', 'Secrets and chain-of-thought extracted'],
+      ['LLM08', 'Vector & Embedding Weaknesses', 'Retrieval manipulated before the model sees it'],
+      ['LLM09', 'Misinformation', 'Hallucinations, outdated knowledge, fabricated citations'],
+      ['LLM10', 'Unbounded Consumption', 'Context flooding, runaway loops, cost spiral']
+    ];
+    const body = '<p>For each category, name a real path in your system (flows + components) and the root-cause component:</p>' +
+      wsTableHTML(['ID', 'Category', 'What it is (reference)', 'Where it bites YOUR stack', 'Root-cause component'], rows.map(r => [r[0], r[1], r[2], '', '']), [3, 4]);
+    return wsDoc('OWASP LLM Top 10', 'Threat prompt list — used in Lesson 05', body, 'Check the catalog in patterns/*.md: every row pairs LLM0x with an ATLAS technique. Use that pair in your report.');
+  } },
+  { id: 'atlas', name: 'ATLAS Attack-Chain', tags: 'Lesson 06', desc: 'Build a kill chain across tactics — persistence, access, execution, exfiltration — then a defense chain.', build: function () {
+    const rows = [
+      ['Persistence', 'Poisoning the index / store / memory so it fires later'],
+      ['Access', 'Reaching the API / model with valid-looking requests'],
+      ['Execution', 'Retrieved content hijacks the model; tools act'],
+      ['Exfiltration', 'Data or damage exits through normal model output']
+    ];
+    const body = '<p><strong>Chain:</strong> Reconnaissance → Resource Development → Initial Access → ML Model Access → Execution → Persistence → ML Attack Staging → Exfiltration → Impact.</p><p>Pick a scenario and assign one <code>AML.T…</code> card to each stage, then defend each step:</p>' +
+      wsTableHTML(['Tactic / stage', 'Why it matters (reference)', 'Your AML.T…', 'Your component', 'Defense control'], rows.map(r => [r[0], r[1], '', '', '']), [2, 3, 4]);
+    return wsDoc('ATLAS Attack-Chain Worksheet', 'Technique-grade kill chain — used in Lesson 06', body, 'Defend the chain UPSTREAM: kill persistence and access and the later stages cannot fire.');
+  } },
+  { id: 'components', name: 'Component Taxonomy', tags: 'Lesson 04', desc: 'Assign roles, exposure, privilege, and tamperability to every box on your diagram.', build: function () {
+    const rows = [
+      ['UI (client)', 'Browser / app / voice surface'],
+      ['Gateway', 'Auth, rate limit, routing, WAF'],
+      ['Guardrail (in/out)', 'Filters, detection, content policy'],
+      ['Orchestrator', 'Coordinates steps, calls tools/models'],
+      ['Model / LLM', 'Core intelligence (provider or self-hosted)'],
+      ['Embedding / auxiliary model', 'Text↔vectors; rerankers'],
+      ['Store / Vector DB / Memory', 'Knowledge base, chat history, state'],
+      ['Tool / Plugin', 'Function calling, APIs, shell, email, DB'],
+      ['ETL / Ingestion pipeline', 'Chunks documents into the store'],
+      ['Template / Config store', 'System prompts, few-shots'],
+      ['HITL / Monitor', 'Human-in-the-loop, logging, observability']
+    ];
+    const body = '<p>Assign every box on your diagram a role, then rank exposure / privilege / tamperability:</p>' +
+      wsTableHTML(['Component type', 'Its job (reference)', 'Your instance', 'Exposure (1-5)', 'Privilege (1-5)', 'Tamperability (1-5)'], rows.map(r => [r[0], r[1], '', '', '', '']), [2, 3, 4, 5]);
+    return wsDoc('Component Taxonomy Sheet', 'Role assignment grid — used in Lesson 04', body, 'Run the blame test from Lesson 04: for each high component, can you list the attack path and who owns the fix?');
+  } }
+];
+function activateWorksheet(id) {
+  const d = WS_DEFS.find(x => x.id === id);
+  if (!d) return;
+  document.getElementById('wsSheet').innerHTML = d.build();
+  document.getElementById('wsSheetWrap').hidden = false;
+  document.getElementById('wsActions').hidden = false;
+  document.getElementById('wsHint').textContent = 'Open worksheet: ' + d.name;
+}
+function sheetToMarkdown(id) {
+  const d = WS_DEFS.find(x => x.id === id);
+  if (!d) return '';
+  const tmp = document.createElement('div');
+  tmp.innerHTML = d.build();
+  const h2 = tmp.querySelector('h2');
+  const body = [];
+  if (h2) body.push('# ' + h2.textContent);
+  tmp.querySelectorAll('p').forEach(p => {
+    const t = p.textContent.trim();
+    if (t) body.push('');
+    if (t) body.push(t);
+  });
+  const table = tmp.querySelector('table');
+  if (table) {
+    const lines = [];
+    table.querySelectorAll('tr').forEach(tr => {
+      const cells = [...tr.querySelectorAll('th,td')].map(c => c.textContent.trim().replace(/\s+/g, ' ').replace(/\|/g, '\\|'));
+      lines.push('| ' + cells.join(' | ') + ' |');
+    });
+    const n = [...table.querySelectorAll('tr')][0].querySelectorAll('th,td').length;
+    lines.splice(1, 0, '| ' + Array(n).fill('---').join(' | ') + ' |');
+    body.push('');
+    body.push(lines.join('\n'));
+  }
+  const note = tmp.querySelector('.ws-note');
+  if (note) { body.push(''); body.push('_Note:_ ' + note.textContent.trim()); }
+  body.push('');
+  body.push('Source: /training — AI Security Threat Modeling');
+  return body.join('\n');
+}
+function initWorksheets() {
+  const modal = document.getElementById('wsModal');
+  const grid = document.getElementById('wsGrid');
+  grid.innerHTML = WS_DEFS.map(d =>
+    '<div class="ws-card" data-ws="' + d.id + '" role="button" tabindex="0"><h3>' + d.name + '</h3><p>' + d.desc + '</p><div class="ws-tags">' + d.tags + '</div></div>').join('');
+  grid.querySelectorAll('.ws-card').forEach(c => c.addEventListener('click', () => activateWorksheet(c.dataset.ws)));
+  document.getElementById('wsBtn').addEventListener('click', () => { modal.hidden = false; });
+  document.getElementById('wsClose').addEventListener('click', () => { modal.hidden = true; });
+  modal.addEventListener('click', e => { if (e.target === modal) modal.hidden = true; });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.hidden = true; });
+  document.getElementById('wsPrint').addEventListener('click', () => window.print());
+  document.getElementById('wsDownload').addEventListener('click', () => {
+    const active = WS_DEFS.find(d => document.getElementById('wsHint').textContent.indexOf(d.name) !== -1);
+    if (active) downloadText('worksheet-' + active.id + '.md', sheetToMarkdown(active.id));
+  });
+  document.getElementById('exportBtn').addEventListener('click', () => downloadText('threat-modeling-training-annotations.md', buildExport()));
+}
+
 function parseFrontmatter(raw) {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   const meta = {};
@@ -556,6 +859,13 @@ function parseFrontmatter(raw) {
 function boot() {
   initNavWidth();
   renderSidebar();
+  initWorksheets();
+  const icon = document.querySelector('link[rel="icon"]');
+  if (icon) icon.href = BASE + '/static/logo.ico';
+  const hdrImg = document.querySelector('header img');
+  if (hdrImg && hdrImg.src.indexOf('/static/logo.ico') !== -1) hdrImg.src = BASE + '/static/logo.ico';
+  const home = document.querySelector('header .home');
+  if (home) home.href = BASE + '/';
   const h = (location.hash || '').replace(/^#\//, '');
   const match = MANIFEST.lessons.find(l => l.file === h);
   if (match) {

@@ -1,0 +1,13 @@
+flowchart LR
+  UI["UI / client"] --> GW["Gateway"]
+  GW --> GI["Input guardrails"]
+  GI --> OR["Orchestrator"]
+  OR --> MO["Model / LLM"]
+  OR --> ST["Stores · Vector DB<br/>· Conversation Memory"]
+  OR --> TO["Tools / Plugins<br/>(execute actions)"]
+  OR --> HI["HITL / Monitor"]
+  MO --> OG["Output guardrails"]
+  OG --> CON["Downstream consumers / user"]
+  style OR stroke:#7C3AED,stroke-width:3px
+  style MO fill:#efe9f7,stroke:#7C3AED,stroke-width:2px
+  style TO fill:#fff4d6,stroke:#8a5a00,stroke-width:2px

@@ -1,0 +1,12 @@
+flowchart LR
+  SRC["Untrusted input"] --> V1["Input validation<br/>@ EDGE"]
+  V1 --> V2["Context sanitization<br/>@ orchestrator"]
+  V2 --> M["Model / LLM"]
+  M --> O1["Output validation<br/>@ guardrails"]
+  O1 --> O2["Input validation<br/>@ every downstream consumer"]
+  O2 --> ACT["Final action / store"]
+  style V1 stroke:#1f5cbf,stroke-width:3px
+  style V2 stroke:#1f5cbf,stroke-width:3px
+  style O1 stroke:#1f5cbf,stroke-width:3px
+  style O2 stroke:#1f5cbf,stroke-width:3px
+  style M fill:#efe9f7,stroke:#7C3AED,stroke-width:2px

@@ -1,0 +1,22 @@
+flowchart LR
+  subgraph UNTRUSTED
+    U["User / client<br/>(hostile by default)"]
+  end
+  subgraph EDGE
+    G["API Gateway<br/>auth · rate limit · WAF"]
+  end
+  subgraph INTERNAL
+    O["Orchestrator / core services"]
+    S["Stores · Vector DB · Memory"]
+  end
+  subgraph EXTERNAL
+    L["LLM Provider<br/>(trust by contract)"]
+  end
+  U -->|"user query<br/>UNTRUSTED → EDGE"| G
+  G -->|"validated<br/>EDGE → INTERNAL"| O
+  O <-->|"DF-07 · augmented prompt<br/>INTERNAL → EXTERNAL"| L
+  O --- S
+  style UNTRUSTED fill:#fdecea,stroke:#b3261e
+  style EDGE fill:#fff4d6,stroke:#8a5a00
+  style INTERNAL fill:#e8f0fe,stroke:#1f5cbf
+  style EXTERNAL fill:#efe9f7,stroke:#7C3AED

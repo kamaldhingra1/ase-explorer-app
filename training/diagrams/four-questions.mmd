@@ -1,0 +1,9 @@
+flowchart TB
+  Q1["Q1 · What are we working on?<br/>scope + map + boundaries"]
+  Q2["Q2 · What can go wrong?<br/>concrete threats"]
+  Q3["Q3 · What are we going to do about it?<br/>decisions + owners"]
+  Q4["Q4 · Did we do a good job?<br/>review + relearn"]
+  Q1 --> Q2 --> Q3 --> Q4
+  Q4 -->|"loop"| Q1
+  style Q2 fill:#fdecea,stroke:#b3261e,stroke-width:2px
+  style Q3 fill:#e8f0fe,stroke:#1f5cbf,stroke-width:2px

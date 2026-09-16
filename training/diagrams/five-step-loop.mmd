@@ -1,0 +1,9 @@
+flowchart LR
+  A["1 · Scope<br/>what are we protecting?"]
+  B["2 · Model<br/>components / flows / boundaries"]
+  C["3 · Identify threats<br/>what can go wrong?"]
+  D["4 · Rate risk<br/>impact × likelihood"]
+  E["5 · Mitigate<br/>enforce in architecture"]
+  A --> B --> C --> D --> E
+  E -->|"change → revisit"| B
+  style E stroke:#8B5CF6,stroke-width:3px

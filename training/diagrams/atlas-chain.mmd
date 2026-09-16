@@ -1,0 +1,10 @@
+flowchart LR
+  R["Reconnaissance"] --> RD["Resource Dev."]
+  RD --> IA["Initial Access"]
+  IA --> MA["ML Model Access"]
+  MA --> EX["Execution"]
+  EX --> PE["Persistence<br/>(poison the store)"]
+  PE --> AS["Attack Staging"]
+  AS --> EF["Exfiltration"]
+  EF --> IM["Impact"]
+  style PE fill:#fdecea,stroke:#b3261e,stroke-width:2px

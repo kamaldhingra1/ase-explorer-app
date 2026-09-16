@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Threat Modeling Training — Danaher</title>
+<link rel="icon" href="/assets/brand/ase-favicon-64.png">
+<style>
+  :root { --main:#8B5CF6; --main-dark:#7C3AED; --main-tint:#f3f0ff; --ink:#1e1b2e; --muted:#5b5b6e; --line:#e0d8f6; --bg:#f8f7fc; --ok:#116b2f; --okbg:#e3f7e8; --planned:#7a5c00; --plannedbg:#fff2cc; }
+  * { box-sizing:border-box; }
+  body { font:15px/1.6 system-ui, Segoe UI, Arial, sans-serif; color:var(--ink); background:var(--bg); margin:0; }
+  header { display:flex; align-items:center; gap:14px; padding:16px 24px; border-bottom:3px solid var(--main); background:#fff; position:sticky; top:0; z-index:5; }
+  header img { height:32px; width:32px; }
+  header h1 { font-size:18px; margin:0; }
+  header .sub { color:var(--muted); font-size:12.5px; }
+  header .home { margin-left:auto; font-size:13px; font-weight:600; color:var(--main); text-decoration:none; }
+  header .home:hover { text-decoration:underline; }
+.layout { display:flex; align-items:flex-start; }
+  aside { width:var(--nav-w, 240px); flex:0 0 var(--nav-w, 240px); padding:18px 12px 40px; position:sticky; top:70px; max-height:calc(100vh - 90px); overflow-y:auto; }
+  aside .module { font-size:11.5px; font-weight:800; color:var(--main-dark); text-transform:uppercase; letter-spacing:0.5px; margin:16px 0 5px; }
+  aside .module:first-child { margin-top:0; }
+  aside a.lesson { display:flex; align-items:center; gap:6px; padding:6px 8px; border-radius:7px; color:var(--ink); text-decoration:none; font-size:13px; border:1px solid transparent; }
+  aside a.lesson:hover { background:var(--main-tint); border-color:var(--line); }
+  aside a.lesson.active { background:var(--main-tint); border-color:var(--main); font-weight:600; }
+  aside .badge { margin-left:auto; font-size:10px; font-weight:700; padding:1px 6px; border-radius:10px; white-space:nowrap; }
+  .side-foot { padding:10px 8px 0; margin-top:14px; border-top:1px solid var(--line); font-size:11.5px; color:var(--muted); }
+  main { flex:1; min-width:0; padding:26px 28px 80px; }
+  .resizer { flex:0 0 8px; width:8px; cursor:col-resize; align-self:stretch; position:relative; z-index:4; background:transparent; }
+  .resizer:hover, .resizer.active { background:var(--main); }
+  .doc { background:#fff; border:1px solid var(--line); border-radius:12px; padding:28px 34px; max-width:1080px; margin:0 auto; }
+  .toggle { cursor:pointer; font-family:inherit; font-size:13px; font-weight:700; color:var(--main-dark); background:var(--main-tint); border:1px solid var(--main); border-radius:8px; padding:6px 12px; margin:0 12px 0 0; }
+  .toggle:hover { background:#fff; }
+  body.nav-hidden aside { display:none; }
+  body.nav-hidden .resizer { display:none; }
+  .doc h1 { font-size:26px; margin:0 0 6px; color:var(--main-dark); }
+  .meta { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px; font-size:12.5px; color:var(--muted); }
+  .meta span { background:var(--main-tint); border:1px solid var(--line); padding:3px 10px; border-radius:12px; }
+  .doc h2 { font-size:19px; border-bottom:1px solid var(--line); padding-bottom:6px; margin:34px 0 12px; color:var(--main-dark); }
+  .doc h3 { font-size:16px; margin:24px 0 8px; }
+  .doc h4 { font-size:14.5px; margin:18px 0 6px; }
+  .doc p { margin:10px 0; }
+  .doc ul, .doc ol { margin:10px 0; padding-left:24px; }
+  .doc li { margin:4px 0; }
+  .doc a { color:var(--main-dark); }
+  .doc blockquote { margin:14px 0; padding:12px 18px; background:var(--main-tint); border-left:4px solid var(--main); border-radius:0 8px 8px 0; }
+  .doc blockquote p { margin:6px 0; }
+  .doc code { background:var(--main-tint); padding:2px 6px; border-radius:5px; font-size:13px; }
+  .doc pre { background:#221c33; color:#e9e4f7; padding:14px 16px; border-radius:9px; overflow-x:auto; font-size:13px; line-height:1.5; }
+  .doc pre code { background:none; color:inherit; padding:0; }
+  .doc table { border-collapse:collapse; width:100%; margin:14px 0; font-size:13.5px; }
+  .doc th, .doc td { border:1px solid var(--line); padding:8px 12px; text-align:left; vertical-align:top; }
+  .doc th { background:var(--main-tint); color:var(--main-dark); }
+  .doc img { display:block; max-width:100%; margin:12px auto; border:1px solid var(--line); border-radius:8px; }
+  .doc hr { border:none; border-top:2px solid var(--line); margin:26px 0; }
+  .callout { border:1px solid var(--main); background:var(--main-tint); border-radius:8px; padding:12px 16px; margin:14px 0; }
+  .callout strong:first-child { color:var(--main-dark); }
+  .exercise { border:1px solid var(--ok); background:var(--okbg); border-radius:8px; padding:12px 16px; margin:14px 0; }
+  .exercise strong:first-child { color:var(--ok); }
+  .risk { border:1px solid #b3261e; background:#fdecea; border-radius:8px; padding:12px 16px; margin:14px 0; }
+  .risk strong:first-child { color:#b3261e; }
+  .fix { border:1px solid #1f5cbf; background:#e8f0fe; border-radius:8px; padding:12px 16px; margin:14px 0; }
+  .fix strong:first-child { color:#1f5cbf; }
+  .risk ul, .risk ol, .fix ul, .fix ol { margin:8px 0 4px 20px; }
+  .hprog { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--main-dark); }
+  .prog-track { width:130px; height:9px; background:var(--main-tint); border:1px solid var(--line); border-radius:7px; overflow:hidden; flex:0 0 auto; }
+  .prog-fill { height:100%; width:0%; background:var(--main); border-radius:7px; transition:width .3s ease; }
+  .side-prog { margin:16px 8px 6px; }
+  .side-prog .prog-track { width:auto; height:11px; }
+  .side-stats { padding:0 8px; font-size:12px; font-weight:700; color:var(--main-dark); }
+  .s-done { color:var(--ok); font-weight:800; flex:0 0 auto; }
+  aside a.lesson.done span.title-done { text-decoration:none; }
+  aside a.lesson.done .s-done + span {}
+  .docnav { display:flex; align-items:center; gap:12px; margin-top:38px; padding-top:18px; border-top:1px solid var(--line); }
+  .navbtn { font-family:inherit; font-size:13px; font-weight:600; padding:8px 14px; border:1px solid var(--main); border-radius:8px; background:var(--main-tint); color:var(--main-dark); cursor:pointer; }
+  .navbtn:hover:not(:disabled) { background:#fff; }
+  .navbtn:disabled { opacity:.45; cursor:default; }
+  .navpos { margin:0 auto; font-size:12.5px; color:var(--muted); font-weight:700; white-space:nowrap; }
+  .quiz { border:1px solid var(--ok); background:#fbfefb; border-radius:8px; padding:14px 18px; margin:16px 0; }
+  .quiz-intro { font-size:13.5px; color:var(--muted); }
+  .quiz-q { margin:14px 0 4px; }
+  .quiz-qt { font-weight:600; margin:0 0 6px; }
+  .quiz-opt { display:flex; gap:8px; align-items:flex-start; margin:3px 0; padding:4px 8px; border-radius:6px; cursor:pointer; }
+  .quiz-opt.correct { background:var(--okbg); }
+  .quiz-opt.wrong { background:#fdecea; }
+  .quiz-check, .quiz-retake { font-family:inherit; font-size:13px; font-weight:700; padding:7px 14px; border-radius:8px; cursor:pointer; border:1px solid var(--ok); margin-top:12px; }
+  .quiz-check { background:var(--ok); color:#fff; }
+  .quiz-retake { background:#fff; color:var(--ok); }
+  .quiz-result { margin-top:10px; padding:8px 12px; border-radius:8px; font-weight:600; font-size:13.5px; }
+  .quiz-result.ok { background:var(--okbg); color:var(--ok); }
+  .quiz-result.bad { background:#fdecea; color:#b3261e; }
+  .spoiler-btn { font-family:inherit; font-size:13px; font-weight:700; padding:7px 14px; border-radius:8px; cursor:pointer; border:1px solid #1f5cbf; background:#1f5cbf; color:#fff; margin:2px 0 10px; }
+  .spoiler-btn:hover { background:#14428a; }
+  footer { color:var(--muted); font-size:12px; text-align:center; margin:26px 0 40px; }
+  @media (max-width:900px) { .layout { flex-direction:column; } aside { width:100%; flex-basis:auto; position:static; max-height:none; border-bottom:1px solid var(--line); } .resizer { display:none; } .doc { padding:22px 18px; } }
+</style>
+</head>
+<body>
+<header>
+  <img src="/assets/brand/ase-favicon-64.png" alt="logo">
+  <div>
+    <h1>AI Security Threat Modeling Training</h1>
+    <div class="sub">Hands-on: explain · play · generate real threats, risks and mitigations</div>
+  </div>
+  <button id="sideToggle" class="toggle" title="Toggle lesson list">◂ Lessons</button>
+  <div class="hprog" title="Lessons completed"><span id="hPct">0%</span><div class="prog-track"><div class="prog-fill" id="hFill"></div></div></div>
+  <a class="home" href="/">← Threat Modeler app</a>
+</header>
+<div class="layout">
+  <aside id="sidebar">
+    <div id="sideList"></div>
+    <div class="side-foot" id="sideFoot"></div>
+  </aside>
+  <div class="resizer" id="resizer" title="Drag to resize"></div>
+  <main>
+    <div class="doc" id="doc"><h1>Pick a lesson</h1><p>Select a lesson from the left. Each lesson pairs a short explainer with a hands-on exercise that uses the sample architecture diagrams and the threat modeler tool.</p></div>
+    <footer>For training purposes only — always review model findings before acting.</footer>
+  </main>
+</div>
+
+<script>
+const MANIFEST = {
+  "lessons": [
+    { "file": "lessons/01-threat-modelling-primer.md", "title": "Threat Modeling Primer", "module": "Foundations", "minutes": 45, "level": "Beginner", "status": "complete" },
+    { "file": "lessons/02-four-questions.md", "title": "The Four Questions", "module": "Foundations", "minutes": 35, "level": "Beginner", "status": "complete" },
+    { "file": "lessons/03-trust-zones-and-data-flows.md", "title": "Trust Zones & Data Flows", "module": "Foundations", "minutes": 40, "level": "Beginner", "status": "complete" },
+    { "file": "lessons/04-ai-components-and-attack-surface.md", "title": "AI Components & Attack Surface", "module": "Foundations", "minutes": 40, "level": "Beginner", "status": "complete" },
+    { "file": "lessons/05-owasp-llm-top10.md", "title": "OWASP LLM Top 10", "module": "Foundations", "minutes": 50, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/06-mitre-atlas.md", "title": "MITRE ATLAS", "module": "Foundations", "minutes": 40, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/07-ai-stride.md", "title": "AI-Augmented STRIDE", "module": "Foundations", "minutes": 50, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/08-mitigations-and-controls.md", "title": "Mitigations & Controls for AI", "module": "Foundations", "minutes": 45, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/09-rag-genai.md", "title": "Deep Dive: RAG GenAI", "module": "Pattern Deep Dives", "minutes": 45, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/10-single-agent.md", "title": "Deep Dive: Single Agent", "module": "Pattern Deep Dives", "minutes": 45, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/11-multi-agent.md", "title": "Deep Dive: Multi-Agent", "module": "Pattern Deep Dives", "minutes": 45, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/12-autonomous-agent.md", "title": "Deep Dive: Autonomous Agent", "module": "Pattern Deep Dives", "minutes": 50, "level": "Advanced", "status": "complete" },
+    { "file": "lessons/13-writing-the-threat-report.md", "title": "Writing the Threat Report", "module": "Wrap-Up", "minutes": 35, "level": "Beginner", "status": "complete" },
+    { "file": "lessons/14-governance-and-handoff.md", "title": "Governance & Handoff", "module": "Wrap-Up", "minutes": 30, "level": "Intermediate", "status": "complete" }
+  ]
+};
+
+const $ = (id) => document.getElementById(id);
+
+// ---- progress tracking (localStorage) ----
+const PROG_KEY = 'tm-progress';
+let PROGRESS = {};
+try { PROGRESS = JSON.parse(localStorage.getItem(PROG_KEY)) || {}; } catch (e) {}
+function saveProgress() { try { localStorage.setItem(PROG_KEY, JSON.stringify(PROGRESS)); } catch (e) {} }
+function lessonPassed(file) { const p = PROGRESS[file]; return !!(p && p.passed); }
+function lessonRevealed(file) { const p = PROGRESS[file]; return !!(p && p.revealed); }
+function idxOf(file) { return MANIFEST.lessons.findIndex(l => l.file === file); }
+let QUIZ_SEQ = 0;
+
+// ---- minimal markdown renderer (offline, no dependencies) ----
+function inline(s) {
+  let t = s
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/!\[([^\]]*)\]\(([^)"']+)\)/g, '<img alt="$1" src="$2">')
+    .replace(/\[([^\]]+)\]\(([^)"']+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\n]+)\*(?=[^*\n]|$)/g, '$1<em>$2</em>');
+  return t;
+}
+
+function mdToHtml(src, opts) {
+  opts = opts || {};
+  const lines = src.replace(/^\uFEFF/, '').split(/\r?\n/);
+  let html = '', i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+
+    if (/^```/.test(line)) {
+      const buf = [];
+      i++;
+      while (i < lines.length && !/^```/.test(lines[i])) { buf.push(lines[i]); i++; }
+      i++;
+      html += '<pre><code>' + buf.join('\n') + '</code></pre>';
+      continue;
+    }
+    if (/^\s*#+\s+/.test(line)) {
+      const m = line.match(/^(#{1,6})\s+(.*)$/);
+      const h = m[1].length;
+      html += `<h${h}>` + inline(m[2]) + `</h${h}>`;
+      i++;
+      continue;
+    }
+    if (/^\s*(?:[-*])\s+/.test(line)) {
+      const buf = [];
+      while (i < lines.length && /^\s*(?:[-*])\s+/.test(lines[i])) { buf.push('<li>' + inline(lines[i].replace(/^\s*[-*]\s+/, '')) + '</li>'); i++; }
+      html += '<ul>' + buf.join('') + '</ul>';
+      continue;
+    }
+    if (/^\s*\d+\.\s+/.test(line)) {
+      const buf = [];
+      while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) { buf.push('<li>' + inline(lines[i].replace(/^\s*\d+\.\s+/, '')) + '</li>'); i++; }
+      html += '<ol>' + buf.join('') + '</ol>';
+      continue;
+    }
+    if (/^\s*>\s?/.test(line)) {
+      const rawLines = [];
+      while (i < lines.length && /^\s*>\s?/.test(lines[i])) {
+        rawLines.push(lines[i].replace(/^\s*>\s?/, ''));
+        i++;
+      }
+      const blocks = [];
+      let cur = [];
+      for (const l of rawLines) {
+        if (/^\[!(callout|exercise|risk|fix)\]/i.test(l)) {
+          if (cur.length) blocks.push(cur);
+          cur = [l];
+        } else {
+          cur.push(l);
+        }
+      }
+      if (cur.length) blocks.push(cur);
+      const HTML_BLOCKS = [];
+      for (let b of blocks) {
+        let cls = null;
+        const tag = b[0].match(/^\[!(\w+)\]\s*(.*)$/);
+        if (tag && ['callout', 'exercise', 'risk', 'fix', 'quiz'].includes(tag[1].toLowerCase())) {
+          cls = tag[1].toLowerCase();
+          b[0] = tag[2];
+          if (b[0] === '') b = b.slice(1);
+        }
+        let block = '', inList = false;
+        for (const l of b) {
+          if (l.trim() === '') { if (inList) { block += '</ul>'; inList = false; } continue; }
+          if (/^\s*[-*]\s+/.test(l)) {
+            if (!inList) { block += '<ul>'; inList = true; }
+            block += '<li>' + inline(l.replace(/^\s*[-*]\s+/, '')) + '</li>';
+            continue;
+          }
+          if (inList) { block += '</ul>'; inList = false; }
+          block += '<p>' + inline(l) + '</p>';
+        }
+        if (inList) block += '</ul>';
+        if (cls === 'quiz') {
+          HTML_BLOCKS.push(renderQuiz(b));
+        } else if (cls === 'fix' && opts.spoiler) {
+          HTML_BLOCKS.push('<div class="fix"><button type="button" class="spoiler-btn">Reveal mitigations — answer key</button><div class="spoiler-body" hidden>' + block + '</div></div>');
+        } else {
+          HTML_BLOCKS.push(cls ? `<div class="${cls}">${block}</div>` : '<blockquote>' + block + '</blockquote>');
+        }
+      }
+      html += HTML_BLOCKS.join('');
+      continue;
+    }
+    if (line.includes('|') && i + 1 < lines.length && /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i + 1]) && lines[i + 1].includes('-')) {
+      const heads = line.split('|').map(c => c.trim()).filter((c, idx, arr) => !(idx === 0 && c === '') && !(idx === arr.length - 1 && c === ''));
+      i += 2;
+      const rows = [];
+      while (i < lines.length && lines[i].includes('|')) {
+        const cells = lines[i].split('|').map(c => c.trim()).filter((c, idx, arr) => !(idx === 0 && c === '') && !(idx === arr.length - 1 && c === ''));
+        rows.push('<tr>' + cells.map(c => '<td>' + inline(c) + '</td>').join('') + '</tr>');
+        i++;
+      }
+      html += '<table><thead><tr>' + heads.map(h => '<th>' + inline(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>';
+      continue;
+    }
+    if (/^\s*---+\s*$/.test(line)) { html += '<hr>'; i++; continue; }
+    if (/^\s*$/.test(line)) { i++; continue; }
+
+    const buf = [line];
+    i++;
+    while (i < lines.length && lines[i].trim() !== '' && !/^```/.test(lines[i]) &&
+           !/^[\s]*(?:#{1,6}|[-*]|\d+\.|>) /.test(lines[i]) && !lines[i].includes('|') ) {
+      buf.push(lines[i]); i++;
+    }
+    html += '<p>' + inline(buf.join(' ')) + '</p>';
+  }
+  return html;
+}
+
+function stripFrontmatter(src) {
+  const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!m) return src;
+  return src.slice(m[0].length);
+}
+
+function renderQuiz(lines) {
+  const qi = QUIZ_SEQ++;
+  const questions = [];
+  let cur = null;
+  let intro = '';
+  for (const raw of lines) {
+    const l = raw.trim();
+    if (!l) continue;
+    let m;
+    if ((m = l.match(/^(\d+)\.\s+(.+)$/))) { cur = { text: inline(m[2]), opts: [], ans: '' }; questions.push(cur); continue; }
+    if (cur && (m = l.match(/^[-*]\s+([A-Za-z0-9])\)\s*(.*)$/))) { cur.opts.push([m[1], m[2]]); continue; }
+    if (cur && (m = l.match(/^Answer:\s*([A-Za-z0-9]+)$/i))) { cur.ans = m[1].toUpperCase(); continue; }
+    intro += '<p class="quiz-intro">' + inline(l) + '</p>';
+  }
+  let html = '<div class="quiz">' + intro;
+  questions.forEach((q, i) => {
+    const name = 'tq' + qi + '_' + i;
+    html += '<div class="quiz-q" data-ans="' + q.ans + '">';
+    html += '<p class="quiz-qt"><strong>' + (i + 1) + '.</strong> ' + q.text + '</p>';
+    q.opts.forEach(o => {
+      html += '<label class="quiz-opt"><input type="radio" name="' + name + '" value="' + o[0] + '"><span>' + o[0] + ') ' + inline(o[1]) + '</span></label>';
+    });
+    html += '</div>';
+  });
+  html += '<button type="button" class="quiz-check">Check your answers</button>' +
+          '<div class="quiz-result" hidden></div>' +
+          '<button type="button" class="quiz-retake" hidden>Retake</button></div>';
+  return html;
+}
+
+function stripLeadH1(src) {
+  const m = src.match(/^\s*#[^\n]*\n?/);
+  return m ? src.slice(m[0].length) : src;
+}
+
+function renderSidebar() {
+  const groups = {};
+  for (const l of MANIFEST.lessons) {
+    (groups[l.module] = groups[l.module] || []).push(l);
+  }
+  let html = '';
+  const allComplete = MANIFEST.lessons.every(l => l.status === 'complete');
+  for (const [mod, lessons] of Object.entries(groups)) {
+    html += `<div class="module">${mod}</div>`;
+    for (const l of lessons) {
+      const done = lessonPassed(l.file);
+      html += `<a class="lesson ${done ? 'done' : ''}" data-file="${l.file}" href="#">`;
+      if (done) html += `<span class="s-done">✓</span>`;
+      html += `<span>${l.title}</span>`;
+      if (l.minutes) html += `<span class="badge minutes">${l.minutes}m</span>`;
+      if (!allComplete) html += `<span class="badge ${l.status}">${l.status === 'complete' ? 'ready' : 'planned'}</span>`;
+      html += `</a>`;
+    }
+  }
+  $('sideList').innerHTML = html;
+  $('sideList').querySelectorAll('a.lesson').forEach(a => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    setActiveLesson(a.dataset.file);
+    loadLesson(a.dataset.file);
+  }));
+  $('sideFoot').innerHTML =
+    '<div class="side-prog"><div class="prog-track"><div class="prog-fill" id="pFill"></div></div></div>' +
+    '<div class="side-stats" id="sideStats"></div>';
+  updateProgressUI();
+}
+
+function setActiveLesson(file) {
+  $('sideList').querySelectorAll('a.lesson').forEach(x => x.classList.toggle('active', x.dataset.file === file));
+}
+
+function updateProgressUI() {
+  const total = MANIFEST.lessons.length;
+  const done = MANIFEST.lessons.filter(l => lessonPassed(l.file)).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const fill = $('pFill'); if (fill) fill.style.width = pct + '%';
+  const stats = $('sideStats'); if (stats) stats.textContent = `${done} of ${total} lessons · ${pct}%`;
+  const hf = $('hFill'); if (hf) hf.style.width = pct + '%';
+  const hp = $('hPct'); if (hp) hp.textContent = pct + '%';
+}
+
+// ---- drag-to-resize sidebar ----
+const NAV_MIN = 160, NAV_MAX = 480, NAV_STORE = 'tm-nav-w';
+function setNavWidth(w) {
+  document.documentElement.style.setProperty('--nav-w', Math.round(w) + 'px');
+  try { localStorage.setItem(NAV_STORE, Math.round(w)); } catch (e) {}
+}
+function getNavWidth() {
+  try {
+    const w = Number(localStorage.getItem(NAV_STORE));
+    if (w && w >= NAV_MIN && w <= NAV_MAX) return w;
+  } catch (e) {}
+  return null;
+}
+function initNavWidth() {
+  const w = getNavWidth();
+  if (w) setNavWidth(w);
+}
+const resizer = document.getElementById('resizer');
+function onResizeMove(e) {
+  const aside = document.getElementById('sidebar') || $('sidebar');
+  const w = e.clientX - aside.getBoundingClientRect().left;
+  setNavWidth(Math.min(Math.max(w, NAV_MIN), NAV_MAX));
+}
+function endResize() {
+  resizer.classList.remove('active');
+  document.body.style.cursor = '';
+  document.removeEventListener('mousemove', onResizeMove);
+  document.removeEventListener('mouseup', endResize);
+}
+resizer.addEventListener('mousedown', (e) => {
+  if (document.body.classList.contains('nav-hidden')) return;
+  e.preventDefault();
+  resizer.classList.add('active');
+  document.body.style.cursor = 'col-resize';
+  document.addEventListener('mousemove', onResizeMove);
+  document.addEventListener('mouseup', endResize);
+});
+
+const sideToggle = $('sideToggle');
+sideToggle.addEventListener('click', () => {
+  document.body.classList.toggle('nav-hidden');
+  sideToggle.textContent = document.body.classList.contains('nav-hidden') ? '▸ Lessons' : '◂ Lessons';
+  try { localStorage.setItem('tm-nav', document.body.classList.contains('nav-hidden') ? 'hidden' : 'shown'); } catch (e) {}
+});
+try {
+  if (localStorage.getItem('tm-nav') === 'hidden') {
+    document.body.classList.add('nav-hidden');
+    sideToggle.textContent = '▸ Lessons';
+  }
+} catch (e) {}
+
+function navHTML(idx) {
+  const t = MANIFEST.lessons.length;
+  const prev = idx > 0 ? MANIFEST.lessons[idx - 1] : null;
+  const next = idx < t - 1 ? MANIFEST.lessons[idx + 1] : null;
+  const marked = lessonPassed(MANIFEST.lessons[idx].file);
+  let btn = '<button type="button" class="navbtn" id="prevBtn"' + (prev ? '' : ' disabled') + '>← ' + (prev ? prev.title : '') + '</button>';
+  btn += '<span class="navpos">' + (idx + 1) + ' / ' + t + '</span>';
+  btn += '<button type="button" class="navbtn" id="markDone"' + (marked ? ' hidden' : '') + ' title="Mark this lesson complete without the quiz">✓ Mark complete</button>';
+  btn += '<button type="button" class="navbtn" id="nextBtn"' + (next ? '' : ' disabled') + '>' + (next ? next.title : '') + ' →</button>';
+  return '<div class="docnav">' + btn + '</div>';
+}
+
+async function loadLesson(file) {
+  const doc = $('doc');
+  const idx = idxOf(file);
+  doc.innerHTML = '<p>Loading lesson…</p>';
+  try {
+    const res = await fetch(file, { cache: 'no-store' });
+    if (!res.ok) throw new Error('not found');
+    const raw = await res.text();
+    const meta = parseFrontmatter(raw);
+    const body = stripFrontmatter(raw);
+    const hasQuiz = /\[!quiz\]/i.test(raw);
+    const fields = [meta.module, meta.level, meta.minutes ? meta.minutes + ' min' : ''];
+    if (!MANIFEST.lessons.every(l => l.status === 'complete')) fields.push(meta.status);
+    doc.innerHTML =
+      `<h1>${meta.title || ''}</h1>` +
+      `<div class="meta">${fields.filter(Boolean).map(v => `<span>${v}</span>`).join('')}</div>` +
+      mdToHtml(stripLeadH1(body), { spoiler: hasQuiz }) +
+      navHTML(idx);
+
+    const base = file.substring(0, file.lastIndexOf('/') + 1);
+    doc.querySelectorAll('img').forEach(img => {
+      const s = img.getAttribute('src');
+      if (s && !/^(https?:)?\/\//.test(s) && !s.startsWith('/') && !/^data:/.test(s)) img.src = base + s;
+    });
+    doc.querySelectorAll('a[href^="http"]').forEach(a => a.setAttribute('target', '_blank'));
+    setActiveLesson(file);
+    wireLessonControls(file);
+    location.hash = '#/' + file;
+    window.scrollTo({ top: 0 });
+  } catch (err) {
+    doc.innerHTML = '<h1>Lesson not found</h1><p>Could not load <code>' + file + '</code>.</p>';
+  }
+}
+
+function wireLessonControls(file) {
+  const doc = $('doc');
+  const openSpoilers = () => {
+    doc.querySelectorAll('.fix .spoiler-btn').forEach(b => { b.hidden = true; b.nextElementSibling.hidden = false; });
+  };
+  doc.querySelectorAll('.fix .spoiler-btn').forEach(btn => {
+    const body = btn.nextElementSibling;
+    if (lessonPassed(file) || lessonRevealed(file)) { btn.hidden = true; body.hidden = false; return; }
+    btn.addEventListener('click', () => {
+      PROGRESS[file] = PROGRESS[file] || {};
+      PROGRESS[file].revealed = true;
+      saveProgress();
+      btn.hidden = true; body.hidden = false;
+    });
+  });
+  const pb = document.getElementById('prevBtn');
+  if (pb) pb.addEventListener('click', () => goTo(idxOf(file) - 1));
+  const nb = document.getElementById('nextBtn');
+  if (nb) nb.addEventListener('click', () => goTo(idxOf(file) + 1));
+  const md = document.getElementById('markDone');
+  if (md) md.addEventListener('click', () => {
+    PROGRESS[file] = PROGRESS[file] || {};
+    PROGRESS[file].passed = true;
+    PROGRESS[file].revealed = true;
+    PROGRESS[file].ts = Date.now();
+    saveProgress();
+    openSpoilers();
+    renderSidebar();
+    loadLesson(file);
+  });
+
+  doc.querySelectorAll('.quiz').forEach(quiz => {
+    const check = quiz.querySelector('.quiz-check');
+    const retake = quiz.querySelector('.quiz-retake');
+    const result = quiz.querySelector('.quiz-result');
+    const qs = Array.from(quiz.querySelectorAll('.quiz-q'));
+    if (!check) return;
+    check.addEventListener('click', () => {
+      if (qs.some(q => !q.querySelector('input:checked'))) {
+        result.textContent = 'Answer every question before checking.';
+        result.className = 'quiz-result bad'; result.hidden = false;
+        return;
+      }
+      let correct = 0;
+      qs.forEach(q => {
+        const chosen = q.querySelector('input:checked').value;
+        const ok = chosen === q.dataset.ans;
+        if (ok) correct++;
+        q.querySelectorAll('.quiz-opt').forEach(lb => {
+          const inp = lb.querySelector('input');
+          lb.classList.add(inp.value === q.dataset.ans ? 'correct' : 'wrong');
+          inp.disabled = true;
+        });
+      });
+      const total = qs.length;
+      const passed = correct / total >= 0.5;
+      PROGRESS[file] = PROGRESS[file] || {};
+      PROGRESS[file].correct = correct;
+      PROGRESS[file].total = total;
+      PROGRESS[file].passed = passed;
+      PROGRESS[file].revealed = passed ? true : (PROGRESS[file].revealed || false);
+      PROGRESS[file].ts = Date.now();
+      saveProgress();
+      result.textContent = 'You got ' + correct + ' of ' + total + ' correct. ' +
+        (passed ? 'Lesson complete — mitigations unlocked below.' : 'Reviewed the lesson, then retake — the answer key stays locked.');
+      result.className = 'quiz-result ' + (passed ? 'ok' : 'bad');
+      result.hidden = false;
+      check.hidden = true;
+      retake.hidden = false;
+      if (passed) openSpoilers();
+      renderSidebar();
+    });
+    retake.addEventListener('click', () => {
+      qs.forEach(q => {
+        q.querySelectorAll('input').forEach(inp => { inp.checked = false; inp.disabled = false; });
+        q.querySelectorAll('.quiz-opt').forEach(lb => lb.classList.remove('correct', 'wrong'));
+      });
+      result.hidden = true; result.textContent = '';
+      check.hidden = false; retake.hidden = true;
+    });
+  });
+}
+
+function goTo(i) {
+  if (i < 0 || i >= MANIFEST.lessons.length) return;
+  loadLesson(MANIFEST.lessons[i].file);
+}
+
+function parseFrontmatter(raw) {
+  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  const meta = {};
+  if (m) {
+    for (const line of m[1].split(/\r?\n/)) {
+      const kv = line.match(/^([\w-]+):\s*(.*)$/);
+      if (kv) meta[kv[1].trim()] = kv[2].trim();
+    }
+  }
+  return meta;
+}
+
+function boot() {
+  initNavWidth();
+  renderSidebar();
+  const h = (location.hash || '').replace(/^#\//, '');
+  const match = MANIFEST.lessons.find(l => l.file === h);
+  if (match) {
+    const link = document.querySelector(`a.lesson[data-file="${match.file}"]`);
+    if (link) link.classList.add('active');
+    loadLesson(match.file);
+  }
+}
+
+boot();
+</script>
+</body>
+</html>

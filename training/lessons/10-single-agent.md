@@ -22,7 +22,7 @@ You inherit this surface the second you give a model a function call. Learn the 
 
 ## The anatomy (read the diagram)
 
-![Single Agent reference architecture](/samples/single-agent.png)
+![Single Agent reference architecture](images/single-agent.png)
 
 Three loops, not three strips:
 

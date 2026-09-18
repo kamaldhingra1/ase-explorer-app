@@ -22,7 +22,7 @@ The system already learned RAG's lesson (stored content is untrusted). Multi-age
 
 ## The anatomy (read the diagram)
 
-![Multi-Agent reference architecture](/samples/multi-agent.png)
+![Multi-Agent reference architecture](images/multi-agent.png)
 
 - **The delegation strip:** `User → Coordinator → Message Bus → Specialist A/B` (`DF-01…DF-04`) — where tasks and *context* travel between agents.
 - **The tool strip:** `Specialist A/B → Tool Set A/B → results back onto the bus` (`DF-05…DF-07`) — per-agent tools, per-agent trust.

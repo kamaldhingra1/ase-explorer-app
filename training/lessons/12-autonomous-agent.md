@@ -23,7 +23,7 @@ Unlike every earlier lesson, here the *default* is dangerous. You are not lookin
 
 ## The anatomy (read the diagram)
 
-![Autonomous Agent reference architecture](/samples/autonomous-agent.png)
+![Autonomous Agent reference architecture](images/autonomous-agent.png)
 
 - **The goal strip:** `User → Gateway → Goal Manager → Agent Core` (`DF-01…DF-03`) — where objectives and constraints enter.
 - **The plan-execute-observe loop:** `Agent Core → Planning → LLM → Agent Core → Tool Sandbox → External → observation back` (`DF-04…DF-13`) — runs unattended, iterating on its own output.

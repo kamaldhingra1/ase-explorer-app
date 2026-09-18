@@ -22,7 +22,7 @@ Every RAG system you touch inherits this surface. Learn the catalog here once; y
 
 ## The anatomy (read the diagram)
 
-![RAG GenAI reference architecture](/images/rag-genai.png)
+![RAG GenAI reference architecture](../images/rag-genai.png)
 
 The pattern is three strips:
 

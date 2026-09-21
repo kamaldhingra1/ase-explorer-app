@@ -51,9 +51,9 @@ Three seams matter most:
 
 | Seam | Components | Why It Matters |
 |--------|--------|--------|
-| User ↔ Memory | Input becomes durable state |
-| Agent ↔ Memory | Reasoning writes future behavior |
-| Memory ↔ Agent | Stored information influences future reasoning |
+| User ↔ Memory | Input becomes durable state | -
+| Agent ↔ Memory | Reasoning writes future behavior | -
+| Memory ↔ Agent | Stored information influences future reasoning | -
 
 The most important question:
 

@@ -1,0 +1,29 @@
+flowchart LR
+
+User --> Gateway
+
+Gateway --> Agent
+
+Agent --> PolicyEngine
+
+PolicyEngine --> ToolBroker
+
+ToolBroker --> MCPServer
+
+MCPServer --> Email
+
+MCPServer --> CRM
+
+MCPServer --> ERP
+
+MCPServer --> ServiceNow
+
+ToolBroker --> Audit
+
+ToolBroker --> HITL
+
+style PolicyEngine fill:#fff2cc,stroke:#cc9900
+style ToolBroker fill:#d9ebff,stroke:#0066cc
+style MCPServer fill:#ffd9d9,stroke:#cc0000
+style Audit fill:#d5f5d5,stroke:#008000
+style HITL fill:#e6ccff,stroke:#8000cc

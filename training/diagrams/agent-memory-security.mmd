@@ -1,0 +1,21 @@
+flowchart LR
+
+User --> Agent
+
+Agent --> STM["Short-Term Memory"]
+
+STM --> LTM["Long-Term Memory"]
+
+LTM --> Agent
+
+External["External Content"]
+--> LTM
+
+Poison["Poisoned Data"]
+--> LTM
+
+LTM --> Future["Future Sessions"]
+
+style LTM fill:#ffd6cc,stroke:#cc0000
+style Poison fill:#ff9999,stroke:#cc0000
+style Future fill:#fff2cc

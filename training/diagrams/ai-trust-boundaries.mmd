@@ -1,0 +1,26 @@
+flowchart LR
+
+User --> Gateway
+
+Gateway --> Agent
+
+Agent --> Memory
+
+Agent --> Retriever
+
+Agent --> ToolBroker
+
+Agent --> LLMProvider
+
+ToolBroker --> ERP
+
+ToolBroker --> CRM
+
+classDef trust fill:#fff2cc,stroke:#b59b00,color:#000;
+
+class User trust
+class Memory trust
+class ToolBroker trust
+class LLMProvider trust
+class ERP trust
+class CRM trust

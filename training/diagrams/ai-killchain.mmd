@@ -1,0 +1,19 @@
+flowchart LR
+
+R[Reconnaissance]
+--> A[Initial Access]
+
+A --> E["Execution<br/>Prompt Injection"]
+
+E --> P["Persistence<br/>Memory / Vector DB / Shared State"]
+
+P --> X[Exfiltration]
+
+X --> I[Impact]
+
+classDef attack fill:#ffd9d9,stroke:#cc0000,color:#000;
+
+class E attack
+class P attack
+class X attack
+class I attack

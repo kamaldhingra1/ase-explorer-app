@@ -1,148 +1,507 @@
-# AI Security Threat Modeling Training — Course Plan
+# AI Security Threat Modeling Training
+# Enterprise Curriculum & Workshop Guide
 
-Hands-on curriculum that turns the AI Threat Modeler into a teaching tool: explain how
-AI systems work, play with the sample diagrams, and generate real threats, risks and
-mitigations to learn how to threat-model and secure AI systems.
+A hands-on curriculum that uses the AI Threat Modeler as a teaching tool.
 
-Course root: `training/` (served at `GET /training`). The training app is completely
-separate from the TM service — no changes to `app/`, `static/` or job behavior.
+Students learn how AI systems work, how to decompose architectures, identify threats, evaluate risks, design mitigations, validate controls, and communicate findings.
 
-## Learning model
+The curriculum is designed for:
 
-Each lesson follows the same **hands-on-first** loop:
+- Security Architects
+- Application Security Engineers
+- Cloud Security Engineers
+- Threat Modelers
+- AI Engineers
+- Platform Engineers
+- Governance, Risk & Compliance Teams
 
-1. **Try** — a short hands-on exercise using the sample diagrams (predict threats before
-   you read anything).
-2. **Learn** — a concise explainer (concepts, frameworks, real examples).
-3. **Play** — run the sample through the Threat Modeler and compare the report against
-   your predictions (reveal the "answer key").
-4. **Check** — checkpoint questions + a fill-in worksheet (paper or copy into the tool).
-5. **Apply** — modify the sample (add a component, remove a control) and re-run to see how
-   the findings change.
+The course combines:
 
-These map to the tool's existing assets: `samples/*.png` are the exercises,
-`patterns/*.md` pre-mapped catalogs are the answer keys.
+- Microsoft Threat Modeling principles
+- OWASP LLM Top 10
+- MITRE ATLAS
+- AI-Augmented STRIDE
+- AI Architecture Patterns
+- Agent Security
+- MCP Security
+- AI Red Teaming
 
-## Visuals and recurring callouts (throughout every lesson)
+---
 
-- **Concept diagrams** (`lessons/images/*.png`, sources in `diagrams/*.mmd`,
-  regenerate with `sh render-diagrams.sh` from the container): five-step loop (01),
-  four-questions cycle (02), trust zones/flows (03), component taxonomy (04),
-  ATLAS tactics chain (06), defense-in-depth layers (08). OWASP Top 10 (05) and
-  STRIDE (07) are intentionally table/worksheet-driven.
-- **`[!risk]` — "What can go wrong?"** boxes: named failure modes for the topic.
-- **`[!fix]` — "What can we do about it?"** boxes: architectural enforcement points.
-- Rendered by `training/index.html` (small offline markdown renderer; images resolve
-  relative to each lesson file).
+# Learning Model
 
-## Curriculum map (end-to-end)
+Every lesson follows the same loop:
 
-| # | Lesson | Module | Status | Core learning |
-|---|--------|--------|--------|---------------|
-| 01 | Threat Modeling Primer | Foundations | ✅ ready | What/why, the 5-step process, model types |
-| 02 | The Four Questions | Foundations | ✅ ready | Shostack's four: what are we working on / what can go wrong / what will we do / did we do a good job |
-| 03 | Trust Zones & Data Flows | Foundations | ✅ ready | Zones, boundaries, flows = attack surface |
-| 04 | AI Components & Attack Surface | Foundations | ✅ ready | Requester/service/LLM/tool/store/guardrail roles, AI-01…AI-16 inventory style |
-| 05 | OWASP LLM Top 10 | Foundations | ✅ ready | The 10 categories with AI examples + pattern mapping |
-| 06 | MITRE ATLAS | Foundations | ✅ ready | ATLAS matrix, key techniques, AML IDs used in reports |
-| 07 | AI-Augmented STRIDE | Foundations | ✅ ready | STRIDE + AI-specific threat kinds |
-| 08 | Mitigations & Controls for AI | Foundations | ✅ ready | Defense types, prompt-is-not-a-control principle |
-| 09 | Deep Dive: RAG GenAI | Pattern Deep Dives | ✅ ready | rag-genai catalog walk-through, exercise, report review |
-| 10 | Deep Dive: Single Agent | Pattern Deep Dives | ✅ ready | agency, tools, memory, HITL |
-| 11 | Deep Dive: Multi-Agent | Pattern Deep Dives | ✅ ready | inter-agent injection, collusion, shared state |
-| 12 | Deep Dive: Autonomous Agent | Pattern Deep Dives | ✅ ready | escalation, self-modification, kill switch |
-| 13 | Writing the Threat Report | Wrap-Up | ✅ ready | Evidence-based findings, risk ratings, mitigations |
-| 14 | Governance & Handoff | Wrap-Up | ✅ ready | PR/legal/compliance review, remediation owners |
+## Try
 
-## Per-lesson template
+Predict threats before reading.
 
-Every lesson `.md` uses frontmatter for the sidebar, then:
-`Why this matters` / `Core concepts` / `In the tool` (hands-on steps) / `Hands-on exercise`
-(predict-then-reveal + worksheet) / `Checkpoints` / `Key takeaways` / `Where to next`.
+## Learn
 
-## Foundation lessons — detail specs
+Understand concepts, frameworks, and attack patterns.
 
-- **01 Primer**: the 5-step loop (scope → model in components/flows → identify threats →
-  rate risk → plan mitigations); CIA + non-functional properties; why AI changes STRIDE.
-- **02 Four Questions**: Shostack's what-are-we-working-on / what-can-go-wrong /
-  what-will-we-do / did-we-do-a-good-job; Q1 is the map, frameworks feed Q2, Q3 is
-  decisions with owners, Q4 keeps the loop honest.
-- **03 Trust Zones**: UNTRUSTED / EDGE / INTERNAL / EXTERNAL zones (as used in the
-  reports' component inventories); how data flows cross boundaries; drawing boundaries
-  on a sample diagram before running the tool.
-- **04 Components**: role taxonomy (UI, gateway, guardrails, orchestrator, service,
-  model/lab, store, tool, HITL, monitor) and why component assignment drives findings;
-  introduces the AI-## inventory convention.
-- **05 OWASP LLM Top 10**: LLM01–LLM10 (prompt injection, sensitive information
-  disclosure, supply chain, DoS, insecure plugin design, excessive agency, insecure
-  output handling, training data poisoning, system prompt leakage, model theft /
-  overreliance nuance as of current OWASP edition); AI examples for each; which patterns
-  they commonly appear in.
-- **06 ATLAS**: matrix orientation; collects AML.T0051 variants (prompt
-  injection), T0054 (excessive agency / collusion / goal hijacking), T0020 (poisoning),
-  T0024 (exfiltration), T0010 (supply chain), T0043 (DoS), T0025 (model extraction);
-  shows how to read AML IDs out of a report.
-- **07 AI STRIDE**: classic STRIDE + AI-specific augments (non-determinism, hallucination,
-  prompt injection as spoofing or tampering, distillation attack, poisoning, model theft,
-  accountability/repudiation for model outputs); STRIDE worksheet per pattern.
-- **08 Mitigations**: isolation, validation, least privilege, monitoring, HITL, kill
-  switch; "prompt guardrails are not a control" — architectural enforcement; defense in
-  depth layered per component and trust boundary.
+## Play
 
-## Deep dives (09–12)
+Run the architecture through the Threat Modeler and compare findings.
 
-- **09 RAG**: catalog walk (indirect/direct injection, index poisoning, disclosure via
-  memory, supply chain, DoS, retrieval manipulation, overreliance, model extraction,
-  prompt leakage); the two flows (`DF-07` confidentiality line, `DF-12` backdoor).
-- **10 Single Agent**: tool registry right-sizing, observation sanitization, memory write
-  gating, Goal Manager as a fence, architecture-level `AI-11`.
-- **11 Multi-Agent**: message-bus auth, per-agent least privilege, shared-state isolation,
-  veto-capable coordinator, `AML.T0051.006`/`.007`/`.003`.
-- **12 Autonomous Agent**: the five non-negotiables (enforced envelope, bounded
-  reflection, independent HITL + kill switch, observation sanitization, fail-safe
-  defaults); `AML.T0054.004`–`.007`.
+## Check
 
-## Wrap-up (13–14)
+Validate understanding through exercises and quizzes.
 
-- **13 Report writing**: findings → evidence → impact/likelihood → risk rating → fix
-  owners; how to present to engineering vs leadership.
-- **14 Governance**: IR review, compliance crosswalk (EU AI Act, NIST AI RMF,
-  FDA/GxP for medical), SAR, incident response for AI, model cards/registry.
-- **Trainer guide**: session plans (90-min and half-day), slide outlines, printable
-  worksheets, answer keys, discussion prompts.
+## Apply
 
-## Next (product backlog, not yet built)
+Modify the pattern and observe how findings change.
 
-- Lesson authoring: simple frontmatter + markdown — no app changes needed.
+The objective is not memorization.
 
-> **Built:** Quiz/assessment mode with completion tracking (3-question quick check per
-> lesson, pass at ≥50%, progress bar in sidebar + header, `localStorage` persistence,
-> "✓ Mark complete"), the spoil guard (mitigations hidden behind an answer key until the
-> lesson's quiz is passed or the reveal button is clicked), annotate-and-export (per-lesson
-> notes pane with autosave → **Export** compiles the course into a markdown deliverable),
-> printable worksheets (**Worksheets** button: STRIDE-PIMT, OWASP LLM Top 10, ATLAS
-> attack-chain, component taxonomy — print/save-PDF or download as `.md`), and a responsive
-> theme (mobile hides the lesson list by default, tables scroll in-card, layout stacks and
-> nav auto-closes after selecting a lesson).
+The objective is threat-modeling intuition.
 
-## How to add/modify a lesson
+---
 
-1. Create or edit `training/lessons/<NN>-<slug>.md` (frontmatter:
-   `title`, `module`, `minutes`, `level`, `status`).
-2. Add/update the entry in the `MANIFEST` list inside `training/index.html`.
-3. Reload `/training`. No rebuild required (folder is mounted into the container).
+# Curriculum Map
 
-## Development notes
+## Foundations
 
-- `/training` is served by `app.main` via `StaticFiles(directory=CONFIG.training_dir,
-  html=True)` — a pure mount, zero effect on existing routes.
-- `docker-compose.yml` mounts `./training:/opt/ai-tm/training` so content updates are live.
-- The page is self-contained: custom markdown renderer, no CDN, offline-safe.
-- **Static deploy (e.g. GitHub Pages):** publish the `training/` folder as-is (relative refs
-  work from any subpath). Also publish `samples/*.png` (lesson 09–12 deep-dive images) and
-  `static/logo.ico` at the site root. If the site is served under a path prefix
-  (e.g. `user.github.io/repo/`), set `<script>window.TM_BASE = "/repo";</script>` before the
-  training script so `/samples`, `/static/logo.ico` and the home link resolve correctly.
-- **Mobile:** lesson list is hidden by default (<900px) — open with **▸ Lessons**; it closes
-  automatically after selecting a lesson. Tables scroll in-card; print sheets use `@media
-  print` (only the worksheet is emitted).
+| # | Lesson | Core Learning |
+|------|------|------|
+| 01 | Threat Modeling Primer | Threat modeling fundamentals |
+| 02 | The Four Questions | Shostack methodology |
+| 03 | Trust Zones & Data Flows | Flows, boundaries, attack surfaces |
+| 03A | AI Trust Boundaries | Human, memory, tool, provider trust |
+| 04 | AI Components & Attack Surface | Role taxonomy |
+| 05 | OWASP LLM Top 10 | AI failure modes |
+| 06 | MITRE ATLAS | Adversary techniques |
+| 06A | AI Attack Chains & Kill Chains | Attack path analysis |
+| 07 | AI-Augmented STRIDE | STRIDE applied to AI |
+| 08 | Mitigations & Controls for AI | Defense-in-depth |
+
+---
+
+## Pattern Deep Dives
+
+| # | Lesson | Core Learning |
+|------|------|------|
+| 09 | Deep Dive: RAG GenAI | Retrieval security |
+| 10 | Deep Dive: Single Agent | Tool use and agency |
+| 10A | Agent Memory Security | Persistence and memory attacks |
+| 11 | Deep Dive: Multi-Agent | Delegation and shared-state risks |
+| 12 | Deep Dive: Autonomous Agent | Autonomy and escalation |
+| 12A | MCP & Tool Ecosystem Security | Tool governance and action security |
+| 12B | AI Red Teaming & Adversarial Validation | Security validation |
+
+---
+
+## Wrap-Up
+
+| # | Lesson | Core Learning |
+|------|------|------|
+| 13 | Writing the Threat Report | Risk communication |
+| 14 | Governance & Handoff | Operationalization and oversight |
+
+---
+
+# Architecture Patterns
+
+The curriculum centers around four architecture patterns.
+
+## Pattern 1 – RAG GenAI
+
+Focus Areas:
+
+- Retrieval
+- Vector Databases
+- Memory
+- Prompt Injection
+- Data Poisoning
+
+Primary Risks:
+
+- Indirect Prompt Injection
+- Index Poisoning
+- Sensitive Information Disclosure
+- Retrieval Manipulation
+
+---
+
+## Pattern 2 – Single Agent
+
+Focus Areas:
+
+- Tool Use
+- Agency
+- Planning
+- Authorization
+
+Primary Risks:
+
+- Tool Abuse
+- Excessive Agency
+- Memory Misuse
+
+---
+
+## Pattern 3 – Multi-Agent
+
+Focus Areas:
+
+- Delegation
+- Shared Memory
+- Coordination
+
+Primary Risks:
+
+- Agent Collusion
+- Shared-State Poisoning
+- Delegation Abuse
+
+---
+
+## Pattern 4 – Autonomous Agent
+
+Focus Areas:
+
+- Planning
+- Reflection
+- Execution
+- Oversight
+
+Primary Risks:
+
+- Goal Drift
+- Observation Poisoning
+- Autonomous Escalation
+- Kill-Switch Failures
+
+---
+
+# Component Taxonomy
+
+## Core Components
+
+| ID | Component |
+|------|------|
+| AI-01 | User / Requester |
+| AI-02 | Gateway |
+| AI-03 | Guardrails |
+| AI-04 | Orchestrator |
+| AI-05 | Model / LLM |
+| AI-06 | Embedding Model |
+| AI-07 | Retriever |
+| AI-08 | Provider |
+| AI-09 | Store / Memory |
+| AI-10 | Tool |
+| AI-11 | Template Store |
+| AI-12 | ETL Pipeline |
+
+---
+
+## Extended Agentic Components
+
+| ID | Component |
+|------|------|
+| AI-17 | Policy Engine |
+| AI-18 | Tool Broker |
+| AI-19 | MCP Server |
+| AI-20 | Audit Service |
+| AI-21 | Boundary Detection |
+| AI-22 | Behavior Monitor |
+
+---
+
+# Trust Boundaries
+
+Students identify:
+
+| Boundary | Purpose |
+|------|------|
+| TB-01 | Human Boundary |
+| TB-02 | Instruction Boundary |
+| TB-03 | Memory Boundary |
+| TB-04 | Tool Boundary |
+| TB-05 | Provider Boundary |
+| TB-06 | Data Boundary |
+| TB-07 | Approval Boundary |
+| TB-08 | Monitoring Boundary |
+
+Core Principle:
+
+Most AI attacks occur where trust changes.
+
+---
+
+# Frameworks
+
+## OWASP LLM Top 10
+
+Students learn:
+
+LLM01–LLM10
+
+Including:
+
+- Prompt Injection
+- Sensitive Information Disclosure
+- Data Poisoning
+- Excessive Agency
+- Vector Weaknesses
+- Misinformation
+
+---
+
+## MITRE ATLAS
+
+Students map findings to:
+
+- AML.T0051 Prompt Injection
+- AML.T0020 ML Artifact Poisoning
+- AML.T0024 Exfiltration
+- AML.T0025 Model Extraction
+- AML.T0043 DoS
+- AML.T0010 Supply Chain
+- AML.T0054 Excessive Agency
+
+---
+
+## AI-Augmented STRIDE
+
+Students learn:
+
+- Spoofing
+- Tampering
+- Repudiation
+- Information Disclosure
+- Denial of Service
+- Elevation of Privilege
+
+through an AI lens.
+
+---
+
+# Assessments
+
+## Lesson Quizzes
+
+Every lesson includes:
+
+- Quick Check
+- Scenario Questions
+- Knowledge Validation
+
+---
+
+## Final Assessment
+
+File:
+
+assessments/final-exam-questions.md
+
+Coverage:
+
+- Foundations
+- OWASP
+- MITRE ATLAS
+- STRIDE
+- Trust Boundaries
+- Kill Chains
+- RAG
+- Agents
+- Memory
+- MCP
+- Red Teaming
+
+Total Questions:
+
+70
+
+Instructor Key:
+
+assessments/final-exam-answer-key.md
+
+Passing Score:
+
+80%
+
+---
+
+# Capstone Exercises
+
+## Capstone #1
+
+Threat Model a RAG Enterprise Knowledge Assistant
+
+Focus:
+
+- RAG
+- Retrieval
+- Trust Boundaries
+- Prompt Injection
+
+Files:
+
+- capstone-01-rag-chatbot.md
+- capstone-01-answer-key.md
+
+---
+
+## Capstone #2
+
+Threat Model a Multi-Agent Procurement Assistant
+
+Focus:
+
+- Multi-Agent Systems
+- Delegation
+- Shared Memory
+- MCP Security
+
+Files:
+
+- capstone-02-multi-agent-procurement-assistant.md
+- capstone-02-answer-key.md
+
+---
+
+## Capstone #3
+
+Threat Model an Autonomous Change Management Agent
+
+Focus:
+
+- Autonomy
+- Reflection
+- Governance
+- Infrastructure Risk
+
+Files:
+
+- capstone-03-autonomous-change-management-agent.md
+- capstone-03-answer-key.md
+
+---
+
+# Worksheets
+
+## Trust Boundary Worksheet
+
+Identify:
+
+- Boundaries
+- Threats
+- Controls
+
+---
+
+## ATLAS Kill Chain Worksheet
+
+Map:
+
+Recon
+→ Access
+→ Execution
+→ Persistence
+→ Exfiltration
+→ Impact
+
+---
+
+## Agent Risk Register
+
+Capture:
+
+- Risk
+- Owner
+- Control
+- Residual Risk
+
+---
+
+## Threat Model Template
+
+Used during capstones and workshops.
+
+---
+
+# Reference Materials
+
+## AI Threat Modeling Cheat Sheet
+
+One-page quick-reference document covering:
+
+- OWASP
+- ATLAS
+- STRIDE
+- Trust Boundaries
+- Memory
+- MCP
+- Red Teaming
+
+---
+
+## Recommended Future References
+
+- STRIDE / OWASP / ATLAS Crosswalk
+- Facilitator Quick Guide
+- Threat Modeling Playbook
+
+---
+
+# Trainer Guide
+
+Recommended Delivery Formats
+
+## 90 Minutes
+
+- Primer
+- Trust Boundaries
+- RAG
+- Capstone #1
+
+---
+
+## Half Day
+
+- Foundations
+- RAG
+- Single Agent
+- Capstone #1
+
+---
+
+## Full Day
+
+- Foundations
+- RAG
+- Single Agent
+- Memory Security
+- Multi-Agent
+- Autonomous Agent
+- MCP Security
+- Capstones
+
+---
+
+# Core Principles
+
+Principle 1
+
+Data is not instructions.
+
+Principle 2
+
+Tools are authority.
+
+Principle 3
+
+Memory creates persistence.
+
+Principle 4
+
+Policies belong outside models.
+
+Principle 5
+
+Trust boundaries deserve scrutiny.
+
+Principle 6
+
+Threat

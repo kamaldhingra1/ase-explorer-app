@@ -1,0 +1,14 @@
+Capstone-X
+
+1. Reference Diagram
+2. Expected Components
+3. Expected Flows
+4. Expected Trust Boundaries
+5. Expected OWASP Mapping
+6. Expected ATLAS Mapping
+7. Expected STRIDE Mapping
+8. Expected Attack Chain
+9. Expected Mitigations
+10. Control Overlay Diagram
+11. Common Mistakes
+12. Scoring Guidance

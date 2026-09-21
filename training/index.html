@@ -204,19 +204,64 @@ const MANIFEST = {
     { "file": "lessons/01-threat-modelling-primer.md", "title": "Threat Modeling Primer", "module": "Foundations", "minutes": 45, "level": "Beginner", "status": "complete" },
     { "file": "lessons/02-four-questions.md", "title": "The Four Questions", "module": "Foundations", "minutes": 35, "level": "Beginner", "status": "complete" },
     { "file": "lessons/03-trust-zones-and-data-flows.md", "title": "Trust Zones & Data Flows", "module": "Foundations", "minutes": 40, "level": "Beginner", "status": "complete" },
+    { "file": "lessons/03a-ai-trust-boundaries.md", "title": "AI Trust Boundaries", "module": "Foundations", "minutes": 30, "level": "Intermediate", "status": "complete" },
     { "file": "lessons/04-ai-components-and-attack-surface.md", "title": "AI Components & Attack Surface", "module": "Foundations", "minutes": 40, "level": "Beginner", "status": "complete" },
     { "file": "lessons/05-owasp-llm-top10.md", "title": "OWASP LLM Top 10", "module": "Foundations", "minutes": 50, "level": "Intermediate", "status": "complete" },
-    { "file": "lessons/06-mitre-atlas.md", "title": "MITRE ATLAS", "module": "Foundations", "minutes": 40, "level": "Intermediate", "status": "complete" },
+    { "file": "lessons/06-mitre-atlas.md", "title": "MITRE ATLAS", "module": "Foundations", "minutes": 40, "level": "Intermediate", "status": "complete" },   
+    { "file": "lessons/06a-ai-attack-chains.md", "title": "AI Attack Chains & Kill Chains", "module": "Foundations", "minutes": 35, "level": "Intermediate", "status": "complete" },
     { "file": "lessons/07-ai-stride.md", "title": "AI-Augmented STRIDE", "module": "Foundations", "minutes": 50, "level": "Intermediate", "status": "complete" },
     { "file": "lessons/08-mitigations-and-controls.md", "title": "Mitigations & Controls for AI", "module": "Foundations", "minutes": 45, "level": "Intermediate", "status": "complete" },
     { "file": "lessons/09-rag-genai.md", "title": "Deep Dive: RAG GenAI", "module": "Pattern Deep Dives", "minutes": 45, "level": "Intermediate", "status": "complete" },
     { "file": "lessons/10-single-agent.md", "title": "Deep Dive: Single Agent", "module": "Pattern Deep Dives", "minutes": 45, "level": "Intermediate", "status": "complete" },
+{
+  "file": "lessons/10a-agent-memory-security.md",
+  "title": "Agent Memory Security",
+  "module": "Pattern Deep Dives",
+  "minutes": 40,
+  "level": "Advanced",
+  "status": "complete"
+},
     { "file": "lessons/11-multi-agent.md", "title": "Deep Dive: Multi-Agent", "module": "Pattern Deep Dives", "minutes": 45, "level": "Intermediate", "status": "complete" },
     { "file": "lessons/12-autonomous-agent.md", "title": "Deep Dive: Autonomous Agent", "module": "Pattern Deep Dives", "minutes": 50, "level": "Advanced", "status": "complete" },
+    {
+  "file": "lessons/12a-mcp-tool-ecosystem-security.md",
+  "title": "MCP & Tool Ecosystem Security",
+  "module": "Pattern Deep Dives",
+  "minutes": 45,
+  "level": "Advanced",
+  "status": "complete"
+},
+
+{
+  "file": "lessons/12b-ai-red-teaming-and-adversarial-validation.md",
+  "title": "AI Red Teaming & Adversarial Validation",
+  "module": "Pattern Deep Dives",
+  "minutes": 45,
+  "level": "Advanced",
+  "status": "complete"
+},
     { "file": "lessons/13-writing-the-threat-report.md", "title": "Writing the Threat Report", "module": "Wrap-Up", "minutes": 35, "level": "Beginner", "status": "complete" },
-    { "file": "lessons/14-governance-and-handoff.md", "title": "Governance & Handoff", "module": "Wrap-Up", "minutes": 30, "level": "Intermediate", "status": "complete" }
+    { "file": "lessons/14-governance-and-handoff.md", "title": "Governance & Handoff", "module": "Wrap-Up", "minutes": 30, "level": "Intermediate", "status": "complete" },
+/*     {
+ file:"assessments/final-exam-questions.md",
+ title:"Final Assessment (70 Questions)",
+ module:"Assessments",
+ minutes:60,
+ level:"Intermediate",
+ status:"complete"
+}, */
+{
+  "file": "assessments/final-certification-exam.md",
+  "title": "Final Certification Assessment",
+  "module": "Assessments",
+  "minutes": 60,
+  "level": "Advanced",
+  "status": "complete"
+}
+
   ]
 };
+
 
 const $ = (id) => document.getElementById(id);
 
@@ -604,7 +649,20 @@ function wireLessonControls(file) {
         });
       });
       const total = qs.length;
-      const passed = correct / total >= 0.5;
+      // const passed = correct / total >= 0.5;
+   
+
+      const LESSON_PASS = 0.50;
+      const CERT_PASS = 0.80;
+
+      const requiredScore =
+        file.includes('final-certification-exam')
+          ? CERT_PASS
+          : LESSON_PASS;
+
+      const passed = (correct / total) >= requiredScore;
+
+
       PROGRESS[file] = PROGRESS[file] || {};
       PROGRESS[file].correct = correct;
       PROGRESS[file].total = total;
@@ -612,8 +670,21 @@ function wireLessonControls(file) {
       PROGRESS[file].revealed = passed ? true : (PROGRESS[file].revealed || false);
       PROGRESS[file].ts = Date.now();
       saveProgress();
-      result.textContent = 'You got ' + correct + ' of ' + total + ' correct. ' +
+
+    /*   result.textContent = 'You got ' + correct + ' of ' + total + ' correct. ' +
         (passed ? 'Lesson complete — mitigations unlocked below.' : 'Reviewed the lesson, then retake — the answer key stays locked.');
+ */
+
+        const pct = Math.round((correct / total) * 100);
+
+        result.textContent =
+          'You got ' + correct + ' of ' + total +
+          ' correct (' + pct + '%). Required: ' +
+          Math.round(requiredScore * 100) + '%. ' +
+          (passed
+            ? 'Assessment passed.'
+            : 'Score not high enough. Review and retake.');
+
       result.className = 'quiz-result ' + (passed ? 'ok' : 'bad');
       result.hidden = false;
       check.hidden = true;
@@ -786,7 +857,348 @@ const WS_DEFS = [
     const body = '<p>Assign every box on your diagram a role, then rank exposure / privilege / tamperability:</p>' +
       wsTableHTML(['Component type', 'Its job (reference)', 'Your instance', 'Exposure (1-5)', 'Privilege (1-5)', 'Tamperability (1-5)'], rows.map(r => [r[0], r[1], '', '', '', '']), [2, 3, 4, 5]);
     return wsDoc('Component Taxonomy Sheet', 'Role assignment grid — used in Lesson 04', body, 'Run the blame test from Lesson 04: for each high component, can you list the attack path and who owns the fix?');
-  } }
+  } },
+{
+  id: 'trust',
+  name: 'AI Trust Boundary Worksheet',
+  tags: 'Lesson 03A',
+  desc: 'Identify trust transitions and control locations.',
+  build: function () {
+
+    const body =
+      '<p>Identify every place where trust changes and document controls at the boundary.</p>' +
+
+      wsTableHTML(
+        ['Boundary','Source','Destination','Trust Change','Threats','Controls'],
+        [
+          ['Human Boundary','','','','',''],
+          ['Instruction Boundary','','','','',''],
+          ['Memory Boundary','','','','',''],
+          ['Tool Boundary','','','','',''],
+          ['Provider Boundary','','','','',''],
+          ['Data Boundary','','','','','']
+        ],
+        [1,2,3,4,5]
+      ) +
+
+      '<h3>Highest-Risk Boundaries</h3>' +
+
+      wsTableHTML(
+        ['Boundary','Why High Risk?','Mitigation'],
+        [
+          ['','',''],
+          ['','',''],
+          ['','','']
+        ],
+        [0,1,2]
+      );
+
+    return wsDoc(
+      'AI Trust Boundary Worksheet',
+      'Used with Lesson 03A',
+      body,
+      'Most AI attacks occur where trust changes.'
+    );
+  }
+},
+{
+  id: 'killchain',
+  name: 'AI Kill Chain Worksheet',
+  tags: 'Lesson 06A',
+  desc: 'Map attacks from reconnaissance to impact.',
+  build: function () {
+
+    const body =
+      '<p>Build a complete AI attack chain and identify control opportunities.</p>' +
+
+      wsTableHTML(
+        ['Phase','Attack','Component','Control'],
+        [
+          ['Reconnaissance','','',''],
+          ['Initial Access','','',''],
+          ['Execution','','',''],
+          ['Persistence','','',''],
+          ['Exfiltration','','',''],
+          ['Impact','','','']
+        ],
+        [1,2,3]
+      ) +
+
+      '<h3>Best Control Point</h3>' +
+
+      wsTableHTML(
+        ['Phase','Reason'],
+        [
+          ['','']
+        ],
+        [0,1]
+      );
+
+    return wsDoc(
+      'AI Attack Chain Worksheet',
+      'Used with Lesson 06A',
+      body,
+      'Stopping attacks before Persistence dramatically reduces risk.'
+    );
+  }
+},
+{
+  id: 'memory',
+  name: 'Agent Memory Security Worksheet',
+  tags: 'Lesson 10A',
+  desc: 'Analyze memory threats and persistence.',
+  build: function () {
+
+    const body =
+      '<p>Treat memory as persistence. Identify how information survives beyond the session.</p>' +
+
+      wsTableHTML(
+        ['Threat','Attack Path','Business Impact','Mitigation'],
+        [
+          ['Memory Poisoning','','',''],
+          ['Cross-Session Leakage','','',''],
+          ['False Fact Persistence','','',''],
+          ['Goal Manipulation','','',''],
+          ['Privilege Persistence','','','']
+        ],
+        [1,2,3]
+      ) +
+
+      '<h3>Memory Flows</h3>' +
+
+      wsTableHTML(
+        ['Flow','Trust Boundary','Protected?'],
+        [
+          ['User → Memory','',''],
+          ['Agent → Memory','',''],
+          ['Memory → Agent','','']
+        ],
+        [1,2]
+      );
+
+    return wsDoc(
+      'Agent Memory Security Worksheet',
+      'Used with Lesson 10A',
+      body,
+      'Memory changes attacks from temporary influence into persistence.'
+    );
+  }
+},
+{
+  id: 'mcp',
+  name: 'MCP & Tool Security Worksheet',
+  tags: 'Lesson 12A',
+  desc: 'Analyze tool authority and MCP risks.',
+  build: function () {
+
+    const body =
+      '<p>Tools create business impact. Evaluate permissions, authority, and controls.</p>' +
+
+      wsTableHTML(
+        ['Tool','Permissions','Business Impact','Control'],
+        [
+          ['Email','','',''],
+          ['ERP','','',''],
+          ['ServiceNow','','',''],
+          ['Database','','',''],
+          ['File System','','','']
+        ],
+        [1,2,3]
+      ) +
+
+      '<h3>MCP Risks</h3>' +
+
+      wsTableHTML(
+        ['Threat','Likelihood','Impact','Mitigation'],
+        [
+          ['Tool Abuse','','',''],
+          ['Capability Escalation','','',''],
+          ['Tool Impersonation','','',''],
+          ['Credential Misuse','','',''],
+          ['Audit Failure','','','']
+        ],
+        [1,2,3]
+      );
+
+    return wsDoc(
+      'MCP & Tool Security Worksheet',
+      'Used with Lesson 12A',
+      body,
+      'Tools are authority. Authority should always be constrained.'
+    );
+  }
+},
+{
+  id: 'redteam',
+  name: 'AI Red Team Planner',
+  tags: 'Lesson 12B',
+  desc: 'Plan adversarial testing activities.',
+  build: function () {
+
+    const body =
+      '<p>Design tests to validate security controls under attack.</p>' +
+
+      wsTableHTML(
+        ['Test Type','Attack','Expected Result','Mitigation Verified'],
+        [
+          ['Prompt Injection','','',''],
+          ['Indirect Injection','','',''],
+          ['Memory Poisoning','','',''],
+          ['Tool Abuse','','',''],
+          ['MCP Abuse','','',''],
+          ['Goal Drift','','',''],
+          ['Data Exfiltration','','','']
+        ],
+        [1,2,3]
+      ) +
+
+      '<h3>Test Results</h3>' +
+
+      wsTableHTML(
+        ['Control','Passed?','Notes'],
+        [
+          ['','',''],
+          ['','',''],
+          ['','','']
+        ],
+        [0,1,2]
+      );
+
+    return wsDoc(
+      'AI Red Team Exercise Planner',
+      'Used with Lesson 12B',
+      body,
+      'A threat model that has never been tested remains a hypothesis.'
+    );
+  },
+},
+ {
+  id: 'riskregister',
+  name: 'AI Risk Register',
+  tags: 'Capstones • Threat Reports',
+  desc: 'Capture threats, risk ratings, ownership, and residual risk.',
+  build: function () {
+
+    const body =
+      '<p>Document threats, controls, ownership, and residual risk. Use this worksheet during Capstones 1-3 and while writing threat reports.</p>' +
+
+      wsTableHTML(
+        [
+          'Risk ID',
+          'Threat',
+          'OWASP',
+          'ATLAS',
+          'STRIDE',
+          'Component'
+        ],
+        [
+          ['R-001','','','','',''],
+          ['R-002','','','','',''],
+          ['R-003','','','','',''],
+          ['R-004','','','','',''],
+          ['R-005','','','','','']
+        ],
+        [1,2,3,4,5]
+      ) +
+
+      '<h3>Risk Assessment</h3>' +
+
+      wsTableHTML(
+        [
+          'Risk ID',
+          'Likelihood',
+          'Impact',
+          'Risk Rating',
+          'Owner'
+        ],
+        [
+          ['R-001','','','',''],
+          ['R-002','','','',''],
+          ['R-003','','','',''],
+          ['R-004','','','',''],
+          ['R-005','','','','']
+        ],
+        [1,2,3,4]
+      ) +
+
+      '<h3>Mitigation Plan</h3>' +
+
+      wsTableHTML(
+        [
+          'Risk ID',
+          'Control',
+          'Control Type',
+          'Residual Risk'
+        ],
+        [
+          ['R-001','','',''],
+          ['R-002','','',''],
+          ['R-003','','',''],
+          ['R-004','','',''],
+          ['R-005','','','']
+        ],
+        [1,2,3]
+      ) +
+
+      '<h3>Control Types</h3>' +
+
+      wsTableHTML(
+        [
+          'Type',
+          'Definition',
+          'Example'
+        ],
+        [
+          [
+            'Preventive',
+            'Stops the attack',
+            'Policy Engine, Input Validation'
+          ],
+          [
+            'Detective',
+            'Identifies the attack',
+            'Monitoring, Alerting'
+          ],
+          [
+            'Corrective',
+            'Restores operations',
+            'Rollback, Recovery'
+          ],
+          [
+            'Compensating',
+            'Reduces risk when prevention is not possible',
+            'Human Approval'
+          ]
+        ]
+      ) +
+
+      '<h3>Top Risks Summary</h3>' +
+
+      wsTableHTML(
+        [
+          'Rank',
+          'Risk',
+          'Reason'
+        ],
+        [
+          ['1','',''],
+          ['2','',''],
+          ['3','',''],
+          ['4','',''],
+          ['5','','']
+        ],
+        [1,2]
+      );
+
+    return wsDoc(
+      'AI Risk Register Worksheet',
+      'Capstones • Threat Reports • Governance Reviews',
+      body,
+      'Every risk should have an owner, mitigation, and residual-risk decision. High-severity risks without owners should not be accepted.'
+    );
+  }
+}
+
 ];
 function activateWorksheet(id) {
   const d = WS_DEFS.find(x => x.id === id);
@@ -794,7 +1206,8 @@ function activateWorksheet(id) {
   document.getElementById('wsSheet').innerHTML = d.build();
   document.getElementById('wsSheetWrap').hidden = false;
   document.getElementById('wsActions').hidden = false;
-  document.getElementById('wsHint').textContent = 'Open worksheet: ' + d.name;
+  // document.getElementById('wsHint').textContent = 'Open worksheet: ' + d.name;
+  document.getElementById('wsHint').textContent = d.desc;
 }
 function sheetToMarkdown(id) {
   const d = WS_DEFS.find(x => x.id === id);

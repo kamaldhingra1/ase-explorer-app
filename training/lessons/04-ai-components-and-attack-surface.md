@@ -10,6 +10,66 @@ status: complete
 
 > An AI system is not "the model". It is a pipeline of components with different jobs, different privileges, and different exposure. This lesson teaches you the **role taxonomy** the tool uses — and why a threat lands on one component and not another.
 
+### New AI Components for Agentic & Enterprise AI
+
+As AI systems become more autonomous, several additional component roles emerge that deserve their own inventory IDs.
+```html
+<table>
+<tr>
+<th>Type</th>
+<th>What it does</th>
+<th>Why it's attackable</th>
+</tr>
+
+<tr>
+<td><b>Policy Engine</b></td>
+<td>Evaluates whether actions are allowed</td>
+<td>Policy bypass, authorization failures, excessive agency</td>
+</tr>
+
+<tr>
+<td><b>Tool Broker</b></td>
+<td>Selects and mediates tool execution</td>
+<td>Tool abuse, privilege escalation, unauthorized actions</td>
+</tr>
+
+<tr>
+<td><b>MCP Server</b></td>
+<td>Exposes capabilities via Model Context Protocol</td>
+<td>Tool impersonation, capability escalation, supply-chain compromise</td>
+</tr>
+
+<tr>
+<td><b>Audit Service</b></td>
+<td>Captures action history and evidence</td>
+<td>Audit evasion, attribution gaps, tampering</td>
+</tr>
+
+<tr>
+<td><b>Boundary Detection</b></td>
+<td>Evaluates scope and autonomy constraints</td>
+<td>Goal drift, runaway autonomy, unauthorized expansion</td>
+</tr>
+
+<tr>
+<td><b>Behavior Monitor</b></td>
+<td>Detects anomalies and unsafe behavior</td>
+<td>Alert suppression, monitoring bypass, blind spots</td>
+</tr>
+</table>
+```
+
+### Extended AI Inventory
+
+| ID | Component |
+|------|------|
+| AI-17 | Policy Engine |
+| AI-18 | Tool Broker |
+| AI-19 | MCP Server |
+| AI-20 | Audit Service |
+| AI-21 | Boundary Detection Engine |
+| AI-22 | Behavior Monitor |
+
 ## Why this matters
 
 When every component has a *job description*, threats become precise. Instead of "the system could be exploited," you get "the **retriever** can be manipulated by a crafted query to pull poisoned context," and the *owner* of that component knows who is responsible for the fix. Component-precise findings are what turn a report into an action plan.

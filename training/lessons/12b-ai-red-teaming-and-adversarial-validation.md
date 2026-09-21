@@ -52,7 +52,7 @@ The objective is to discover weaknesses before attackers do.
 
 ## The four testing targets
 
-### Instructions
+> **Instructions**
 
 Can prompts override intended behavior?
 
@@ -63,7 +63,7 @@ Examples:
 - role confusion
 - hidden instruction attacks
 
-### Data
+> **Data**
 
 Can knowledge sources manipulate behavior?
 
@@ -74,7 +74,7 @@ Examples:
 - retrieval manipulation
 - vector poisoning
 
-### Tools
+> **Tools**
 
 Can actions be abused?
 
@@ -85,7 +85,7 @@ Examples:
 - excessive agency
 - tool chaining
 
-### Autonomy
+> **Autonomy**
 
 Can constraints be bypassed?
 
@@ -98,7 +98,7 @@ Examples:
 
 ## The catalog, walked threat-by-threat
 
-> ** 1. Prompt Injection Testing**
+> **1. Prompt Injection Testing**
 
 Attempt:
 
@@ -174,15 +174,15 @@ Identify runaway behavior.
 
 ## The three metrics that matter
 
-### Attack Success Rate
+> **Attack Success Rate**
 
 How often did the attack succeed?
 
-### Detection Rate
+> **Detection Rate**
 
 How often was the attack detected?
 
-### Recovery Rate
+> **Recovery Rate**
 
 How quickly was the system restored?
 
@@ -192,13 +192,13 @@ These metrics are often more useful than model accuracy.
 
 ## The two flows that explain half the lesson
 
-### DF-ATTACK
+> **DF-ATTACK**
 
 Adversarial Input → System
 
 Can the attack influence behavior?
 
-### DF-RECOVERY
+> **DF-RECOVERY**
 
 Detection → Response → Restoration
 

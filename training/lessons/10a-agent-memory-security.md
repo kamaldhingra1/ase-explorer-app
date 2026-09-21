@@ -8,7 +8,7 @@ status: complete
 
 ## Agent Memory Security
 
-> Memory is where today's prompts become tomorrow's behavior. Without memory: A successful attack often ends with the session. With memory: The attack survives. Memory transforms temporary influence into persistence. Most AI security guidance focuses on prompts. Experienced attackers focus on memory. A poisoned prompt may affect one answer. A poisoned memory can affect thousands.
+> Memory is where today's prompts become tomorrow's behavior. **Without memory:** A successful attack often ends with the session. **With memory:** The attack survives. Memory transforms temporary influence into persistence. Most AI security guidance focuses on prompts. Experienced attackers focus on memory. A poisoned prompt may affect one answer. **A poisoned memory can affect thousands.**
 
 ## Why this matters
 
@@ -22,13 +22,9 @@ Modern agents increasingly retain:
 - tool outputs
 - business context
 
-Memory improves usefulness.
+Memory improves usefulness. Memory also creates a new attack surface.
 
-Memory also creates a new attack surface.
-
-Attackers view memory as persistence.
-
-Threat modelers should too.
+> Attackers view memory as persistence. Threat modelers should too.
 
 Unlike classic application state, AI memory directly influences future reasoning.
 
@@ -42,7 +38,7 @@ The second property creates unique security challenges.
 ## The anatomy (read the diagram)
 
 ![Agent Memory Security](images/agent-memory-security.png)
-images/agent-memory-security.png
+
 
 Most agent architectures contain two forms of memory:
 
@@ -67,7 +63,7 @@ Attackers want it treated as instructions.
 
 ## The catalog, walked threat-by-threat
 
-### 1. Memory Poisoning
+> [!risk] **1. Memory Poisoning**
 
 An attacker intentionally stores harmful content.
 
@@ -80,7 +76,7 @@ Examples:
 
 The attack survives after the original session ends.
 
-### 2. Memory Exfiltration
+> [!risk] **2. Memory Exfiltration**
 
 Stored information is disclosed to unauthorized users.
 
@@ -93,7 +89,7 @@ Examples:
 
 Memory often contains more sensitive information than prompts.
 
-### 3. Cross-Session Leakage
+> [!risk] **3. Cross-Session Leakage**
 
 One user's memory influences another user's session.
 
@@ -106,7 +102,7 @@ Examples:
 
 This is one of the most common architectural mistakes.
 
-### 4. False Fact Persistence
+> [!risk] **4. False Fact Persistence**
 
 Hallucinated information becomes stored information.
 
@@ -119,7 +115,7 @@ Examples:
 
 Once stored, the hallucination acquires undeserved credibility.
 
-### 5. Goal Manipulation
+> [!risk] **5. Goal Manipulation**
 
 Stored goals alter future decision making.
 
@@ -132,7 +128,7 @@ Examples:
 
 The attacker influences future planning indirectly.
 
-### 6. Privilege Persistence
+> [!risk] **6. Privilege Persistence**
 
 Temporary permissions become permanent behavior.
 
@@ -142,7 +138,7 @@ Examples:
 - retained administrative workflows
 - excessive
 
-### 7. Memory Replay
+> [!risk] **7. Memory Replay**
 
 Old instructions become active again.
 
@@ -154,7 +150,7 @@ Examples:
 
 Older information is often trusted more than it should be.
 
-### 8. Long-Term Narrative Capture
+> [!risk] **8. Long-Term Narrative Capture**
 
 An attacker slowly shapes memory over time.
 
@@ -167,10 +163,11 @@ Examples:
 No individual action appears dangerous.
 
 The accumulated result is.
+--
 
 ## The two flows that explain half the report
 
-**DF-12 User → Memory**
+> **DF-12 User → Memory**
 
 This is the persistence boundary.
 
@@ -180,7 +177,7 @@ The most important question:
 
 Should this information be stored at all?
 
-**DF-13 Memory → Agent**
+> **DF-13 Memory → Agent**
 
 This is the trust boundary.
 

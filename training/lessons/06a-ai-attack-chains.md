@@ -176,7 +176,7 @@ The previous phases created the condition.
 
 ## The attack chains hidden inside your patterns
 
-### RAG Pattern
+> **RAG Pattern**
 
 A common chain:
 
@@ -189,7 +189,7 @@ The attack began in the corpus.
 
 The impact appeared in the answer.
 
-### Single-Agent Pattern
+> **Single-Agent Pattern**
 
 A common chain:
 
@@ -201,7 +201,7 @@ The attack began as text.
 
 The impact became action.
 
-### Multi-Agent Pattern
+> **Multi-Agent Pattern**
 
 A common chain:
 
@@ -212,7 +212,7 @@ Malicious Message
 
 The attack propagates through collaboration.
 
-### Autonomous Agent Pattern
+> **Autonomous Agent Pattern**
 
 A common chain:
 
@@ -222,6 +222,8 @@ Observation Poisoning
 → Business Impact
 
 The attack propagates through the execution loop.
+
+---
 
 ## The three phases that matter most
 

@@ -8,17 +8,11 @@ status: complete
 
 ## AI Red Teaming & Adversarial Validation
 
-Threat models are predictions.
-
-Red teaming tests whether those predictions are real.
-
-An AI system is not secure because a control exists.
-
-It is secure only when the control survives attack.
+> Threat models are predictions. Red teaming tests whether those predictions are real. An AI system is not secure because a control exists. It is secure only when the control survives attack.
 
 This lesson focuses on adversarial validation, AI red teaming, and continuous testing.
 
-### Why this matters
+## Why this matters
 
 Every lesson before this one asked:
 
@@ -40,9 +34,9 @@ without validating them.
 
 Red teaming turns assumptions into evidence.
 
-### The anatomy (read the diagram)
+## The anatomy (read the diagram)
 
-images/ai-red-teaming.png
+![AI Red Teaming](images/ai-red-teaming.png)
 
 The cycle:
 
@@ -56,9 +50,9 @@ The objective is not to break the system.
 
 The objective is to discover weaknesses before attackers do.
 
-### The four testing targets
+## The four testing targets
 
-#### Instructions
+### Instructions
 
 Can prompts override intended behavior?
 
@@ -69,7 +63,7 @@ Examples:
 - role confusion
 - hidden instruction attacks
 
-#### Data
+### Data
 
 Can knowledge sources manipulate behavior?
 
@@ -80,7 +74,7 @@ Examples:
 - retrieval manipulation
 - vector poisoning
 
-#### Tools
+### Tools
 
 Can actions be abused?
 
@@ -91,7 +85,7 @@ Examples:
 - excessive agency
 - tool chaining
 
-#### Autonomy
+### Autonomy
 
 Can constraints be bypassed?
 
@@ -102,9 +96,9 @@ Examples:
 - self-modification
 - policy bypass
 
-### The catalog, walked threat-by-threat
+## The catalog, walked threat-by-threat
 
-### 1. Prompt Injection Testing
+> ** 1. Prompt Injection Testing**
 
 Attempt:
 
@@ -116,7 +110,7 @@ Objective:
 
 Override intended instructions.
 
-### 2. Retrieval Security Testing
+> **2. Retrieval Security Testing**
 
 Attempt:
 
@@ -128,7 +122,7 @@ Objective:
 
 Influence reasoning through data.
 
-### 3. Memory Security Testing
+> **3. Memory Security Testing**
 
 Attempt:
 
@@ -140,7 +134,7 @@ Objective:
 
 Influence future behavior.
 
-### 4. Tool Abuse Testing
+> **4. Tool Abuse Testing**
 
 Attempt:
 
@@ -152,7 +146,7 @@ Objective:
 
 Extend impact beyond the model.
 
-### 5. Agent Coordination Testing
+> **5. Agent Coordination Testing**
 
 Attempt:
 
@@ -164,7 +158,7 @@ Objective:
 
 Propagate compromise between agents.
 
-### 6. Autonomy Testing
+> **6. Autonomy Testing**
 
 Attempt:
 
@@ -176,23 +170,27 @@ Objective:
 
 Identify runaway behavior.
 
-### The three metrics that matter
+---
 
-#### Attack Success Rate
+## The three metrics that matter
+
+### Attack Success Rate
 
 How often did the attack succeed?
 
-#### Detection Rate
+### Detection Rate
 
 How often was the attack detected?
 
-#### Recovery Rate
+### Recovery Rate
 
 How quickly was the system restored?
 
 These metrics are often more useful than model accuracy.
 
-### The two flows that explain half the lesson
+---
+
+## The two flows that explain half the lesson
 
 ### DF-ATTACK
 
@@ -206,9 +204,10 @@ Detection → Response → Restoration
 
 Can the system recover safely?
 
-### Common red-team mistakes
 
-### Mistake 1
+## Common red-team mistakes
+
+> [!risk]**Mistake 1**
 
 Testing only prompts.
 
@@ -219,13 +218,13 @@ Most real attacks involve:
 - tools
 - autonomy
 
-### Mistake 2
+> [!risk]**Mistake 2**
 
 Testing only the model.
 
 Most incidents occur in surrounding systems.
 
-### Mistake 3
+> [!risk]**Mistake 3**
 
 Testing once.
 
@@ -233,28 +232,32 @@ Security controls drift.
 
 Red teaming should be continuous.
 
-[!risk] **What can go wrong?**
+---
 
-- A prompt bypasses controls.
-- Poisoned documents survive ingestion.
-- Memory retains malicious instructions.
-- Agents delegate compromised information.
-- Autonomous systems expand scope.
-- Tool permissions exceed intended authority.
+> [!risk] **What can go wrong?**
+> 
+> - A prompt bypasses controls.
+> - Poisoned documents survive ingestion.
+> - Memory retains malicious instructions.
+> - Agents delegate compromised information.
+> - Autonomous systems expand scope.
+> - Tool permissions exceed intended authority.
+> 
+> A threat model that has never been tested remains a hypothesis.
 
-A threat model that has never been tested remains a hypothesis.
+> [!fix] **What can we do about it?**
+> 
+> - Test regularly.
+> - Test retrieval.
+> - Test memory.
+> - Test tools.
+> - Test autonomy.
+> - Measure attack success.
+> - Validate mitigations after every change.
 
-[!fix] **What can we do about it?**
+---
 
-- Test regularly.
-- Test retrieval.
-- Test memory.
-- Test tools.
-- Test autonomy.
-- Measure attack success.
-- Validate mitigations after every change.
-
-### In the tool
+## In the tool
 
 Open any pattern report.
 
@@ -273,28 +276,32 @@ Document:
 
 Repeat for all three.
 
-### Hands-on exercise
+---
 
-[!exercise] Build a red-team plan
+## Hands-on exercise
 
-Choose one architecture pattern.
+> [!exercise] Build a red-team plan
+> 
+> Choose one architecture pattern.
+> 
+> Create:
+> 
+> - three prompt attacks
+> - two retrieval attacks
+> - one memory attack
+> - one tool abuse attack
+> 
+> Now define:
+> 
+> - expected result
+> - successful attack condition
+> - defensive control
+> 
+> Which control fails first?
 
-Create:
+---
 
-- three prompt attacks
-- two retrieval attacks
-- one memory attack
-- one tool abuse attack
-
-Now define:
-
-- expected result
-- successful attack condition
-- defensive control
-
-Which control fails first?
-
-### Checkpoints
+## Checkpoints
 
 - Why is red teaming different from threat modeling?
 - Why should retrieval be tested?
@@ -303,7 +310,9 @@ Which control fails first?
 - What metric demonstrates defensive effectiveness?
 - Why should testing be continuous?
 
-### Quick check
+---
+
+## Quick check
 > [!quiz]
 > Test your understanding before moving on.
 >
@@ -329,9 +338,7 @@ Which control fails first?
 > Answer: A
 
 
-
-
-### Scenario quiz
+## Scenario quiz
 > [!quiz]
 >
 > 1. A poisoned PDF successfully bypasses ingestion controls and manipulates retrieval. What category was tested?
@@ -372,7 +379,7 @@ Which control fails first?
 ---
 
 
-### Key takeaways
+## Key takeaways
 
 - Threat models predict risk.
 - Red teams validate risk.
@@ -381,7 +388,7 @@ Which control fails first?
 - Security evidence is stronger than security assumptions.
 - Effective red teams improve systems before attackers do.
 
-### Where to next
+## Where to next
 
 You now understand how to identify threats and validate them.
 

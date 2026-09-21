@@ -70,11 +70,11 @@ The MCP ecosystem performs them.
 ## The anatomy (read the diagram)
 
 ![MCP Tool Security](images/mcp-tool-ecosystem-security.png)
-images/mcp-tool-ecosystem-security.png
+
 
 The architecture can be viewed in four layers:
 
-### Request Layer
+> **Request Layer**
 
 User
 → API Gateway
@@ -82,7 +82,7 @@ User
 
 Receives requests.
 
-### Decision Layer
+> **Decision Layer**
 
 Agent
 → Policy Engine
@@ -90,7 +90,7 @@ Agent
 
 Determines what should occur.
 
-#### Action Layer
+> **Action Layer**
 
 Tool Broker
 → MCP Server
@@ -98,7 +98,7 @@ Tool Broker
 
 Executes actions.
 
-#### Oversight Layer
+> **Oversight Layer**
 
 Monitoring
 → Audit
@@ -116,28 +116,24 @@ Three seams matter most:
 
 ## The catalog, walked threat-by-threat
 
-### 1. Tool Abuse
+> [!risk]**1. Tool Abuse**
 
-OWASP: LLM06
+OWASP: LLM06; ATLAS: AML.T0054
 
-ATLAS: AML.T0054
-
-The model legitimately calls a tool.
-
-The purpose becomes illegitimate.
+The model legitimately calls a tool. The purpose becomes illegitimate.
 
 Examples:
 
-- deleting records
-- sending unauthorized emails
-- changing approvals
-- creating false transactions
+    - deleting records
+    - sending unauthorized emails
+    - changing approvals
+    - creating false transactions
 
 The tool behaves correctly.
 
 The request does not.
 
-### 2. Capability Escalation
+> [!risk]**2. Capability Escalation**
 
 ATLAS: AML.T0054
 
@@ -151,7 +147,7 @@ Examples:
 
 This usually originates from poor permission design.
 
-### 3. Tool Impersonation
+> [!risk]**3. Tool Impersonation**
 
 An attacker introduces a malicious tool that appears legitimate.
 
@@ -163,11 +159,9 @@ Examples:
 
 The AI system trusts the wrong component.
 
-### 4. Context Poisoning Through Tool Responses
+> [!risk]**4. Context Poisoning Through Tool Responses**
 
-Tools return information.
-
-The model treats it as trusted.
+Tools return information. The model treats it as trusted.
 
 Examples:
 
@@ -180,7 +174,7 @@ Tool output should be treated as data.
 
 Attackers want it treated as instructions.
 
-### 5. Credential Misuse
+> [!risk]**5. Credential Misuse**
 
 Secrets used by tools become targets.
 
@@ -193,7 +187,7 @@ Examples:
 
 Compromising tool credentials often bypasses the model entirely.
 
-### 6. Excessive Permission Inheritance
+> [!risk]**6. Excessive Permission Inheritance**
 
 The agent receives permissions intended for humans.
 
@@ -205,7 +199,7 @@ Examples:
 
 Least privilege is frequently forgotten during AI deployments.
 
-### 7. Cross-Tool Chaining
+> [!risk]**7. Cross-Tool Chaining**
 
 Individual tools appear safe.
 
@@ -223,7 +217,7 @@ No single action appears suspicious.
 
 The chain is.
 
-### 8. Supply Chain Compromise
+> [!risk]**8. Supply Chain Compromise**
 
 A third-party component becomes malicious.
 
@@ -236,7 +230,7 @@ Examples:
 
 The trusted extension becomes the attack path.
 
-### 9. Audit Evasion
+> [!risk]**9. Audit Evasion**
 
 Actions occur without visibility.
 
@@ -248,9 +242,11 @@ Examples:
 
 What cannot be investigated cannot be trusted.
 
+---
+
 ## The two flows that explain half the report
 
-### DF-08 Agent → Tool Broker
+> **DF-08 Agent → Tool Broker**
 
 This is the intent boundary.
 
@@ -260,7 +256,7 @@ Everything after this point is execution.
 
 Many organizations mistakenly place controls after execution has already begun.
 
-### DF-11 Tool Broker → Enterprise System
+> **DF-11 Tool Broker → Enterprise System**
 
 This is the business-impact boundary.
 
@@ -292,25 +288,34 @@ These questions identify most MCP-related weaknesses.
 
 A common attack chain:
 
+```text
+
 Prompt Injection
-→ Tool Selection Manipulation
-→ MCP Invocation
-→ Unauthorized Action
-→ Data Exfiltration
+↓
+Tool Selection Manipulation
+↓
+MCP Invocation
+↓
+Unauthorized Action
+↓
+Data Exfiltration
+```
 
 The prompt was not the impact.
 
 The tool invocation was.
 
+---
+
 ## Five design rules
 
-### Rule 1
+> Rule 1
 
 Tools are authority.
 
 Treat them like privileged administrators.
 
-### Rule 2
+> Rule 2
 
 Policy must live outside the model.
 
@@ -318,19 +323,19 @@ Models suggest.
 
 Policies decide.
 
-### Rule 3
+> Rule 3
 
 Every tool requires least privilege.
 
 Reduce blast radius before compromise occurs.
 
-### Rule 4
+> Rule 4
 
 Audit every action.
 
 If an action cannot be reconstructed later, risk increases.
 
-### Rule 5
+> Rule 5
 
 Trust tool outputs as data, not instructions.
 

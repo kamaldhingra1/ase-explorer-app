@@ -44,7 +44,7 @@ Most AI attacks exploit trust assumptions rather than software vulnerabilities.
 ## The anatomy (read the diagram)
 
 ![AI Trust Boundaries](images/ai-trust-boundaries.png)
-images/ai-trust-boundaries.png
+
 
 The architecture introduces six important trust boundaries:
 
@@ -65,33 +65,36 @@ Three questions help identify boundary risk:
 
 ## The six trust failures
 
-### TB-01 Human Boundary
+> **TB-01 Human Boundary**
 
-Untrusted user input enters the system.
+ Untrusted user input enters the system.
 
-Typical threats:
+ Typical threats:
+ 
+ - direct prompt injection
+ - jailbreak attempts
+ - denial of service
+ - abuse of business logic
 
-- direct prompt injection
-- jailbreak attempts
-- denial of service
-- abuse of business logic
+ The user's input should never automatically become instructions.
 
-The user's input should never automatically become instructions.
+---
 
-#### TB-02 Instruction Boundary
+> **TB-02 Instruction Boundary**
 
 The system must distinguish instructions from data.
 
 Typical threats:
 
-- indirect prompt injection
-- instruction confusion
-- system prompt override
-- prompt leakage
+ - indirect prompt injection
+ - instruction confusion
+ - system prompt override
+ - prompt leakage
+ 
+ This is one of the most important boundaries in GenAI systems.
+ ---
 
-This is one of the most important boundaries in GenAI systems.
-
-#### TB-03 Memory Boundary
+> **TB-03 Memory Boundary**
 
 Stored data becomes future context.
 
@@ -104,7 +107,9 @@ Typical threats:
 
 Memory changes attacker economics because compromises can survive beyond the session.
 
-#### TB-04 Tool Boundary
+---
+
+> **TB-04 Tool Boundary**
 
 Reasoning becomes action.
 
@@ -117,7 +122,9 @@ Typical threats:
 
 This boundary creates real-world impact.
 
-#### TB-05 Provider Boundary
+---
+
+> **TB-05 Provider Boundary**
 
 Internal information leaves organizational control.
 
@@ -130,7 +137,9 @@ Typical threats:
 
 Once information crosses this boundary, control shifts to another party.
 
-#### TB-06 Data Boundary
+---
+
+> **TB-06 Data Boundary**
 
 External content influences reasoning.
 

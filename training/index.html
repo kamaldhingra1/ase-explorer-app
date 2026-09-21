@@ -159,6 +159,7 @@
     .quiz { padding:12px 12px; }
     .doc pre { font-size:12px; padding:12px; }
   }
+
 </style>
 </head>
 <body>
@@ -347,7 +348,7 @@ function mdToHtml(src, opts) {
       for (let b of blocks) {
         let cls = null;
         const tag = b[0].match(/^\[!(\w+)\]\s*(.*)$/);
-        if (tag && ['callout', 'exercise', 'risk', 'fix', 'quiz'].includes(tag[1].toLowerCase())) {
+        if (tag && ['callout', 'exercise', 'risk', 'fix', 'quiz', 'grid'].includes(tag[1].toLowerCase())) {
           cls = tag[1].toLowerCase();
           b[0] = tag[2];
           if (b[0] === '') b = b.slice(1);
@@ -365,6 +366,31 @@ function mdToHtml(src, opts) {
         }
         if (inList) block += '</ul>';
         if (cls === 'quiz') {
+           /*  if (cls === 'grid') {
+
+              const text = b.join('\n');
+
+              const cards = text
+                .split(/^---$/m)
+                .map(x => x.trim())
+                .filter(Boolean);
+
+              let gridHtml = '<div class="grid-wrap">';
+
+              cards.forEach(card => {
+                gridHtml +=
+                  '<div class="grid-card border-callout">' +
+                  mdToHtml(card) +
+                  '</div>';
+              });
+
+              gridHtml += '</div>';
+
+              HTML_BLOCKS.push(gridHtml);
+              // continue;
+              return;
+            } */
+
           HTML_BLOCKS.push(renderQuiz(b));
         } else if (cls === 'fix' && opts.spoiler) {
           HTML_BLOCKS.push('<div class="fix"><button type="button" class="spoiler-btn">Reveal mitigations — answer key</button><div class="spoiler-body" hidden>' + block + '</div></div>');

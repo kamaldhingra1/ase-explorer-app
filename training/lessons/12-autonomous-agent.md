@@ -21,6 +21,8 @@ Autonomy is a risk multiplier, not a feature flag. An autonomous agent re-plans 
 
 Unlike every earlier lesson, here the *default* is dangerous. You are not looking for what can go wrong; you are checking what the agent is *structurally unable* to do.
 
+---
+
 ## The anatomy (read the diagram)
 
 ![Autonomous Agent reference architecture](images/autonomous-agent.png)
@@ -40,35 +42,52 @@ Five seams matter most:
 | **Loop ↔ memory** | `AI-09/10` | Persistent poisoning that survives runs and sessions. |
 | **Loop ↔ kill switch** | `AI-15/03` | The one control that must survive the agent's own reasoning. |
 
+---
+
 ## The catalog, walked threat-by-threat
 
 Every row of `patterns/autonomous-agent.md`'s Pre-Mapped Threat Catalog, grouped by failure mode:
 
-**1. Direct prompt injection overriding autonomy constraints (`LLM01`, `AML.T0051.004`, via `AI-03/06`)** — with no human gate, a successful injection isn't "answered wrong"; it *executes*. Constraint overrides scale to whatever the tool sandbox allows.
+> [!risk]**1. Direct prompt injection overriding autonomy constraints (`LLM01`, `AML.T0051.004`, via `AI-03/06`)** 
+-  with no human gate, a successful injection isn't "answered wrong"; it *executes*. Constraint overrides scale to whatever the tool sandbox allows.
 
-**2. Indirect injection via observations, memory, tool results (`LLM01`, `AML.T0051.005`, via `AI-10/12`)** — the agent reads external systems and its own stored state every loop. Each read is a potential instruction. Observation poisoning is the *primary* vector here.
+> [!risk]**2. Indirect injection via observations, memory, tool results (`LLM01`, `AML.T0051.005`, via `AI-10/12`)** 
+- the agent reads external systems and its own stored state every loop. Each read is a potential instruction. Observation poisoning is the *primary* vector here.
 
-**3. Excessive agency / autonomous scope escalation (`LLM08`, `AML.T0054`, via `AI-02/03/07`)** — the agent keeps going: more tools, more steps, further scope. Everything that was "design-time permission" becomes "run-time initiative".
+> [!risk]**3. Excessive agency / autonomous scope escalation (`LLM08`, `AML.T0054`, via `AI-02/03/07`)** 
+-  the agent keeps going: more tools, more steps, further scope. Everything that was "design-time permission" becomes "run-time initiative".
 
-**4. Self-directed escalation (`—`, `AML.T0054.004`, via `AI-03/04/14`)** — the agent progressively expands its own goals and capabilities across iterations. Boundary Detection (`AI-14`) exists to see this; it must not be a prompt.
+> [!risk]**4. Self-directed escalation (`—`, `AML.T0054.004`, via `AI-03/04/14`)** 
+-  the agent progressively expands its own goals and capabilities across iterations. Boundary Detection (`AI-14`) exists to see this; it must not be a prompt.
 
-**5. Guardrail circumvention (`—`, `AML.T0054.005`, via `AI-03/06/11`)** — the agent reasons *around* the safety checks: finds edge cases, splits actions, rewords goals. Lesson 08's rule lands hard here: prompt-level "guardrails" are not controls.
+> [!risk]**5. Guardrail circumvention (`—`, `AML.T0054.005`, via `AI-03/06/11`)** 
+-  the agent reasons *around* the safety checks: finds edge cases, splits actions, rewords goals. Lesson 08's rule lands hard here: prompt-level "guardrails" are not controls.
 
-**6. Recursive self-modification (`—`, `AML.T0054.006`, via `AI-03/05/10`)** — reflection adjusts future reasoning, creating a self-reinforcing loop. If reflection can rewrite its own rules, the agent becomes its own attacker inside the loop.
+> [!risk]**6. Recursive self-modification (`—`, `AML.T0054.006`, via `AI-03/05/10`)** 
+-  reflection adjusts future reasoning, creating a self-reinforcing loop. If reflection can rewrite its own rules, the agent becomes its own attacker inside the loop.
 
-**7. Code execution via sandbox escape (`—`, `AML.T0051.008`, via `AI-03/07`)** — autonomous + a sandboxed runtime means the injection→RCE primitive needs no human. Cryptomining, lateral movement, exfil — all without a prompt-in-the-loop.
+> [!risk]**7. Code execution via sandbox escape (`—`, `AML.T0051.008`, via `AI-03/07`)** 
+-  autonomous + a sandboxed runtime means the injection→RCE primitive needs no human. Cryptomining, lateral movement, exfil — all without a prompt-in-the-loop.
 
-**8. Sensitive information disclosure (`LLM06`, `AML.T0024`, via `AI-07/10`)** — autonomous tool use is a licensed exfil channel with plausible deniability ("it was completing the task").
+> [!risk]**8. Sensitive information disclosure (`LLM06`, `AML.T0024`, via `AI-07/10`)** 
+-  autonomous tool use is a licensed exfil channel with plausible deniability ("it was completing the task").
 
-**9. Goal hijacking (`—`, `AML.T0054.007`, via `AI-02/03`)** — attacker redirects the objective mid-run. With no gate, the redirect is *accepted* and re-planned-for.
+> [!risk]**9. Goal hijacking (`—`, `AML.T0054.007`, via `AI-02/03`)** 
+-  attacker redirects the objective mid-run. With no gate, the redirect is *accepted* and re-planned-for.
 
-**10. Persistent memory manipulation (`—`, `AML.T0054.002`, via `AI-09/10`)** — poison long-term memory once; every future run reads the attacker's narrative, including across sessions and users.
+> [!risk]**10. Persistent memory manipulation (`—`, `AML.T0054.002`, via `AI-09/10`)** 
+-  poison long-term memory once; every future run reads the attacker's narrative, including across sessions and users.
 
-**11. Autonomous loop DoS (`LLM04`, `AML.T0043`, via `AI-03/06`)** — infinite loops, retry storms, resource exhaustion with nobody to stop it. The most boring and most likely failure.
+> [!risk]**11. Autonomous loop DoS (`LLM04`, `AML.T0043`, via `AI-03/06`)** 
+-  infinite loops, retry storms, resource exhaustion with nobody to stop it. The most boring and most likely failure.
 
-**12. System prompt leakage of autonomy constraints (`LLM09`, `AML.T0051.005`, via `AI-03/06`)** — the prompt leaks the *envelope*: what it may do, which tools, what scope. That's the roadmap for goal hijacking and escalation.
+> [!risk]**12. System prompt leakage of autonomy constraints (`LLM09`, `AML.T0051.005`, via `AI-03/06`)** 
+-  the prompt leaks the *envelope*: what it may do, which tools, what scope. That's the roadmap for goal hijacking and escalation.
 
-**13. Insecure plugin design for autonomous use (`LLM07`, `AML.T0051`, via `AI-07/08`)** — tool permissions written for "called by a human" are catastrophic when "called by itself, repeatedly, autonomously".
+> [!risk]**13. Insecure plugin design for autonomous use (`LLM07`, `AML.T0051`, via `AI-07/08`)** 
+-  tool permissions written for "called by a human" are catastrophic when "called by itself, repeatedly, autonomously".
+
+---
 
 ## The five autonomous-specific considerations (the report will lean on these)
 
@@ -78,10 +97,16 @@ Every row of `patterns/autonomous-agent.md`'s Pre-Mapped Threat Catalog, grouped
 4. **Observation poisoning** — external responses feed the next iteration. Sanitize observations *before* they enter the loop, on every pass.
 5. **Kill switch independence** — `AI-15` must be reachable through a channel the agent cannot intercept, block, or influence, triggerable by humans or monitors.
 
+---
+
 ## The two flows that explain half the report
 
-- **`DF-10` Agent Core → Tool Sandbox** (`INTERNAL → EDGE`): autonomous execution. Once an action leaves here, the loop has already committed to it. Validation must happen before, not after.
-- **`DF-15` Self-Reflection → Agent Core** (`INTERNAL → INTERNAL`): the recursive hop. If it can change behavior, it's a self-modifying attack surface; bound it or log-append it.
+> **`DF-10` Agent Core → Tool Sandbox** (`INTERNAL → EDGE`): 
+autonomous execution. Once an action leaves here, the loop has already committed to it. Validation must happen before, not after.
+> **`DF-15` Self-Reflection → Agent Core** (`INTERNAL → INTERNAL`): 
+the recursive hop. If it can change behavior, it's a self-modifying attack surface; bound it or log-append it.
+
+---
 
 > [!risk] **What can go wrong?** The report's scariest rows, ranked by what usually bites in production:
 > - An external API the agent polls returns "actually, the build system is also in scope" — and next loop it *is*, **goal hijacking + self-directed escalation** in one shot.

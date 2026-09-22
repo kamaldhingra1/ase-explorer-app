@@ -62,22 +62,6 @@
   .fix { border:1px solid #1f5cbf; background:#e8f0fe; border-radius:8px; padding:12px 16px; margin:14px 0; }
   .fix strong:first-child { color:#1f5cbf; }
   .risk ul, .risk ol, .fix ul, .fix ol { margin:8px 0 4px 20px; }
-  .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:16px 0; }
-  .grid-head { grid-column:1/-1; font-weight:800; font-size:13.5px; color:var(--main-dark); margin:0 0 4px; }
-  .grid-card { border:1px solid var(--line); background:#fff; border-radius:9px; padding:13px 15px; min-width:0; overflow-wrap:anywhere; }
-  .grid-card > :first-child { margin-top:0; }
-  .grid-card > :last-child { margin-bottom:0; }
-  .grid-card h3, .grid-card h4 { margin:0 0 6px; font-size:14.5px; }
-  .grid-card p { margin:6px 0; }
-  .grid-card ul, .grid-card ol { margin:6px 0 2px; }
-  .grid-card--callout { border-color:var(--main); background:var(--main-tint); }
-  .grid-card--exercise { border-color:var(--ok); background:var(--okbg); }
-  .grid-card--risk { border-color:#b3261e; background:#fdecea; }
-  .grid-card--fix { border-color:#1f5cbf; background:#e8f0fe; }
-  .grid-card--callout strong:first-child { color:var(--main-dark); }
-  .grid-card--exercise strong:first-child { color:var(--ok); }
-  .grid-card--risk strong:first-child { color:#b3261e; }
-  .grid-card--fix strong:first-child { color:#1f5cbf; }
   .hprog { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--main-dark); }
   .prog-track { width:130px; height:9px; background:var(--main-tint); border:1px solid var(--line); border-radius:7px; overflow:hidden; flex:0 0 auto; }
   .prog-fill { height:100%; width:0%; background:var(--main); border-radius:7px; transition:width .3s ease; }
@@ -139,7 +123,6 @@
   #wsSheet th { background:var(--main-tint); color:var(--main-dark); }
   #wsSheet td.blank { height:34px; }
   #wsSheet .ws-note { font-size:11.5px; color:var(--muted); }
-  @media (max-width:620px) { .grid { grid-template-columns:1fr; } }
   @media print {
     body * { visibility:hidden !important; }
     #wsSheetWrap, #wsSheetWrap * { visibility:visible !important; }
@@ -181,7 +164,7 @@
 </head>
 <body>
 <header>
-  <img src="lessons/images/ase-favicon-64a.png" alt="logo">
+  <img src="/assets/brand/ase-favicon-64a.png" alt="logo">
   <div>
     <h1>AI Security Threat Modeling Training</h1>
     <div class="sub">Hands-on: explain · play · generate real threats, risks and mitigations</div>
@@ -353,7 +336,7 @@ function mdToHtml(src, opts) {
       const blocks = [];
       let cur = [];
       for (const l of rawLines) {
-        if (/^\[!(callout|exercise|risk|fix|grid)\]/i.test(l)) {
+        if (/^\[!(callout|exercise|risk|fix)\]/i.test(l)) {
           if (cur.length) blocks.push(cur);
           cur = [l];
         } else {
@@ -363,19 +346,12 @@ function mdToHtml(src, opts) {
       if (cur.length) blocks.push(cur);
       const HTML_BLOCKS = [];
       for (let b of blocks) {
-        let cls = null, gridVariant = '', gridCaption = '';
-        const tag = b[0].match(/^\[!(\w+)(?:=(\w+))?\]\s*(.*)$/);
+        let cls = null;
+        const tag = b[0].match(/^\[!(\w+)\]\s*(.*)$/);
         if (tag && ['callout', 'exercise', 'risk', 'fix', 'quiz', 'grid'].includes(tag[1].toLowerCase())) {
           cls = tag[1].toLowerCase();
-          gridVariant = tag[2] || '';
-          const rest = (tag[3] || '').trim();
-          if (cls === 'grid') {
-            gridCaption = rest;
-            b = b.slice(1);
-          } else {
-            b[0] = rest;
-            if (b[0] === '') b = b.slice(1);
-          }
+          b[0] = tag[2];
+          if (b[0] === '') b = b.slice(1);
         }
         let block = '', inList = false;
         for (const l of b) {
@@ -389,9 +365,32 @@ function mdToHtml(src, opts) {
           block += '<p>' + inline(l) + '</p>';
         }
         if (inList) block += '</ul>';
-        if (cls === 'grid') {
-          HTML_BLOCKS.push(renderGrid(b, gridVariant, gridCaption));
-        } else if (cls === 'quiz') {
+        if (cls === 'quiz') {
+           /*  if (cls === 'grid') {
+
+              const text = b.join('\n');
+
+              const cards = text
+                .split(/^---$/m)
+                .map(x => x.trim())
+                .filter(Boolean);
+
+              let gridHtml = '<div class="grid-wrap">';
+
+              cards.forEach(card => {
+                gridHtml +=
+                  '<div class="grid-card border-callout">' +
+                  mdToHtml(card) +
+                  '</div>';
+              });
+
+              gridHtml += '</div>';
+
+              HTML_BLOCKS.push(gridHtml);
+              // continue;
+              return;
+            } */
+
           HTML_BLOCKS.push(renderQuiz(b));
         } else if (cls === 'fix' && opts.spoiler) {
           HTML_BLOCKS.push('<div class="fix"><button type="button" class="spoiler-btn">Reveal mitigations — answer key</button><div class="spoiler-body" hidden>' + block + '</div></div>');
@@ -432,22 +431,6 @@ function stripFrontmatter(src) {
   const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
   if (!m) return src;
   return src.slice(m[0].length);
-}
-
-function renderGrid(lines, variant, caption) {
-  const cards = [];
-  let cur = [];
-  for (const l of lines) {
-    if (/^\s*-{3,}\s*$/.test(l)) { if (cur.length) cards.push(cur); cur = []; }
-    else cur.push(l);
-  }
-  if (cur.length) cards.push(cur);
-  if (!cards.length) return '';
-  const v = variant && /^(callout|exercise|risk|fix)$/i.test(variant) ? variant.toLowerCase() : '';
-  const head = caption ? '<div class="grid-head">' + inline(caption) + '</div>' : '';
-  return '<div class="grid">' + head +
-    cards.map(c => '<div class="grid-card' + (v ? ' grid-card--' + v : '') + '">' + mdToHtml(c.join('\n')) + '</div>').join('') +
-    '</div>';
 }
 
 function renderQuiz(lines) {

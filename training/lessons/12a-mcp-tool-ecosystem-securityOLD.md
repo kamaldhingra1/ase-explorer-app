@@ -72,41 +72,41 @@ The MCP ecosystem performs them.
 ![MCP Tool Security](images/mcp-tool-ecosystem-security.png)
 
 
-> [!grid=callout] The architecture can be viewed in four layers:
-> **1. Request Layer**
->
-> User
-> → API Gateway
-> → Agent
-> 
-> Receives requests.
-> ---
-> **2. Decision Layer**
-> 
-> Agent
-> → Policy Engine
-> → Tool Broker
-> 
-> Determines what should occur.
-> ---
-> **3. Action Layer**
-> 
-> Tool Broker
-> → MCP Server
-> → Enterprise Systems
-> 
-> Executes actions.
-> ---
-> **4. Oversight Layer**
-> 
-> Monitoring
-> → Audit
-> → HITL
-> 
-> Verifies actions remain acceptable.
-> 
-> Three seams matter most:
-> 
+The architecture can be viewed in four layers:
+
+> **Request Layer**
+
+User
+→ API Gateway
+→ Agent
+
+Receives requests.
+
+> **Decision Layer**
+
+Agent
+→ Policy Engine
+→ Tool Broker
+
+Determines what should occur.
+
+> **Action Layer**
+
+Tool Broker
+→ MCP Server
+→ Enterprise Systems
+
+Executes actions.
+
+> **Oversight Layer**
+
+Monitoring
+→ Audit
+→ HITL
+
+Verifies actions remain acceptable.
+
+Three seams matter most:
 
 | Seam | Components | Why It Matters |
 |--------|--------|--------|
@@ -116,134 +116,158 @@ The MCP ecosystem performs them.
 
 ## The catalog, walked threat-by-threat
 
-> [!grid=risk] **The MCP & tool threat catalog — nine failure modes**
->
-> **1. Tool Abuse** (`LLM06`, `AML.T0054`)
->
-> The model legitimately calls a tool. The purpose becomes illegitimate.
->
-> - deleting records
-> - sending unauthorized emails
-> - changing approvals
-> - creating false transactions
->
-> The tool behaves correctly — the request does not.
-> ---
-> **2. Capability Escalation** (`AML.T0054`)
->
-> The agent gains access to capabilities beyond its intended scope.
->
-> - read-only becoming read-write
-> - reporting tools becoming administrative tools
-> - workflow execution beyond authorization boundaries
->
-> This usually originates from poor permission design.
-> ---
-> **3. Tool Impersonation**
->
-> An attacker introduces a malicious tool that appears legitimate.
->
-> - rogue MCP endpoints
-> - compromised plugins
-> - spoofed services
->
-> The AI system trusts the wrong component.
-> ---
-> **4. Context Poisoning Through Tool Responses**
->
-> Tools return information. The model treats it as trusted.
->
-> - malicious API responses
-> - hidden instructions
-> - manipulated metadata
-> - tool-generated prompt injection
->
-> Tool output should be treated as data — attackers want it treated as instructions.
-> ---
-> **5. Credential Misuse**
->
-> Secrets used by tools become targets.
->
-> - API keys
-> - service principals
-> - OAuth tokens
-> - delegated permissions
->
-> Compromising tool credentials often bypasses the model entirely.
-> ---
-> **6. Excessive Permission Inheritance**
->
-> The agent receives permissions intended for humans.
->
-> - administrator capabilities
-> - unrestricted file access
-> - elevated business privileges
->
-> Least privilege is frequently forgotten during AI deployments.
-> ---
-> **7. Cross-Tool Chaining**
->
-> Individual tools appear safe. Combined together they become dangerous.
->
-> - Read Email
-> - Extract Information
-> - Send Email
-> - Modify Ticket
-> - Delete Logs
->
-> No single action appears suspicious — the chain is.
-> ---
-> **8. Supply Chain Compromise**
->
-> A third-party component becomes malicious.
->
-> - plugins
-> - frameworks
-> - MCP servers
-> - integration packages
->
-> The trusted extension becomes the attack path.
-> ---
-> **9. Audit Evasion**
->
-> Actions occur without visibility.
->
-> - incomplete logging
-> - missing attribution
-> - insufficient telemetry
->
-> What cannot be investigated cannot be trusted.
+> [!risk]**1. Tool Abuse**
+
+OWASP: LLM06; ATLAS: AML.T0054
+
+The model legitimately calls a tool. The purpose becomes illegitimate.
+
+Examples:
+
+    - deleting records
+    - sending unauthorized emails
+    - changing approvals
+    - creating false transactions
+
+The tool behaves correctly.
+
+The request does not.
+
+> [!risk]**2. Capability Escalation**
+
+ATLAS: AML.T0054
+
+The agent gains access to capabilities beyond its intended scope.
+
+Examples:
+
+- read-only becoming read-write
+- reporting tools becoming administrative tools
+- workflow execution beyond authorization boundaries
+
+This usually originates from poor permission design.
+
+> [!risk]**3. Tool Impersonation**
+
+An attacker introduces a malicious tool that appears legitimate.
+
+Examples:
+
+- rogue MCP endpoints
+- compromised plugins
+- spoofed services
+
+The AI system trusts the wrong component.
+
+> [!risk]**4. Context Poisoning Through Tool Responses**
+
+Tools return information. The model treats it as trusted.
+
+Examples:
+
+- malicious API responses
+- hidden instructions
+- manipulated metadata
+- tool-generated prompt injection
+
+Tool output should be treated as data.
+
+Attackers want it treated as instructions.
+
+> [!risk]**5. Credential Misuse**
+
+Secrets used by tools become targets.
+
+Examples:
+
+- API keys
+- service principals
+- OAuth tokens
+- delegated permissions
+
+Compromising tool credentials often bypasses the model entirely.
+
+> [!risk]**6. Excessive Permission Inheritance**
+
+The agent receives permissions intended for humans.
+
+Examples:
+
+- administrator capabilities
+- unrestricted file access
+- elevated business privileges
+
+Least privilege is frequently forgotten during AI deployments.
+
+> [!risk]**7. Cross-Tool Chaining**
+
+Individual tools appear safe.
+
+Combined together they become dangerous.
+
+Examples:
+
+Read Email
+→ Extract Information
+→ Send Email
+→ Modify Ticket
+→ Delete Logs
+
+No single action appears suspicious.
+
+The chain is.
+
+> [!risk]**8. Supply Chain Compromise**
+
+A third-party component becomes malicious.
+
+Examples:
+
+- plugins
+- frameworks
+- MCP servers
+- integration packages
+
+The trusted extension becomes the attack path.
+
+> [!risk]**9. Audit Evasion**
+
+Actions occur without visibility.
+
+Examples:
+
+- incomplete logging
+- missing attribution
+- insufficient telemetry
+
+What cannot be investigated cannot be trusted.
 
 ---
 
 ## The two flows that explain half the report
 
-> [!grid] 
 > **DF-08 Agent → Tool Broker**
-> 
-> This is the intent boundary.
-> 
-> Everything before this point is reasoning.
-> 
-> Everything after this point is execution.
-> 
-> Many organizations mistakenly place controls after execution has already begun.
-> ---
-> **DF-11 Tool Broker → Enterprise System**
-> 
-> This is the business-impact boundary.
-> 
-> Once a request crosses this line:
-> 
-> - records may change
-> - money may move
-> - emails may send
-> - workflows may trigger
-> 
-> The highest-value controls belong on this flow.
-> ---
 
----
+This is the intent boundary.
+
+Everything before this point is reasoning.
+
+Everything after this point is execution.
+
+Many organizations mistakenly place controls after execution has already begun.
+
+> **DF-11 Tool Broker → Enterprise System**
+
+This is the business-impact boundary.
+
+Once a request crosses this line:
+
+- records may change
+- money may move
+- emails may send
+- workflows may trigger
+
+The highest-value controls belong on this flow.
 
 ## MCP-specific security questions
 
@@ -285,43 +309,37 @@ The tool invocation was.
 
 ## Five design rules
 
-> [!grid=exercise] 
-> **Rule 1**   ✅
-> 
-> Tools are authority.
-> 
-> Treat them like privileged administrators.
-> 
-> ---
-> **Rule 2**   ✅
-> 
-> Policy must live outside the model.
-> 
-> Models suggest.
-> 
-> Policies decide.
-> 
-> ---
-> **Rule 3**   ✅
-> 
-> Every tool requires least privilege.
-> 
-> Reduce blast radius before compromise occurs.
-> 
-> ---
-> **Rule 4**   ✅
-> 
-> Audit every action.
-> 
-> If an action cannot be reconstructed later, risk increases.
-> 
-> ---
-> **Rule 5**   ✅
-> 
-> Trust tool outputs as data, not instructions.
-> 
-> Otherwise APIs become prompt-injection sources.
-> 
+> Rule 1
+
+Tools are authority.
+
+Treat them like privileged administrators.
+
+> Rule 2
+
+Policy must live outside the model.
+
+Models suggest.
+
+Policies decide.
+
+> Rule 3
+
+Every tool requires least privilege.
+
+Reduce blast radius before compromise occurs.
+
+> Rule 4
+
+Audit every action.
+
+If an action cannot be reconstructed later, risk increases.
+
+> Rule 5
+
+Trust tool outputs as data, not instructions.
+
+Otherwise APIs become prompt-injection sources.
 
 ---
 

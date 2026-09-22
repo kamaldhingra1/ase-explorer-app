@@ -32,6 +32,19 @@ These map to the tool's existing assets: `samples/*.png` are the exercises,
   STRIDE (07) are intentionally table/worksheet-driven.
 - **`[!risk]` — "What can go wrong?"** boxes: named failure modes for the topic.
 - **`[!fix]` — "What can we do about it?"** boxes: architectural enforcement points.
+- **`[!grid]` / `[!grid=risk|fix|callout|exercise]`** — side-by-side card grids to save
+  vertical space (default 2 columns, collapses to 1 on mobile). Cards are separated by a
+  `---` line inside the blockquote; an optional caption after the tag renders above the
+  cards:
+
+  ```md
+  > [!grid=risk] **The MCP threat catalog**
+  > **1. Tool Abuse** (`LLM06`, `AML.T0054`)
+  > The model legitimately calls a tool — the purpose becomes illegitimate.
+  > ---
+  > **2. Capability Escalation** (`AML.T0054`)
+  > The agent gains access beyond its intended scope.
+  ```
 - Rendered by `training/index.html` (small offline markdown renderer; images resolve
   relative to each lesson file).
 

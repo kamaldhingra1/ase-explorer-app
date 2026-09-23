@@ -407,4 +407,4 @@ You now understand how to identify threats and validate them.
 
 Next:
 
-Lesson 13 – Writing the Threat Report
+Lesson 12c – OWASP Agentic AI Top 10 (the agent-specific failure-mode catalogue), then Lesson 13.

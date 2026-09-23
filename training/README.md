@@ -19,6 +19,7 @@ The course combines:
 
 - Microsoft Threat Modeling principles
 - OWASP LLM Top 10
+- OWASP Agentic AI Top 10
 - MITRE ATLAS
 - AI-Augmented STRIDE
 - AI Architecture Patterns
@@ -88,6 +89,7 @@ The objective is threat-modeling intuition.
 | 12 | Deep Dive: Autonomous Agent | Autonomy and escalation |
 | 12A | MCP & Tool Ecosystem Security | Tool governance and action security |
 | 12B | AI Red Teaming & Adversarial Validation | Security validation |
+| 12C | OWASP Agentic AI Top 10 | Agent-specific failure modes (A1–A10) |
 
 ---
 
@@ -248,6 +250,29 @@ Including:
 
 ---
 
+## OWASP Agentic AI Top 10
+
+Students learn the agent-specific failure-mode catalogue (2025):
+
+A1–A10
+
+Including:
+
+- Unbounded Execution
+- Excessive Agency
+- Improper Input Handling
+- Infinite Loops / Denial of Wallet
+- Cascading Hallucinations
+- Inadequate Human Oversight
+- Unsafe Data Handling
+- Insecure Communication / Data Chain
+- Improper Output Handling
+- Identity Spoofing
+
+The agentic list augments (does not replace) the LLM Top 10: A2/A9 rename LLM06/LLM05, while A1, A5, A7, A8 and A10 only exist when software acts.
+
+---
+
 ## MITRE ATLAS
 
 Students map findings to:
@@ -298,7 +323,8 @@ assessments/final-exam-questions.md
 Coverage:
 
 - Foundations
-- OWASP
+- OWASP LLM Top 10
+- OWASP Agentic AI Top 10
 - MITRE ATLAS
 - STRIDE
 - Trust Boundaries
@@ -427,7 +453,7 @@ Used during capstones and workshops.
 
 One-page quick-reference document covering:
 
-- OWASP
+- OWASP (LLM + Agentic)
 - ATLAS
 - STRIDE
 - Trust Boundaries
@@ -442,6 +468,37 @@ One-page quick-reference document covering:
 - STRIDE / OWASP / ATLAS Crosswalk
 - Facilitator Quick Guide
 - Threat Modeling Playbook
+
+---
+
+# Presentation Decks
+
+## Generator
+
+Script:
+
+scripts/build_decks.py
+
+Renders every lesson's markdown into branded 16:9 PowerPoint decks (python-pptx), reusing the palette from index.html. Output lands in decks/.
+
+Outputs:
+
+- One deck per lesson (19 files; lesson 12C included)
+- course-overview.pptx — curriculum & learning-loop overview
+- course-complete.pptx — the full course in order
+- assessments.pptx — capstones + certification questions
+
+Every slide carries speaker notes (plain-text narration for voiceover/TTS).
+
+Run (inside the ai-threatmodeler container; needs python-pptx, in requirements.txt):
+
+docker exec ai-threatmodeler python3 /opt/ai-tm/training/scripts/build_decks.py
+
+Optional flags: --only lessons|overview|combined|assessments, --out PATH.
+
+Mermaid diagrams in diagrams/ must be rendered to lessons/images/ first via render-diagrams.sh.
+
+Roadmap (planned next phase): lock decks, then produce per-module video/SCORM 1.2 packages by capturing slides (existing headless Chromium), narrating from the speaker notes (TTS or recorded), and assembling with ffmpeg.
 
 ---
 

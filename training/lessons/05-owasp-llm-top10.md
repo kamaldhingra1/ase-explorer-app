@@ -8,7 +8,8 @@ status: complete
 
 # OWASP LLM Top 10
 
-> The OWASP LLM Application Security Top 10 is the security industry's agreed catalogue of *what can go wrong* specifically with Large Language Model applications. Each entry names a failure mode, why it matters, and how it manifests. Think of it as your **threat prompt list**: browse it, but always check it against *your* flows and components.
+> The OWASP LLM Application Security Top 10 is the security industry's agreed catalogue of *what can go wrong* specifically with Large Language Model applications. Each entry names a failure mode, why it matters, and how it manifests. 
+> Think of it as your **threat prompt list**: browse it, but always check it against *your* flows and components.
 
 ## Why this matters
 
@@ -36,9 +37,13 @@ The patterns in your tool are catalogued against exactly this list (`LLM01`–`L
 
 When you see `LLM06` next to a finding, answer three questions:
 
-1. **Which flavor?** (direct/indirect injection, disclosure, agency, …) — the specific attack matters more than the category.
-2. **Which path?** Which flows/components does it travel (the finding should name `DF-xx`/`AI-xx`)?
-3. **Which defense defeats THIS path?** Not "a guardrail" — the specific one at the specific point (see Lesson 08).
+> **1. Which flavor?** (direct/indirect injection, disclosure, agency, …) — the specific attack matters more than the category.
+
+> **2. Which path?** Which flows/components does it travel (the finding should name `DF-xx`/`AI-xx`)?
+
+> **3. Which defense defeats THIS path?** Not "a guardrail" — the specific one at the specific point (see Lesson 08).
+
+---
 
 > [!risk] **What can go wrong?** A few categories dominate real incidents — recognize them in your own stack:
 > - **LLM01** injection: every LLM app that accepts text or retrieves content — the default assumption is *yes, it can be injected*.

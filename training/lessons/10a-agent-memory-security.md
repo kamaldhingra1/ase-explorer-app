@@ -33,14 +33,16 @@ That makes memory both:
 - a datastore
 - an instruction source
 
-The second property creates unique security challenges.
+**The second property creates unique security challenges.**
+
+---
 
 ## The anatomy (read the diagram)
 
 ![Agent Memory Security](images/agent-memory-security.png)
 
 
-Most agent architectures contain two forms of memory:
+### Most agent architectures contain two forms of memory:
 
 | Type | Purpose |
 |--------|--------|
@@ -55,139 +57,143 @@ Three seams matter most:
 | Agent ↔ Memory | Reasoning writes future behavior | -
 | Memory ↔ Agent | Stored information influences future reasoning | -
 
-The most important question:
+### The most important question:
 
-Is the memory being treated as data or instructions?
+> Is the memory being treated as data or instructions?
+> Attackers want it treated as instructions.
 
-Attackers want it treated as instructions.
+--- 
 
 ## The catalog, walked threat-by-threat
 
-> [!risk] **1. Memory Poisoning**
+> [!grid=risk] 
+> **1. Memory Poisoning**
+>
+>An attacker intentionally stores harmful content.
+>
+>Examples:
+>
+> - hidden instructions
+> - malicious goals
+> - preference manipulation
+> - retrieval triggers
+> 
+> The attack survives after the original session ends.
+> ---
+> **2. Memory Exfiltration**
+> 
+> Stored information is disclosed to unauthorized users.
+> 
+> Examples:
+> 
+> - chat histories
+> - personal information
+> - business data
+> - internal conversations
+> 
+> Memory often contains more sensitive information than prompts.
+> ---
+>  **3. Cross-Session Leakage**
+> 
+> One user's memory influences another user's session.
+> 
+> Examples:
+> 
+> - shared memory stores
+> - tenant isolation failures
+> - retrieval collisions
+> - context contamination
+> 
+> This is one of the most common architectural mistakes.
+> ---
+>  **4. False Fact Persistence**
+> 
+> Hallucinated information becomes stored information.
+> 
+> Examples:
+> 
+> - invented records
+> - fabricated decisions
+> - incorrect business facts
+> - non-existent references
+> 
+> Once stored, the hallucination acquires undeserved credibility.
+> ---
+>  **5. Goal Manipulation**
+> 
+> Stored goals alter future decision making.
+> 
+> Examples:
+> 
+> - vendor preference manipulation
+> - business objective tampering
+> - agent priority changes
+> - instruction persistence
+> 
+> The attacker influences future planning indirectly.
+> ---
+>  **6. Privilege Persistence**
+> 
+> Temporary permissions become permanent behavior.
+> 
+> Examples:
+> 
+> - remembered elevated actions
+> - retained administrative workflows
+> - excessive
+> ---
+> **7. Memory Replay**
+> 
+> Old instructions become active again.
+> 
+> Examples:
+> 
+> - outdated business rules
+> - expired approvals
+> - historical actions replayed as current intent
+> 
+> Older information is often trusted more than it should be.
+> ---
+>  **8. Long-Term Narrative Capture**
+> 
+> An attacker slowly shapes memory over time.
+> 
+> Examples:
+> 
+> - repeated false information
+> - gradual instruction insertion
+> - persistent influence campaigns
+> 
+> No individual action appears dangerous.
+> 
+> The accumulated result is.
 
-An attacker intentionally stores harmful content.
-
-Examples:
-
-- hidden instructions
-- malicious goals
-- preference manipulation
-- retrieval triggers
-
-The attack survives after the original session ends.
-
-> [!risk] **2. Memory Exfiltration**
-
-Stored information is disclosed to unauthorized users.
-
-Examples:
-
-- chat histories
-- personal information
-- business data
-- internal conversations
-
-Memory often contains more sensitive information than prompts.
-
-> [!risk] **3. Cross-Session Leakage**
-
-One user's memory influences another user's session.
-
-Examples:
-
-- shared memory stores
-- tenant isolation failures
-- retrieval collisions
-- context contamination
-
-This is one of the most common architectural mistakes.
-
-> [!risk] **4. False Fact Persistence**
-
-Hallucinated information becomes stored information.
-
-Examples:
-
-- invented records
-- fabricated decisions
-- incorrect business facts
-- non-existent references
-
-Once stored, the hallucination acquires undeserved credibility.
-
-> [!risk] **5. Goal Manipulation**
-
-Stored goals alter future decision making.
-
-Examples:
-
-- vendor preference manipulation
-- business objective tampering
-- agent priority changes
-- instruction persistence
-
-The attacker influences future planning indirectly.
-
-> [!risk] **6. Privilege Persistence**
-
-Temporary permissions become permanent behavior.
-
-Examples:
-
-- remembered elevated actions
-- retained administrative workflows
-- excessive
-
-> [!risk] **7. Memory Replay**
-
-Old instructions become active again.
-
-Examples:
-
-- outdated business rules
-- expired approvals
-- historical actions replayed as current intent
-
-Older information is often trusted more than it should be.
-
-> [!risk] **8. Long-Term Narrative Capture**
-
-An attacker slowly shapes memory over time.
-
-Examples:
-
-- repeated false information
-- gradual instruction insertion
-- persistent influence campaigns
-
-No individual action appears dangerous.
-
-The accumulated result is.
---
+---
 
 ## The two flows that explain half the report
 
+> [!grid=callout] 
 > **DF-12 User → Memory**
-
-This is the persistence boundary.
-
-User input transforms into durable state.
-
-The most important question:
-
-Should this information be stored at all?
-
+> 
+> This is the persistence boundary.
+> 
+> User input transforms into durable state.
+> 
+> The most important question:
+> 
+> Should this information be stored at all?
+> ---
 > **DF-13 Memory → Agent**
-
-This is the trust boundary.
-
-Stored content returns to influence future reasoning.
-
-The most important question:
-
-Why should the system trust this information?
-
-Many memory attacks cross both flows.
+> 
+> This is the trust boundary.
+> 
+> Stored content returns to influence future reasoning.
+> 
+> The most important question:
+> 
+> Why should the system trust this information?
+> 
+> Many memory attacks cross both flows.
 
 ---
 

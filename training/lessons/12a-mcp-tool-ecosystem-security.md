@@ -11,13 +11,15 @@ status: complete
 
 > Models create value by reasoning. Tools create value by acting. The moment an AI system can send email, create tickets, update records, run workflows, execute code, access databases, or invoke APIs, the attack surface changes dramatically.
 
- - Prompt injection becomes tool abuse.
+ - **Prompt injection becomes tool abuse -->**
 
- - Hallucinations become unauthorized actions.
+ - **Hallucinations become unauthorized actions-->**
 
- - Reasoning becomes business impact.
+ - **Reasoning becomes business impact-->**
 
 This lesson explores the security risks introduced by MCP servers, tool registries, plugins, action frameworks, and enterprise integrations.
+
+---
 
 ## Why this matters
 
@@ -27,27 +29,28 @@ They involve the model doing exactly what it was allowed to do.
 
 The danger is rarely the model.
 
-The danger is the authority behind the model.
+> **The danger is the authority behind the model.**
 
-Modern AI systems increasingly have access to:
+> [!grid] Modern AI systems increasingly have access to:
+> 
+> - enterprise applications
+> - databases
+> - file systems
+> - ticketing platforms
+> ---
+> - messaging systems
+> - workflow engines
+> - external APIs
 
-- enterprise applications
-- databases
-- file systems
-- ticketing platforms
-- messaging systems
-- workflow engines
-- external APIs
+**Every permission granted to a tool becomes part of the attack surface.**
 
-Every permission granted to a tool becomes part of the attack surface.
-
-Threat modeling tool ecosystems means understanding how authority, identity, trust, and permissions flow through the architecture.
+> Threat modeling tool ecosystems means understanding how authority, identity, trust, and permissions flow through the architecture.
 
 ## What is MCP?
 
 Model Context Protocol (MCP) provides a standardized way for AI systems to interact with external tools and services.
 
-Conceptually:
+### Conceptually:
 
 ```text
 Model
@@ -59,60 +62,41 @@ MCP Server
 Enterprise System
 ```
 
-MCP enables structured discovery, invocation, and execution of actions.
+> MCP enables structured discovery, invocation, and execution of actions.
 
-The security implication:
+**The security implication:**
 
-The model may only suggest actions.
+- The model may only suggest actions.
 
-The MCP ecosystem performs them.
+- The MCP ecosystem performs them.
+
+---
 
 ## The anatomy (read the diagram)
 
 ![MCP Tool Security](images/mcp-tool-ecosystem-security.png)
 
 
-> [!grid=callout] The architecture can be viewed in four layers:
-> **1. Request Layer**
->
-> User
-> → API Gateway
-> → Agent
-> 
-> Receives requests.
-> ---
-> **2. Decision Layer**
-> 
-> Agent
-> → Policy Engine
-> → Tool Broker
-> 
-> Determines what should occur.
-> ---
-> **3. Action Layer**
-> 
-> Tool Broker
-> → MCP Server
-> → Enterprise Systems
-> 
-> Executes actions.
-> ---
-> **4. Oversight Layer**
-> 
-> Monitoring
-> → Audit
-> → HITL
-> 
-> Verifies actions remain acceptable.
-> 
-> Three seams matter most:
-> 
+**The architecture can be viewed in four layers:**
+
+> **1. Request Layer** User → API Gateway → Agent Receives requests.
+
+> **2. Decision Layer** Agent → Policy Engine → Tool Broker Determines what should occur.
+
+> **3. Action Layer** Tool Broker → MCP Server → Enterprise Systems Executes actions.
+
+> **4. Oversight Layer** Monitoring → Audit → HITL Verifies actions remain acceptable. 
+
+**Three seams matter most:**
+
 
 | Seam | Components | Why It Matters |
 |--------|--------|--------|
 | Intent ↔ Action | Agent / Tool Broker | Reasoning becomes execution |
 | Tool ↔ Permission | Tool Broker / MCP Server | Authority is granted |
 | Action ↔ Enterprise | MCP Server / External System | Business impact occurs |
+
+---
 
 ## The catalog, walked threat-by-threat
 
@@ -218,7 +202,7 @@ The MCP ecosystem performs them.
 
 ## The two flows that explain half the report
 
-> [!grid] 
+> [!grid=callout] 
 > **DF-08 Agent → Tool Broker**
 > 
 > This is the intent boundary.
@@ -248,17 +232,19 @@ The MCP ecosystem performs them.
 ## MCP-specific security questions
 
 When reviewing a design ask:
+> [!grid] 
+> - How are MCP servers discovered?
+> - Who approves MCP servers?
+> - Can servers be impersonated?
+> - What permissions does each server expose?
+> ---
+> - How are actions logged?
+> - What requires HITL approval?
+> - How are credentials protected?
+> - What prevents excessive agency?
+> 
 
-- How are MCP servers discovered?
-- Who approves MCP servers?
-- Can servers be impersonated?
-- What permissions does each server expose?
-- How are actions logged?
-- What requires HITL approval?
-- How are credentials protected?
-- What prevents excessive agency?
-
-These questions identify most MCP-related weaknesses.
+> These questions identify most MCP-related weaknesses.
 
 ## Real-world attack chain
 
@@ -279,7 +265,7 @@ Data Exfiltration
 
 The prompt was not the impact.
 
-The tool invocation was.
+> The tool invocation was.
 
 ---
 
@@ -290,7 +276,7 @@ The tool invocation was.
 > 
 > Tools are authority.
 > 
-> Treat them like privileged administrators.
+> **Treat them like privileged administrators.**
 > 
 > ---
 > **Rule 2**   ✅
@@ -299,28 +285,28 @@ The tool invocation was.
 > 
 > Models suggest.
 > 
-> Policies decide.
+> **Policies decide.**
 > 
 > ---
 > **Rule 3**   ✅
 > 
 > Every tool requires least privilege.
 > 
-> Reduce blast radius before compromise occurs.
+> **Reduce blast radius before compromise occurs.**
 > 
 > ---
 > **Rule 4**   ✅
 > 
 > Audit every action.
 > 
-> If an action cannot be reconstructed later, risk increases.
+> **If an action cannot be reconstructed later, risk increases.**
 > 
 > ---
 > **Rule 5**   ✅
 > 
 > Trust tool outputs as data, not instructions.
 > 
-> Otherwise APIs become prompt-injection sources.
+> **Otherwise APIs become prompt-injection sources.**
 > 
 
 ---

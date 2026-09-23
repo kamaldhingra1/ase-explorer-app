@@ -8,29 +8,40 @@ status: complete
 
 # Deep Dive: RAG GenAI
 
-> Retrieval-Augmented Generation is the most common way teams ship LLM value today — and its defining trick is also its defining weakness: **the system treats external content as information, while an attacker treats it as instructions.** This lesson walks the full **RAG GenAI** catalog so you can read (and trust, and challenge) its report.
+> Retrieval-Augmented Generation (RAG) is the most common way teams ship LLM value today — and its defining trick is also its defining weakness: 
+>**the system treats external content as information, while an attacker treats it as instructions.** 
+> This lesson walks the full **RAG GenAI** catalog so you can read (and trust, and challenge) its report.
 
 ## Why this matters
 
 RAG solves hallucination-by-constraint: instead of asking a naked model, you *retrieve the answer first* and feed it as context. The cost is a new attack surface the model alone never had:
 
-- the **knowledge base** becomes a file anyone can poison;
-- the **retrieval step** becomes a place to manipulate *which* context gets trusted;
-- the **augmented prompt** inside the LLM call now mixes system instructions with attacker-influenced content — automatically, on every request.
+> - the **knowledge base** becomes a file anyone can poison;
+
+> - the **retrieval step** becomes a place to manipulate *which* context gets trusted;
+
+> - the **augmented prompt** inside the LLM call now mixes system instructions with attacker-influenced content — automatically, on every request.
 
 Every RAG system you touch inherits this surface. Learn the catalog here once; you'll map every other RAG deployment onto it.
+
+---
 
 ## The anatomy (read the diagram)
 
 ![RAG GenAI reference architecture](images/rag-genai.png)
 
-The pattern is three strips:
+### The pattern is three strips:
 
-- **The request strip:** `User → API Gateway → Input Guardrails → Orchestrator` (`DF-01…DF-03`) — where the *user's* text arrives.
-- **The retrieval strip:** `Orchestrator → Embedding → Vector DB → Retriever → Context assembly` (`DF-04…DF-06`) — where *stored* text is fetched.
-- **The generation strip:** `Context assembly → LLM → Output Guardrails → User` (`DF-07…DF-10`) — where the two meet and the answer leaves.
+> **1. The request strip:** 
+>`User → API Gateway → Input Guardrails → Orchestrator` (`DF-01…DF-03`) — where the *user's* text arrives.
 
-Three seams matter most (`AI-` IDs from the inventory):
+> **2. The retrieval strip:**
+> `Orchestrator → Embedding → Vector DB → Retriever → Context assembly` (`DF-04…DF-06`) — where *stored* text is fetched.
+
+> **3. The generation strip:** 
+>`Context assembly → LLM → Output Guardrails → User` (`DF-07…DF-10`) — where the two meet and the answer leaves.
+
+### Three seams matter most (`AI-` IDs from the inventory):
 
 | Seam | Components | Why it's the seam |
 |------|-----------|-------------------|
@@ -46,43 +57,52 @@ The memory seam (`AI-10`, `AI-12`) quietly accumulates on every turn and every d
 
 Every row of RAG GenAI Pattern's Pre-Mapped Threat Catalog, grouped by failure mode:
 
-> [!risk] **1. Prompt injection — the main event (`LLM01`)**
-- **Indirect** (`AML.T0051.005`, via `AI-03/04/07/08`): a document in the vector DB is crafted to contain instructions. Every user who retrieves it inherits them. This is RAG's signature threat — *the retrieved context is the vector*.
-- **Direct** (`AML.T0051.004`, via `AI-01/03/04`): the user overrides system instructions outright. Guardrails at `AI-03` are first-line, never sole.
-
-> [!risk] **2. Poisoning the index (`LLM03`, `AML.T0020`, via `AI-06/12`)**
--  malicious documents indexed through `DF-11`. The catalog's classic *persistence* step: one bad document corrupts every future retrieval until it's found and purged.
-
-> [!risk] **3. Sensitive information disclosure (`LLM06`, `AML.T0024`, via `AI-08/10`)** 
--  the model reproduces training data, chat history, or PII entombed in the knowledge base. Memory (`AI-10`) is a favorite leak: another user's session content mirrors into yours.
-
-> [!risk] **4. Supply chain (`LLM05`, `AML.T0010`, via `AI-05/08`)** 
--  a poisoned embedding model (`AI-05`) or compromised LLM provider (`AI-08`) decides *how everything is understood*.
-
-> [!risk] **5. Denial of service (`LLM04`, `AML.T0043`, via `AI-04/08`)** 
--  context-window flooding and resource-exhaustion queries. RAG doubles the cost: every request also hits embedding + retrieval.
-
-> [!risk] **6. Retrieval manipulation (`LLM07`, `AML.T0051`, via `AI-07/04`)** 
--  crafted queries steer the retriever (`AI-07`) to privileged context, or overflow its window. Insecure by design if the retriever has no gating.
-
-> [!risk] **7. Overreliance (`LLM10`, `AML.T0052`, via `AI-08/09`)** 
--  RAG reduces hallucination but does not kill it. Grounded answers are *asserted* answers; downstream systems that act on them without verification turn a soft failure into a hard error.
-
-> [!risk] **8. Model extraction (`—`, `AML.T0025`, via `AI-08`)** 
--  repeated queries reconstruct the model's behavior. Not a data leak of stored content; a theft of the model itself.
-
-> [!risk] **9. System prompt leakage (`LLM09`, `AML.T0051.005`, via `AI-08/11`)** 
--  the same indirect injection that smuggles instructions can also *read them out*: secrets held in `AI-11`'s templates ride along in `DF-07`.
+> [!grid=risk] 
+> **1. Prompt injection — the main event (`LLM01`)**
+> - **Indirect** (`AML.T0051.005`, via `AI-03/04/07/08`): a document in the vector DB is crafted to contain instructions. Every user who retrieves it inherits them. This is RAG's > signature threat — *the retrieved context is the vector*.
+> - **Direct** (`AML.T0051.004`, via `AI-01/03/04`): the user overrides system instructions outright. Guardrails at `AI-03` are first-line, never sole.
+> ---
+>  **2. Poisoning the index (`LLM03`, `AML.T0020`, via `AI-06/12`)**
+> -  malicious documents indexed through `DF-11`. The catalog's classic *persistence* step: one bad document corrupts every future retrieval until it's found and purged.
+> ---
+> **3. Sensitive information disclosure (`LLM06`, `AML.T0024`, via `AI-08/10`)** 
+> -  the model reproduces training data, chat history, or PII entombed in the knowledge base. Memory (`AI-10`) is a favorite leak: another user's session content mirrors into yours.
+> ---
+> **4. Supply chain (`LLM05`, `AML.T0010`, via `AI-05/08`)** 
+> -  a poisoned embedding model (`AI-05`) or compromised LLM provider (`AI-08`) decides *how everything is understood*.
+> ---
+> **5. Denial of service (`LLM04`, `AML.T0043`, via `AI-04/08`)** 
+> -  context-window flooding and resource-exhaustion queries. RAG doubles the cost: every request also hits embedding + retrieval.
+> ---
+>  **6. Retrieval manipulation (`LLM07`, `AML.T0051`, via `AI-07/04`)** 
+> -  crafted queries steer the retriever (`AI-07`) to privileged context, or overflow its window. Insecure by design if the retriever has no gating.
+> ---
+>  **7. Overreliance (`LLM10`, `AML.T0052`, via `AI-08/09`)** 
+> -  RAG reduces hallucination but does not kill it. Grounded answers are *asserted* answers; downstream systems that act on them without verification turn a soft failure into a hard error.
+> ---
+> **8. Model extraction (`—`, `AML.T0025`, via `AI-08`)** 
+> -  repeated queries reconstruct the model's behavior. Not a data leak of stored content; a theft of the model itself.
+> ---
+>  **9. System prompt leakage (`LLM09`, `AML.T0051.005`, via `AI-08/11`)** 
+> -  the same indirect injection that smuggles instructions can also *read them out*: secrets held in `AI-11`'s templates ride along in `DF-07`.
 
 ---
 
 ## The two flows that explain half the report
-
-> **`DF-07` Orchestrator → LLM Provider** (`INTERNAL → EXTERNAL`): 
-the *entire* augmented prompt — system, context, query — crosses your boundary. It's the confidentiality crux: redaction must happen *before* this flow, because nothing here protects you afterward.
-
-> **`DF-12` User → Conversation Memory** (`UNTRUSTED → INTERNAL`): 
-user text becomes stored context and returns via the retrieval loop. It's the injection-backdoor into every later turn.
+> [!grid=callout] 
+> **`DF-07` Orchestrator → LLM Provider** 
+>
+> (`INTERNAL → EXTERNAL`): 
+> the *entire* augmented prompt — system, context, query — crosses your boundary. 
+>
+>It's the confidentiality crux: redaction must happen *before* this flow, because nothing here > protects you afterward.
+> ---
+> **`DF-12` User → Conversation Memory** 
+>
+>(`UNTRUSTED → INTERNAL`): 
+> user text becomes stored context and returns via the retrieval loop. 
+>
+>It's the injection-backdoor into every later turn.
 
 ---
 

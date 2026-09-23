@@ -18,171 +18,179 @@ Every lesson before this one asked:
 
 "What could go wrong?"
 
-Red teaming asks:
+**Red teaming asks:**
 
-"Can we prove it?"
+> "Can we prove it?"
 
-Security teams often deploy:
-
-- guardrails
-- HITL
-- retrieval controls
-- memory isolation
-- policy enforcement
+> [!grid] Security teams often deploy:
+> 
+> - guardrails
+> - HITL
+> - retrieval controls
+> - memory isolation
+> - policy enforcement
 
 without validating them.
 
-Red teaming turns assumptions into evidence.
+> Red teaming turns assumptions into evidence.
+
+---
 
 ## The anatomy (read the diagram)
 
 ![AI Red Teaming](images/ai-red-teaming.png)
 
-The cycle:
+**The cycle:**
 
-Attack
-→ Observe
-→ Analyze
-→ Improve
-→ Retest
+    Attack
+    → Observe
+    → Analyze
+    → Improve
+    → Retest
+
+
 
 The objective is not to break the system.
 
-The objective is to discover weaknesses before attackers do.
+> The objective is to discover weaknesses before attackers do.
 
 ## The four testing targets
 
-> **Instructions**
+> [!grid=callout] 
+> **1. Instructions**
+> 
+> Can prompts override intended behavior?
+> 
+> Examples:
+> 
+> - jailbreaking
+> - prompt injection
+> - role confusion
+> - hidden instruction attacks
+> ---
+> **2. Data**
+> 
+> Can knowledge sources manipulate behavior?
+> 
+> Examples:
+> 
+> - document poisoning
+> - memory poisoning
+> - retrieval manipulation
+> - vector poisoning
+> ---
+> **3. Tools**
+> 
+> Can actions be abused?
+> 
+> Examples:
+> 
+> - unauthorized transactions
+> - privilege escalation
+> - excessive agency
+> - tool chaining
+> ---
+> **4. Autonomy**
+> 
+> Can constraints be bypassed?
+> 
+> Examples:
+> 
+> - goal drift
+> - recursive escalation
+> - self-modification
+> - policy bypass
 
-Can prompts override intended behavior?
-
-Examples:
-
-- jailbreaking
-- prompt injection
-- role confusion
-- hidden instruction attacks
-
-> **Data**
-
-Can knowledge sources manipulate behavior?
-
-Examples:
-
-- document poisoning
-- memory poisoning
-- retrieval manipulation
-- vector poisoning
-
-> **Tools**
-
-Can actions be abused?
-
-Examples:
-
-- unauthorized transactions
-- privilege escalation
-- excessive agency
-- tool chaining
-
-> **Autonomy**
-
-Can constraints be bypassed?
-
-Examples:
-
-- goal drift
-- recursive escalation
-- self-modification
-- policy bypass
-
+---
 ## The catalog, walked threat-by-threat
 
+> [!grid=risk] 
 > **1. Prompt Injection Testing**
-
-Attempt:
-
-- direct injection
-- indirect injection
-- context-confusion attacks
-
-Objective:
-
-Override intended instructions.
-
+> 
+> Attempt:
+> 
+> - direct injection
+> - indirect injection
+> - context-confusion attacks
+> 
+> ***Objective:***
+> 
+> Override intended instructions.
+> ---
 > **2. Retrieval Security Testing**
-
-Attempt:
-
-- poisoned documents
-- ranking manipulation
-- unauthorized retrieval
-
-Objective:
-
-Influence reasoning through data.
-
+> 
+> Attempt:
+> 
+> - poisoned documents
+> - ranking manipulation
+> - unauthorized retrieval
+> 
+> ***Objective:***
+> 
+> Influence reasoning through data.
+> ---
 > **3. Memory Security Testing**
-
-Attempt:
-
-- memory poisoning
-- memory replay
-- persistence attacks
-
-Objective:
-
-Influence future behavior.
-
+> 
+> Attempt:
+> 
+> - memory poisoning
+> - memory replay
+> - persistence attacks
+> 
+> ***Objective:***
+> 
+> Influence future behavior.
+> ---
 > **4. Tool Abuse Testing**
-
-Attempt:
-
-- unauthorized actions
-- privilege escalation
-- excessive agency
-
-Objective:
-
-Extend impact beyond the model.
-
+> 
+> Attempt:
+> 
+> - unauthorized actions
+> - privilege escalation
+> - excessive agency
+> 
+> ***Objective:***
+> 
+> Extend impact beyond the model.
+> ---
 > **5. Agent Coordination Testing**
-
-Attempt:
-
-- message poisoning
-- delegation abuse
-- shared-state manipulation
-
-Objective:
-
-Propagate compromise between agents.
-
+> 
+> Attempt:
+> 
+> - message poisoning
+> - delegation abuse
+> - shared-state manipulation
+> 
+> ***Objective:***
+> 
+> Propagate compromise between agents.
+> ---
 > **6. Autonomy Testing**
-
-Attempt:
-
-- boundary escape
-- self-modification
-- reflection abuse
-
-Objective:
-
-Identify runaway behavior.
+> 
+> Attempt:
+> 
+> - boundary escape
+> - self-modification
+> - reflection abuse
+> 
+> ***Objective:***
+> 
+> Identify runaway behavior.
+> 
 
 ---
 
 ## The three metrics that matter
 
-> **Attack Success Rate**
+> **1. Attack Success Rate**
 
 How often did the attack succeed?
 
-> **Detection Rate**
+> **2. Detection Rate**
 
 How often was the attack detected?
 
-> **Recovery Rate**
+> **3. Recovery Rate**
 
 How quickly was the system restored?
 
@@ -192,45 +200,50 @@ These metrics are often more useful than model accuracy.
 
 ## The two flows that explain half the lesson
 
+
+
+> [!grid=callout] 
 > **DF-ATTACK**
-
-Adversarial Input → System
-
-Can the attack influence behavior?
-
+>
+> Adversarial Input → System
+> 
+> Can the attack influence behavior?
+> ---
 > **DF-RECOVERY**
+> 
+> Detection → Response → Restoration
+> 
+> Can the system recover safely?
 
-Detection → Response → Restoration
-
-Can the system recover safely?
-
+---
 
 ## Common red-team mistakes
 
-> [!risk]**Mistake 1**
-
-Testing only prompts.
-
-Most real attacks involve:
-
-- memory
-- retrieval
-- tools
-- autonomy
-
-> [!risk]**Mistake 2**
-
-Testing only the model.
-
-Most incidents occur in surrounding systems.
-
-> [!risk]**Mistake 3**
-
-Testing once.
-
-Security controls drift.
-
-Red teaming should be continuous.
+> [!grid=risk]
+> **Mistake 1**
+> 
+> Testing only prompts.
+> 
+> Most real attacks involve:
+> 
+> - memory
+> - retrieval
+> - tools
+> - autonomy
+> ---
+> **Mistake 2**
+> 
+> Testing only the model.
+> 
+> Most incidents occur in surrounding systems.
+> ---
+> **Mistake 3**
+> 
+> Testing once.
+> 
+> Security controls drift.
+> 
+> Red teaming should be continuous.
 
 ---
 

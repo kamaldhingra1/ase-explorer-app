@@ -8,24 +8,27 @@ status: complete
 
 ## AI Trust Boundaries
 
-> Most AI security incidents do not occur inside the model. They occur when trust changes. A trust boundary is any point where data, identity, permissions, instructions, or decisions move between different trust levels. Attackers look for these boundaries first. You should too.
+> Most AI security incidents do not occur inside the model. They occur when trust changes. A trust boundary is any point where data, identity, permissions, instructions, or decisions move between different trust levels. **Attackers look for these boundaries first. You should too.**
 
 ## Why this matters
 
-Traditional applications have a few obvious trust boundaries:
+> [!grid] Traditional applications have a few obvious trust boundaries:
+> 
+> - user → application
+> - application → database
+> - application → third-party service
+> 
 
-- user → application
-- application → database
-- application → third-party service
 
-AI systems introduce entirely new trust relationships:
-
-- user → prompt
-- prompt → model
-- model → memory
-- model → tools
-- model → retriever
-- model → provider
+> [!grid] AI systems introduce entirely new trust relationships:
+> 
+> - user → prompt
+> - prompt → model
+> - model → memory
+> - model → tools
+> - model → retriever
+> - model → provider
+> 
 
 Every trust relationship creates assumptions.
 
@@ -41,12 +44,14 @@ and start asking:
 
 Most AI attacks exploit trust assumptions rather than software vulnerabilities.
 
+---
+
 ## The anatomy (read the diagram)
 
 ![AI Trust Boundaries](images/ai-trust-boundaries.png)
 
 
-The architecture introduces six important trust boundaries:
+**The architecture introduces six important trust boundaries:**
 
 | Boundary | Example |
 |-----------|-----------|
@@ -57,100 +62,95 @@ The architecture introduces six important trust boundaries:
 | TB-05 Provider Boundary | Internal → LLM Provider |
 | TB-06 Data Boundary | Retriever → Knowledge Source |
 
-Three questions help identify boundary risk:
-
-1. What is crossing the boundary?
-2. Can the data be trusted?
-3. What happens if the assumption is wrong?
+> [!grid] Three questions help identify boundary risk:
+>
+>1. What is crossing the boundary?
+>2. Can the data be trusted?
+>3. What happens if the assumption is wrong?
+>
+---
 
 ## The six trust failures
 
+>[!grid=callout]
 > **TB-01 Human Boundary**
-
- Untrusted user input enters the system.
-
- Typical threats:
- 
- - direct prompt injection
- - jailbreak attempts
- - denial of service
- - abuse of business logic
-
- The user's input should never automatically become instructions.
-
----
-
+> 
+>  Untrusted user input enters the system.
+> 
+>  Typical threats:
+>  
+>  - direct prompt injection
+>  - jailbreak attempts
+>  - denial of service
+>  - abuse of business logic
+> 
+>  The user's input should never automatically become instructions.
+> ---
 > **TB-02 Instruction Boundary**
-
-The system must distinguish instructions from data.
-
-Typical threats:
-
- - indirect prompt injection
- - instruction confusion
- - system prompt override
- - prompt leakage
- 
- This is one of the most important boundaries in GenAI systems.
- ---
-
+> 
+> The system must distinguish instructions from data.
+> 
+> Typical threats:
+> 
+>  - indirect prompt injection
+>  - instruction confusion
+>  - system prompt override
+>  - prompt leakage
+>  
+>  This is one of the most important boundaries in GenAI systems.
+>  ---
 > **TB-03 Memory Boundary**
-
-Stored data becomes future context.
-
-Typical threats:
-
-- memory poisoning
-- persistence attacks
-- cross-session leakage
-- false-fact persistence
-
-Memory changes attacker economics because compromises can survive beyond the session.
-
----
-
+> 
+> Stored data becomes future context.
+> 
+> Typical threats:
+> 
+> - memory poisoning
+> - persistence attacks
+> - cross-session leakage
+> - false-fact persistence
+> 
+> Memory changes attacker economics because compromises can survive beyond the session.
+> ---
 > **TB-04 Tool Boundary**
-
-Reasoning becomes action.
-
-Typical threats:
-
-- excessive agency
-- unauthorized transactions
-- privilege escalation
-- tool abuse
-
-This boundary creates real-world impact.
-
----
-
+> 
+> Reasoning becomes action.
+> 
+> Typical threats:
+> 
+> - excessive agency
+> - unauthorized transactions
+> - privilege escalation
+> - tool abuse
+> 
+> This boundary creates real-world impact.
+> ---
 > **TB-05 Provider Boundary**
-
-Internal information leaves organizational control.
-
-Typical threats:
-
-- sensitive information disclosure
-- provider compromise
-- model extraction
-- compliance violations
-
-Once information crosses this boundary, control shifts to another party.
-
----
-
+> 
+> Internal information leaves organizational control.
+> 
+> Typical threats:
+> 
+> - sensitive information disclosure
+> - provider compromise
+> - model extraction
+> - compliance violations
+> 
+> Once information crosses this boundary, control shifts to another party.
+> ---
 > **TB-06 Data Boundary**
-
-External content influences reasoning.
-
-Typical threats:
-
-- retrieval manipulation
-- document injection
-- vector poisoning
-- knowledge corruption
-
-Most RAG attacks originate here.
+> 
+> External content influences reasoning.
+> 
+> Typical threats:
+> 
+> - retrieval manipulation
+> - document injection
+> - vector poisoning
+> - knowledge corruption
+> 
+> Most RAG attacks originate here.
+> ---
 
 ---
 

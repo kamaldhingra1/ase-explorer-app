@@ -18,30 +18,32 @@ Security teams often focus on the first visible problem.
 
 Attackers focus on the entire path to impact.
 
-A prompt injection finding is useful.
+ - A prompt injection finding is useful.
 
-A prompt injection attack chain is actionable.
+ - A prompt injection attack chain is actionable.
 
-Attack-chain thinking helps you:
+> [!grid] Attack-chain thinking helps you:
+> 
+> - identify upstream controls
+> - understand blast radius
+> - prioritize mitigations
+> - stop attacks before damage occurs
+> - explain risk to leadership
 
-- identify upstream controls
-- understand blast radius
-- prioritize mitigations
-- stop attacks before damage occurs
-- explain risk to leadership
+> OWASP tells you what failed.
 
-OWASP tells you what failed.
+> MITRE ATLAS tells you how it failed.
 
-MITRE ATLAS tells you how it failed.
+> Attack chains explain how the attacker moved from one step to the next.
 
-Attack chains explain how the attacker moved from one step to the next.
+---
 
 ## The anatomy (read the diagram)
 
 ![AI Kill Chain](images/ai-killchain.png)
 
 
-Most AI attacks follow six phases:
+### Most AI attacks follow six phases:
 
 | Phase | Purpose |
 |---------|---------|
@@ -56,170 +58,171 @@ Not every attack uses every phase.
 
 The most damaging attacks typically do.
 
-The goal of threat modeling is to identify where the chain can be broken earliest.
+> The goal of threat modeling is to identify where the chain can be broken earliest.
 
-## Phase 1: Reconnaissance
-
-The attacker learns:
-
-- available models
-- supported tools
-- prompt behavior
-- exposed APIs
-- retrieval sources
-- system limitations
-
-Examples:
-
-- prompt probing
-- model fingerprinting
-- tool discovery
-- endpoint enumeration
-
-Reconnaissance typically creates no alerts and appears legitimate.
-
-## Phase 2: Initial Access
-
-The attacker gains influence.
-
-Possible entry points include:
-
-- chat interfaces
-- API endpoints
-- uploaded documents
-- memory systems
-- tool outputs
-- shared state stores
-
-The user prompt is not the only entry point.
-
-Many AI attacks arrive through data rather than humans.
-
-## Phase 3: Execution
-
-The attack influences reasoning.
-
-Common examples:
-
-- direct prompt injection
-- indirect prompt injection
-- instruction hijacking
-- goal manipulation
-
-Typical mapping:
-
-- OWASP LLM01
-- AML.T0051
-
-Execution is the point where the model begins behaving differently than intended.
-
-## Phase 4: Persistence
-
-The attack survives.
-
-Examples:
-
-- poisoned memory
-- poisoned vector databases
-- poisoned documents
-- poisoned training data
-- corrupted shared state
-
-Typical mapping:
-
-- OWASP LLM04
-- AML.T0020
-
-Persistence is important because the attack continues after the attacker leaves.
-
-## Phase 5: Exfiltration
-
-Sensitive information leaves the system.
-
-Examples:
-
-- customer information
-- source code
-- system prompts
-- secrets
-- internal business data
-
-Typical mapping:
-
-- OWASP LLM02
-- AML.T0024
-
-Exfiltration often occurs through completely valid responses.
-
-The output channel becomes the leak channel.
-
-## Phase 6: Impact
-
-The final business consequence occurs.
-
-Examples:
-
-- unauthorized actions
-- financial loss
-- operational disruption
-- data exposure
-- regulatory violations
-
-Typical mapping:
-
-- OWASP LLM06
-- AML.T0054
-
-Impact is usually the phase executives notice.
-
-The previous phases created the condition.
+> [!grid=callout] 
+> ## Phase 1: Reconnaissance
+> The attacker learns:
+> 
+> - available models
+> - supported tools
+> - prompt behavior
+> - exposed APIs
+> - retrieval sources
+> - system limitations
+> 
+> Examples:
+> 
+> - prompt probing
+> - model fingerprinting
+> - tool discovery
+> - endpoint enumeration
+> 
+> ***Reconnaissance typically creates no alerts and appears legitimate.***
+> ---
+> ## Phase 2: Initial Access
+> 
+> The attacker gains influence.
+> 
+> Possible entry points include:
+> 
+> - chat interfaces
+> - API endpoints
+> - uploaded documents
+> - memory systems
+> - tool outputs
+> - shared state stores
+> 
+> The user prompt is not the only entry point.
+> 
+> ***Many AI attacks arrive through data rather than humans.***
+> ---
+> ## Phase 3: Execution
+> 
+> The attack influences reasoning.
+> 
+> Common examples:
+> 
+> - direct prompt injection
+> - indirect prompt injection
+> - instruction hijacking
+> - goal manipulation
+> 
+> Typical mapping:
+> 
+> - OWASP LLM01
+> - AML.T0051
+> 
+> ***Execution is the point where the model begins behaving differently than intended.***
+> ---
+> ## Phase 4: Persistence
+> 
+> The attack survives.
+> 
+> Examples:
+> 
+> - poisoned memory
+> - poisoned vector databases
+> - poisoned documents
+> - poisoned training data
+> - corrupted shared state
+> 
+> Typical mapping:
+> 
+> - OWASP LLM04
+> - AML.T0020
+> 
+> ***Persistence is important because the attack continues after the attacker leaves.***
+> ---
+> ## Phase 5: Exfiltration
+> 
+> Sensitive information leaves the system.
+> 
+> Examples:
+> 
+> - customer information
+> - source code
+> - system prompts
+> - secrets
+> - internal business data
+> 
+> Typical mapping:
+> 
+> - OWASP LLM02
+> - AML.T0024
+> 
+> ***Exfiltration often occurs through completely valid responses.***
+> 
+> The output channel becomes the leak channel.
+> ---
+> ## Phase 6: Impact
+> 
+> The final business consequence occurs.
+> 
+> Examples:
+> 
+> - unauthorized actions
+> - financial loss
+> - operational disruption
+> - data exposure
+> - regulatory violations
+> 
+> Typical mapping:
+> 
+> - OWASP LLM06
+> - AML.T0054
+> 
+> ***Impact is usually the phase executives notice.***
+> 
+> The previous phases created the condition.
+> 
 
 ## The attack chains hidden inside your patterns
 
-> **RAG Pattern**
+> **1. RAG Pattern**
 
 A common chain:
 
-Malicious Document
+**Malicious Document**
 → Retrieval
 → Indirect Prompt Injection
-→ Sensitive Data Disclosure
+→ **Sensitive Data Disclosure**
 
 The attack began in the corpus.
 
 The impact appeared in the answer.
 
-> **Single-Agent Pattern**
+> **2. Single-Agent Pattern**
 
 A common chain:
 
-Prompt Injection
+**Prompt Injection**
 → Tool Abuse
-→ Unauthorized Action
+→ **Unauthorized Action**
 
 The attack began as text.
 
 The impact became action.
 
-> **Multi-Agent Pattern**
+> **3. Multi-Agent Pattern**
 
 A common chain:
 
-Malicious Message
+**Malicious Message**
 → Agent Delegation
 → Shared State Poisoning
-→ Cross-Agent Influence
+→ **Cross-Agent Influence**
 
 The attack propagates through collaboration.
 
-> **Autonomous Agent Pattern**
+> **4. Autonomous Agent Pattern**
 
 A common chain:
 
-Observation Poisoning
+**Observation Poisoning**
 → Goal Drift
 → Autonomous Escalation
-→ Business Impact
+→ **Business Impact**>
 
 The attack propagates through the execution loop.
 
@@ -231,17 +234,17 @@ Not all phases have equal value.
 
 The best control points are:
 
-### Initial Access
+> **Initial Access**
+>
+> - Stop attacks before influence is established.
 
-Stop attacks before influence is established.
+>  **Persistence**
+>
+> - Stop attacks from surviving.
 
-### Persistence
-
-Stop attacks from surviving.
-
-### Execution
-
-Prevent attacker control of reasoning.
+>  **Execution**
+>
+> - Prevent attacker control of reasoning.
 
 If these phases are broken, downstream impact becomes dramatically less likely.
 

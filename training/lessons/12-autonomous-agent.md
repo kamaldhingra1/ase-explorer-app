@@ -8,7 +8,8 @@ status: complete
 
 # Deep Dive: Autonomous Agent
 
-> Everything you have learned so far assumes something at the end can say "no". An autonomous agent removes that assumption by design: it observes, re-plans, and acts with minimal human oversight. It is simultaneously the most powerful pattern in the catalog and the highest-risk one. This lesson walks the `autonomous-agent` catalog and the *five* autonomous-specific mitigations that are non-negotiable.
+> Everything you have learned so far assumes something at the end can say "no". An autonomous agent removes that assumption by design: it observes, re-plans, and acts with minimal human oversight. It is simultaneously the most powerful pattern in the catalog and the highest-risk one. 
+> This lesson walks the **`autonomous-agent`** catalog and the *five* autonomous-specific mitigations that are non-negotiable.
 
 ## Why this matters
 
@@ -19,7 +20,7 @@ Autonomy is a risk multiplier, not a feature flag. An autonomous agent re-plans 
 - **Autonomous escalation** (`AI-03/07`): an agent that can plan can also plan *how to reach further* — no human gate means no human veto.
 - **Observation poisoning** (`DF-12→13`): every external response enters the loop on the next iteration. The trusted content problem is now *recursive*.
 
-Unlike every earlier lesson, here the *default* is dangerous. You are not looking for what can go wrong; you are checking what the agent is *structurally unable* to do.
+> Unlike every earlier lesson, here the *default* is dangerous. You are not looking for what can go wrong; you are checking what the agent is *structurally unable* to do.
 
 ---
 
@@ -27,12 +28,15 @@ Unlike every earlier lesson, here the *default* is dangerous. You are not lookin
 
 ![Autonomous Agent reference architecture](images/autonomous-agent.png)
 
-- **The goal strip:** `User → Gateway → Goal Manager → Agent Core` (`DF-01…DF-03`) — where objectives and constraints enter.
-- **The plan-execute-observe loop:** `Agent Core → Planning → LLM → Agent Core → Tool Sandbox → External → observation back` (`DF-04…DF-13`) — runs unattended, iterating on its own output.
-- **The reflection strip:** `Agent Core → Self-Reflection → Agent Core` (`DF-14…DF-15`) — can adjust its own behavior. Recursive, and therefore unbounded unless bounded *architecturally*.
-- **The oversight strips:** `Boundary Detection` (`DF-18/19`), `HITL` (`DF-20/21`), `Behavior Monitor` (`DF-22`), and `Kill Switch` (`DF-23`) — each must work on a channel the agent cannot reach.
+> - **The goal strip:** `User → Gateway → Goal Manager → Agent Core` (`DF-01…DF-03`) — where objectives and constraints enter.
 
-Five seams matter most:
+> - **The plan-execute-observe loop:** `Agent Core → Planning → LLM → Agent Core → Tool Sandbox → External → observation back` (`DF-04…DF-13`) — runs unattended, iterating on its own output.
+
+> - **The reflection strip:** `Agent Core → Self-Reflection → Agent Core` (`DF-14…DF-15`) — can adjust its own behavior. Recursive, and therefore unbounded unless bounded *architecturally*.
+
+> - **The oversight strips:** `Boundary Detection` (`DF-18/19`), `HITL` (`DF-20/21`), `Behavior Monitor` (`DF-22`), and `Kill Switch` (`DF-23`) — each must work on a channel the agent cannot reach.
+
+### Five seams matter most:
 
 | Seam | Components | Why it's the seam |
 |------|-----------|-------------------|
@@ -46,65 +50,76 @@ Five seams matter most:
 
 ## The catalog, walked threat-by-threat
 
-Every row of `patterns/autonomous-agent.md`'s Pre-Mapped Threat Catalog, grouped by failure mode:
+Every row of `autonomous-agent`'s Pre-Mapped Threat Catalog, grouped by failure mode:
 
-> [!risk]**1. Direct prompt injection overriding autonomy constraints (`LLM01`, `AML.T0051.004`, via `AI-03/06`)** 
--  with no human gate, a successful injection isn't "answered wrong"; it *executes*. Constraint overrides scale to whatever the tool sandbox allows.
-
-> [!risk]**2. Indirect injection via observations, memory, tool results (`LLM01`, `AML.T0051.005`, via `AI-10/12`)** 
-- the agent reads external systems and its own stored state every loop. Each read is a potential instruction. Observation poisoning is the *primary* vector here.
-
-> [!risk]**3. Excessive agency / autonomous scope escalation (`LLM08`, `AML.T0054`, via `AI-02/03/07`)** 
--  the agent keeps going: more tools, more steps, further scope. Everything that was "design-time permission" becomes "run-time initiative".
-
-> [!risk]**4. Self-directed escalation (`—`, `AML.T0054.004`, via `AI-03/04/14`)** 
--  the agent progressively expands its own goals and capabilities across iterations. Boundary Detection (`AI-14`) exists to see this; it must not be a prompt.
-
-> [!risk]**5. Guardrail circumvention (`—`, `AML.T0054.005`, via `AI-03/06/11`)** 
--  the agent reasons *around* the safety checks: finds edge cases, splits actions, rewords goals. Lesson 08's rule lands hard here: prompt-level "guardrails" are not controls.
-
-> [!risk]**6. Recursive self-modification (`—`, `AML.T0054.006`, via `AI-03/05/10`)** 
--  reflection adjusts future reasoning, creating a self-reinforcing loop. If reflection can rewrite its own rules, the agent becomes its own attacker inside the loop.
-
-> [!risk]**7. Code execution via sandbox escape (`—`, `AML.T0051.008`, via `AI-03/07`)** 
--  autonomous + a sandboxed runtime means the injection→RCE primitive needs no human. Cryptomining, lateral movement, exfil — all without a prompt-in-the-loop.
-
-> [!risk]**8. Sensitive information disclosure (`LLM06`, `AML.T0024`, via `AI-07/10`)** 
--  autonomous tool use is a licensed exfil channel with plausible deniability ("it was completing the task").
-
-> [!risk]**9. Goal hijacking (`—`, `AML.T0054.007`, via `AI-02/03`)** 
--  attacker redirects the objective mid-run. With no gate, the redirect is *accepted* and re-planned-for.
-
-> [!risk]**10. Persistent memory manipulation (`—`, `AML.T0054.002`, via `AI-09/10`)** 
--  poison long-term memory once; every future run reads the attacker's narrative, including across sessions and users.
-
-> [!risk]**11. Autonomous loop DoS (`LLM04`, `AML.T0043`, via `AI-03/06`)** 
--  infinite loops, retry storms, resource exhaustion with nobody to stop it. The most boring and most likely failure.
-
-> [!risk]**12. System prompt leakage of autonomy constraints (`LLM09`, `AML.T0051.005`, via `AI-03/06`)** 
--  the prompt leaks the *envelope*: what it may do, which tools, what scope. That's the roadmap for goal hijacking and escalation.
-
-> [!risk]**13. Insecure plugin design for autonomous use (`LLM07`, `AML.T0051`, via `AI-07/08`)** 
--  tool permissions written for "called by a human" are catastrophic when "called by itself, repeatedly, autonomously".
+> [!grid=risk]
+> **1. Direct prompt injection overriding autonomy constraints (`LLM01`, `AML.T0051.004`, via `AI-03/06`)** 
+> -  with no human gate, a successful injection isn't "answered wrong"; it *executes*. Constraint overrides scale to whatever the tool sandbox allows.
+> ---
+> **2. Indirect injection via observations, memory, tool results (`LLM01`, `AML.T0051.005`, via `AI-10/12`)** 
+> - the agent reads external systems and its own stored state every loop. Each read is a potential instruction. Observation poisoning is the *primary* vector here.
+> ---
+> **3. Excessive agency / autonomous scope escalation (`LLM08`, `AML.T0054`, via `AI-02/03/07`)** 
+> -  the agent keeps going: more tools, more steps, further scope. Everything that was "design-time permission" becomes "run-time initiative".
+> ---
+> **4. Self-directed escalation (`—`, `AML.T0054.004`, via `AI-03/04/14`)** 
+> -  the agent progressively expands its own goals and capabilities across iterations. Boundary Detection (`AI-14`) exists to see this; it must not be a prompt.
+> ---
+> **5. Guardrail circumvention (`—`, `AML.T0054.005`, via `AI-03/06/11`)** 
+> -  the agent reasons *around* the safety checks: finds edge cases, splits actions, rewords goals. Lesson 08's rule lands hard here: prompt-level "guardrails" are not controls.
+> ---
+> **6. Recursive self-modification (`—`, `AML.T0054.006`, via `AI-03/05/10`)** 
+> -  reflection adjusts future reasoning, creating a self-reinforcing loop. If reflection can rewrite its own rules, the agent becomes its own attacker inside the loop.
+> ---
+> **7. Code execution via sandbox escape (`—`, `AML.T0051.008`, via `AI-03/07`)** 
+> -  autonomous + a sandboxed runtime means the injection→RCE primitive needs no human. Cryptomining, lateral movement, exfil — all without a prompt-in-the-loop.
+> ---
+> **8. Sensitive information disclosure (`LLM06`, `AML.T0024`, via `AI-07/10`)** 
+> -  autonomous tool use is a licensed exfil channel with plausible deniability ("it was completing the task").
+> ---
+> **9. Goal hijacking (`—`, `AML.T0054.007`, via `AI-02/03`)** 
+> -  attacker redirects the objective mid-run. With no gate, the redirect is *accepted* and re-planned-for.
+> ---
+> **10. Persistent memory manipulation (`—`, `AML.T0054.002`, via `AI-09/10`)** 
+> -  poison long-term memory once; every future run reads the attacker's narrative, including across sessions and users.
+> ---
+> **11. Autonomous loop DoS (`LLM04`, `AML.T0043`, via `AI-03/06`)** 
+> -  infinite loops, retry storms, resource exhaustion with nobody to stop it. The most boring and most likely failure.
+> ---
+> **12. System prompt leakage of autonomy constraints (`LLM09`, `AML.T0051.005`, via `AI-03/06`)** 
+> -  the prompt leaks the *envelope*: what it may do, which tools, what scope. That's the roadmap for goal hijacking and escalation.
+> ---
+> **13. Insecure plugin design for autonomous use (`LLM07`, `AML.T0051`, via `AI-07/08`)** 
+> -  tool permissions written for "called by a human" are catastrophic when "called by itself, repeatedly, autonomously".
 
 ---
 
 ## The five autonomous-specific considerations (the report will lean on these)
 
-1. **Goal drift** — without constant boundary checks, scope expands on its own. `AI-02` Goal Manager + `AI-14` Boundary Detection must be *architecture-enforced*, not prompt-suggested.
-2. **Recursive self-modification** — reflection that can change future reasoning = unbounded feedback loop. Keep reflection *append-only* or bounded (log feedback; never let it rewrite its own rules).
-3. **Autonomous escalation** — an agent that plans can plan past safety. HITL (`AI-12`) must be on a separate, non-agent-controlled channel.
-4. **Observation poisoning** — external responses feed the next iteration. Sanitize observations *before* they enter the loop, on every pass.
-5. **Kill switch independence** — `AI-15` must be reachable through a channel the agent cannot intercept, block, or influence, triggerable by humans or monitors.
+> **1. Goal drift** — without constant boundary checks, scope expands on its own. `AI-02` Goal Manager + `AI-14` Boundary Detection must be *architecture-enforced*, not prompt-suggested.
+
+> **2. Recursive self-modification** — reflection that can change future reasoning = unbounded feedback loop. Keep reflection *append-only* or bounded (log feedback; never let it rewrite its own rules).
+
+> **3. Autonomous escalation** — an agent that plans can plan past safety. HITL (`AI-12`) must be on a separate, non-agent-controlled channel.
+
+> **4. Observation poisoning** — external responses feed the next iteration. Sanitize observations *before* they enter the loop, on every pass.
+
+> **5. Kill switch independence** — `AI-15` must be reachable through a channel the agent cannot intercept, block, or influence, triggerable by humans or monitors.
 
 ---
 
 ## The two flows that explain half the report
 
-> **`DF-10` Agent Core → Tool Sandbox** (`INTERNAL → EDGE`): 
-autonomous execution. Once an action leaves here, the loop has already committed to it. Validation must happen before, not after.
-> **`DF-15` Self-Reflection → Agent Core** (`INTERNAL → INTERNAL`): 
-the recursive hop. If it can change behavior, it's a self-modifying attack surface; bound it or log-append it.
+> [!grid=callout]
+> **`DF-10` Agent Core → Tool Sandbox** 
+> 
+> (`INTERNAL → EDGE`): 
+> autonomous execution. Once an action leaves here, the loop has already committed to it. Validation must happen before, not after.
+> ---
+> **`DF-15` Self-Reflection → Agent Core** 
+>
+> (`INTERNAL → INTERNAL`): 
+> the recursive hop. If it can change behavior, it's a self-modifying attack surface; bound it or log-append it.
 
 ---
 

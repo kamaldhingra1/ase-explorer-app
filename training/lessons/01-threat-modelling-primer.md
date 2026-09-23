@@ -29,11 +29,15 @@ Everything in this course is one of these five steps applied to AI systems.
 
 ![The five-step threat modeling loop](images/five-step-loop.png)
 
-1. **Scope.** Decide what you are protecting and what the boundaries are: the system, its data, its users, the surrounding processes.
-2. **Model.** Decompose the system into components, data flows, and trust boundaries. This is what the sample diagrams and the tool's component/flow inventories do for you.
-3. **Identify threats.** Ask "what can go wrong here?" for each component and flow. You use frameworks — OWASP LLM Top 10, MITRE ATLAS, AI-augmented STRIDE — as a *prompt list*, never as a replacement for thinking.
-4. **Rate risk.** Combine impact (how bad) and likelihood (how likely) to prioritize. An unprioritized list of 50 threats is a denial-of-service on the engineers.
-5. **Mitigate.** Choose controls that are enforceable in the architecture, not only in the prompt. Then re-run the model to check the design.
+> **1. Scope:** Decide what you are protecting and what the boundaries are: the system, its data, its users, the surrounding processes.
+
+> **2. Model:** Decompose the system into components, data flows, and trust boundaries. This is what the sample diagrams and the tool's component/flow inventories do for you.
+
+> **3. Identify threats:** Ask "what can go wrong here?" for each component and flow. You use frameworks — OWASP LLM Top 10, MITRE ATLAS, AI-augmented STRIDE — as a *prompt list*, never as a replacement for thinking.
+
+> **4. Rate risk:** Combine impact (how bad) and likelihood (how likely) to prioritize. An unprioritized list of 50 threats is a denial-of-service on the engineers.
+
+> **5. Mitigate:** Choose controls that are enforceable in the architecture, not only in the prompt. Then re-run the model to check the design.
 
 Threat modeling is a **loop**: when a component, flow, or control changes, you go around again.
 

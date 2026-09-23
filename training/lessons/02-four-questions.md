@@ -8,7 +8,8 @@ status: complete
 
 # The Four Questions of Threat Modeling
 
-> The whole practice compresses into four questions — the same four you'll ask on every project, for the rest of your career. Master them and you'll never be lost in a threat model again, no matter which framework the tool happens to cite.
+> The whole practice compresses into four questions — the same four you'll ask on every project, for the rest of your career. 
+> Master them and you'll never be lost in a threat model again, no matter which framework the tool happens to cite.
 
 ## Why this matters
 
@@ -16,10 +17,13 @@ The "five-step loop" in Lesson 01 is *process*. The **Four Questions** (populari
 
 The four questions are:
 
-1. **What are we working on?** — a shared map of the system and its boundaries.
-2. **What can go wrong?** — a structured hunt for the bad things (threats).
-3. **What are we going to do about it?** — decisions, mitigations, and owners.
-4. **Did we do a good job?** — quality, coverage, lessons learned, staying current.
+> **1. What are we working on?** — a shared map of the system and its boundaries.
+
+> **2. What can go wrong?** — a structured hunt for the bad things (threats).
+
+> **3. What are we going to do about it?** — decisions, mitigations, and owners.
+
+> **4. Did we do a good job?** — quality, coverage, lessons learned, staying current.
 
 ![The four questions work as a cycle](images/four-questions.png)
 

@@ -8,7 +8,8 @@ status: complete
 
 # Mitigations & Controls for AI
 
-> Finding threats is only half the job. The other half is choosing a **control that the architecture will actually enforce** — because in AI, the most common wrong answer is *"a better prompt."* This lesson gives you the defense toolkit and the single rule that separates real controls from wishful thinking.
+> Finding threats is only half the job. The other half is choosing a **control that the architecture will actually enforce** — because in AI, the most common wrong answer is *"a better prompt."* 
+>This lesson gives you the defense toolkit and the single rule that separates real controls from wishful thinking.
 
 ## Why this matters
 

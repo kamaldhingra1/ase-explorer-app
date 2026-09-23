@@ -8,7 +8,8 @@ status: complete
 
 # Trust Zones & Data Flows
 
-> Every attack is a journey. It starts at some input the attacker controls, crosses one or more **trust boundaries**, follows the **data flows**, and lands on an asset. In this lesson you learn to draw the map the attack travels — the zones and flows that every AI threat report is built on.
+> Every attack is a journey. It starts at some input the attacker controls, crosses one or more **trust boundaries**, follows the **data flows**, and lands on an asset. 
+>In this lesson you learn to draw the map the attack travels — the zones and flows that every AI threat report is built on.
 
 ## Why this matters
 
@@ -41,11 +42,15 @@ The tool's reports do the mapping for you (DF-xx flows, TB-xx boundaries) — bu
 > - `EXTERNAL → INTERNAL`: treat provider output as untrusted input to the internal layers that consume it.
 > - Inside `INTERNAL`: segment stores from orchestrators, validate every ingestion path, and log with tamper-evidence.
 
-Three rules to internalize:
+---
 
-1. **Data is only as trusted as its most recent untrusted crossing.** Anything that arrived from `UNTRUSTED` (or came back from `EXTERNAL`) is attacker-influenced until validated.
-2. **`INTERNAL` is not a synonym for "safe".** The orchestrator and the vector DB live on the same side of the boundary — but a malicious document that got *indexed* inside your vector DB now attacks from the inside. Internal components can be the *origin* of a threat, not just a target.
-3. **`EXTERNAL` means your data leaves your trust.** The moment a prompt crosses to an external LLM provider, its confidentiality depends on a contract, not on your controls.
+### Three rules to internalize:
+
+> **1. Data is only as trusted as its most recent untrusted crossing.** Anything that arrived from `UNTRUSTED` (or came back from `EXTERNAL`) is attacker-influenced until validated.
+
+> **2. `INTERNAL` is not a synonym for "safe".** The orchestrator and the vector DB live on the same side of the boundary — but a malicious document that got *indexed* inside your vector DB now attacks from the inside. Internal components can be the *origin* of a threat, not just a target.
+
+> **3. `EXTERNAL` means your data leaves your trust.** The moment a prompt crosses to an external LLM provider, its confidentiality depends on a contract, not on your controls.
 
 ## Data flows: the attack's highway
 

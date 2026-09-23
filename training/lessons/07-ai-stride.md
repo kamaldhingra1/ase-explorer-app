@@ -8,11 +8,12 @@ status: complete
 
 # AI-Augmented STRIDE
 
-> Before OWASP and ATLAS, there was **STRIDE** — the classic six-category threat app (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege). It still works — as long as you **augment it** for the AI-era failure modes that don't fit the original six. This lesson builds your mental bridge from classic security to AI threat modeling, and gives you the worksheet you'll reuse in every deep-dive.
+> Before OWASP and ATLAS, there was **STRIDE** — the classic six-category threat app (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege). It still works — as long as you **augment it** for the AI-era failure modes that don't fit the original six. 
+>This lesson builds your mental bridge from classic security to AI threat modeling, and gives you the worksheet you'll reuse in every deep-dive.
 
 ## Why this matters
 
-STRIDE is the "why" behind both OWASP and ATLAS: it forces you to ask *six* questions of *every* component and flow, instead of pattern-matching to a known list. When AI-specific frameworks miss something in *your* architecture, STRIDE is your safety net. And many people you'll work with know STRIDE already — AI-augmented STRIDE is how you translate for them.
+**STRIDE** is the "why" behind both OWASP and ATLAS: it forces you to ask *six* questions of *every* component and flow, instead of pattern-matching to a known list. When AI-specific frameworks miss something in *your* architecture, STRIDE is your safety net. And many people you'll work with know STRIDE already — AI-augmented STRIDE is how you translate for them.
 
 ## The six, plus the AI augmentations
 
@@ -29,12 +30,15 @@ STRIDE is the "why" behind both OWASP and ATLAS: it forces you to ask *six* ques
 
 Put these in a dedicated column on your worksheet — they're the *new* categories:
 
-1. **Prompt injection** (the "control hijack"): attacker text becomes instructions. Closest STRIDE bucket is **Tampering** (it modifies what the model "runs") but it deserves its own flag so you never bury it.
-2. **Poisoning** (corrupting trust at rest): training, fine-tuning, or **RAG indexing** data adversarially edited. A *persistence* problem — closest to Tampering + Spoofing (the store now lies persuasively).
-3. **Model theft / extraction** (`AML.T0025`): stealing behavior or weights through legitimate queries — classical *Intellectual Property / infodisclosure* that attacks *the model itself*, not its surroundings.
-4. **Hallucination / overreliance**: *nobody* attacks — the system simply fails persuasively. It's not classic "Info Disclosure" or "Tampering"; it's **integrity of the output contract**: downstream systems and humans that can't tell fact from invention. Track it as its own row: **Misinformation & Overreliance**.
+> **1. Prompt injection** (the "control hijack"): attacker text becomes instructions. Closest STRIDE bucket is **Tampering** (it modifies what the model "runs") but it deserves its own flag so you never bury it.
 
-> [!callout] **The mnemonic for the augmented sheet**
+> **2. Poisoning** (corrupting trust at rest): training, fine-tuning, or **RAG indexing** data adversarially edited. A *persistence* problem — closest to Tampering + Spoofing (the store now lies persuasively).
+
+> **3. Model theft / extraction** (`AML.T0025`): stealing behavior or weights through legitimate queries — classical *Intellectual Property / infodisclosure* that attacks *the model itself*, not its surroundings.
+
+> **4. Hallucination / overreliance**: *nobody* attacks — the system simply fails persuasively. It's not classic "Info Disclosure" or "Tampering"; it's **integrity of the output contract**: downstream systems and humans that can't tell fact from invention. Track it as its own row: **Misinformation & Overreliance**.
+
+> [!exercise] **The mnemonic for the augmented sheet**
 > STRIDE + **P**oisoning, **I**njection, **M**isinformation, **T**heft = **STRIDE-PIMT**. Write the four extras as their own section so the classic six don't swallow them.
 
 ## The worksheet (your reusable template)

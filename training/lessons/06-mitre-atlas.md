@@ -8,15 +8,18 @@ status: complete
 
 # MITRE ATLAS
 
-> MITRE ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is the adversary's playbook for machine-learning systems: a matrix of **techniques and tactics** — *how an attacker actually accomplishes* the failures OWASP describes. The tool's catalogs tag every finding with ATLAS technique IDs (`AML.T0051`, `AML.T0020`, …) so that "prompt injection" becomes a specific, referenceable step in an attack chain.
+> MITRE ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is the adversary's playbook for machine-learning systems: a matrix of **techniques and tactics** — *how an attacker actually accomplishes* the failures OWASP describes. 
+>The tool's catalogs tag every finding with ATLAS technique IDs (`AML.T0051`, `AML.T0020`, …) so that "prompt injection" becomes a specific, referenceable step in an attack chain.
 
 ## Why this matters
 
 OWASP tells you *what broke*. ATLAS tells you *how it was done*. The two together give you:
 
-- a **tactic** (the goal of the step — e.g. *initial access*, *execution*, *exfiltration*);
-- a **technique** (the concrete method — e.g. *indirect prompt injection*);
-- an **AML ID** you can grep for in reports, incident write-ups, and NIST/EU discussions.
+> - a **tactic** (the goal of the step — e.g. *initial access*, *execution*, *exfiltration*);
+
+> - a **technique** (the concrete method — e.g. *indirect prompt injection*);
+
+> - an **AML ID** you can grep for in reports, incident write-ups, and NIST/EU discussions.
 
 When a report cites `AML.T0054.002`, you know exactly which book entry to open.
 
@@ -50,13 +53,16 @@ You don't memorize IDs — you learn to recognize the *family* and let the repor
 
 ATLAS also groups techniques under **tactics** — the phases of an attack:
 
-- **Reconnaissance** → **Resource Development** → **Initial Access** →
-  **ML Model Access** → **Execution** → **Persistence** (planting data for later) →
-  **ML Attack Staging** → **Exfiltration** → **Impact**.
+> [!risk]
+> **Reconnaissance** → **Resource Development** → **Initial Access** →
+>      **ML Model Access** → **Execution** → **Persistence** (planting data for later) →
+>      **ML Attack Staging** → **Exfiltration** → **Impact**.
 
 ![The ATLAS tactics chain — the route an AI attack travels from recon to impact](images/atlas-chain.png)
 
-RAG poisoning is a beautiful example of a full chain: *poison the index* (persistence) → *wait* → *a user retrieves it* (execution) → *instructions hijack the model* → *data or damage exits*. Mitigate at the persistence step and the whole chain dies upstream.
+> RAG poisoning is a beautiful example of a full chain: *poison the index* (persistence) → *wait* → *a user retrieves >it* (execution) → *instructions hijack the model* → *data or damage exits*. Mitigate at the persistence step and the >whole chain dies upstream.
+
+---
 
 > [!risk] **What can go wrong?** ATLAS shows attacks are *chains*, so a diagram with a single "weak spot" is rarely safe:
 > - Someone can reach your model or API with valid-looking requests (initial access is easy for LLM apps).

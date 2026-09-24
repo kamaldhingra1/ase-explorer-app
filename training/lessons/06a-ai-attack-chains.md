@@ -8,8 +8,8 @@ status: complete
 
 ## AI Attack Chains & Kill Chains
 
-> Threats rarely occur alone. Attackers chain them together. Prompt injection is usually not the objective. It is often the opening move.Most successful AI attacks follow a sequence: influence → persistence → action → impact
-
+> Threats rarely occur alone. Attackers chain them together. Prompt injection is usually not the objective. It is often the opening move.Most successful AI attacks follow a sequence: 
+ ![alt text](images/killchain.png)
 This lesson introduces AI kill-chain thinking and teaches you how to identify the entire attack path instead of a single finding.
 
 ## Why this matters
@@ -30,11 +30,15 @@ Attackers focus on the entire path to impact.
 > - stop attacks before damage occurs
 > - explain risk to leadership
 
-> OWASP tells you what failed.
+> [!grid] Understanding Context- OWASP, MITRE ATLAS & Attack Chain:
+>
+> - OWASP tells you what failed.
+>
+> - MITRE ATLAS tells you how it failed.
+>
+> - Attack chains explain how the attacker moved from one step to the next.
 
-> MITRE ATLAS tells you how it failed.
-
-> Attack chains explain how the attacker moved from one step to the next.
+![Full Context](images/killchain_context.png)
 
 ---
 

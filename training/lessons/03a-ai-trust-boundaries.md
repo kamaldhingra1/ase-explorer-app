@@ -17,8 +17,8 @@ status: complete
 > - user → application
 > - application → database
 > - application → third-party service
-> 
-
+> ---
+>![Trust Boundaries](images/trust-boundaries1.png)
 
 > [!grid] AI systems introduce entirely new trust relationships:
 > 
@@ -28,7 +28,8 @@ status: complete
 > - model → tools
 > - model → retriever
 > - model → provider
-> 
+> ---
+> ![AI Trust Boundaries](images/trust-boundaries2.png)
 
 Every trust relationship creates assumptions.
 

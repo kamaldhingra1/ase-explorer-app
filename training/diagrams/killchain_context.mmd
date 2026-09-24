@@ -1,0 +1,30 @@
+graph TD
+    %% Central Hub
+    Incident([Security Incident])
+
+    %% Framework Connections
+    OWASP[OWASP Top 10] -->|Identifies| Failed[What Failed<br><i>Vulnerability/Weakness</i>]
+    Failed -.->|Contextualizes| Incident
+
+    MITRE[MITRE ATLAS] -->|Explains| HowFailed[How It Failed<br><i>Tactics & Techniques</i>]
+    HowFailed -.->|Contextualizes| Incident
+
+    Chains[Attack Chains] -->|Maps| Movement[How Attacker Moved<br><i>Step-by-Step Progression</i>]
+    Movement -.->|Contextualizes| Incident
+
+    %% Styles for Frameworks
+    style OWASP fill:#FADBD8,stroke:#C0392B,stroke-width:2px,color:#78281F
+    style MITRE fill:#E8F8F5,stroke:#117A65,stroke-width:2px,color:#0E6251
+    style Chains fill:#EBF5FB,stroke:#2E86C1,stroke-width:2px,color:#1B4F72
+
+    %% Styles for Outputs
+    style Failed fill:#FDEDEC,stroke:#E6B0AA,stroke-width:1px,color:#78281F
+    style HowFailed fill:#EAF2F8,stroke:#A9CCE3,stroke-width:1px,color:#1B4F72
+    style Movement fill:#FEF9E7,stroke:#F9E79F,stroke-width:1px,color:#7D6608
+
+    %% Central Incident Style
+    style Incident fill:#F4ECF7,stroke:#8E44AD,stroke-width:3px,color:#4A235A
+
+    %% Link styles
+    linkStyle 0,2,4 stroke:#5D6D7E,stroke-width:2px;
+    linkStyle 1,3,5 stroke:#8E44AD,stroke-width:2px,stroke-dasharray: 5 5;

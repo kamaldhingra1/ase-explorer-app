@@ -1,29 +1,53 @@
 flowchart LR
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef client fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1,font-weight:bold;
+    classDef gateway fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef orchestrator fill:#EDE9FE,stroke:#7C3AED,stroke-width:3px,color:#5B21B6,font-weight:bold;
+    classDef policy fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+    classDef toolbroker fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1;
+    classDef server fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B,font-weight:bold;
+    classDef downstream fill:#F5F3FF,stroke:#8B5CF6,stroke-width:2px,color:#6D28D9;
+    classDef safety fill:#ECFDF5,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef hitl fill:#FFEDD5,stroke:#F97316,stroke-width:2px,color:#9A3412,font-weight:bold;
 
-User --> Gateway
+    %% --- NODES & COMPONENTS ---
+    User["💻 User"]
+    Gateway["🔀 Gateway"]
+    Agent["🧠 Agent Core"]
+    PolicyEngine["🛡️ Policy Engine"]
+    ToolBroker["⚙️ Tool Broker"]
+    MCPServer["🔌 MCP Server"]
+    Email["📧 Email System"]
+    CRM["📈 CRM System"]
+    ERP["🏢 ERP System"]
+    ServiceNow["⚙️ ServiceNow"]
+    Audit["📜 Audit Log"]
+    HITL["🚨 HITL Checkpoint"]
 
-Gateway --> Agent
+    %% --- APPLY CLASSES ---
+    class User client;
+    class Gateway gateway;
+    class Agent orchestrator;
+    class PolicyEngine policy;
+    class ToolBroker toolbroker;
+    class MCPServer server;
+    class Email,CRM,ERP,ServiceNow downstream;
+    class Audit safety;
+    class HITL hitl;
 
-Agent --> PolicyEngine
-
-PolicyEngine --> ToolBroker
-
-ToolBroker --> MCPServer
-
-MCPServer --> Email
-
-MCPServer --> CRM
-
-MCPServer --> ERP
-
-MCPServer --> ServiceNow
-
-ToolBroker --> Audit
-
-ToolBroker --> HITL
-
-style PolicyEngine fill:#fff2cc,stroke:#cc9900
-style ToolBroker fill:#d9ebff,stroke:#0066cc
-style MCPServer fill:#ffd9d9,stroke:#cc0000
-style Audit fill:#d5f5d5,stroke:#008000
-style HITL fill:#e6ccff,stroke:#8000cc
+    %% --- FLOW RELATIONSHIPS ---
+    User --> Gateway
+    Gateway --> Agent
+    Agent --> PolicyEngine
+    PolicyEngine --> ToolBroker
+    
+    %% MCP Infrastructure & Destinations
+    ToolBroker --> MCPServer
+    MCPServer --> Email
+    MCPServer --> CRM
+    MCPServer --> ERP
+    MCPServer --> ServiceNow
+    
+    %% Governance & Control Paths
+    ToolBroker --> Audit
+    ToolBroker --> HITL

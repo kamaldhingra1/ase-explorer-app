@@ -58,7 +58,10 @@ ATLAS also groups techniques under **tactics** — the phases of an attack:
 >      **ML Model Access** → **Execution** → **Persistence** (planting data for later) →
 >      **ML Attack Staging** → **Exfiltration** → **Impact**.
 
+
 ![The ATLAS tactics chain — the route an AI attack travels from recon to impact](images/atlas-chain.png)
+
+
 
 > RAG poisoning is a beautiful example of a full chain: *poison the index* (persistence) → *wait* → *a user retrieves >it* (execution) → *instructions hijack the model* → *data or damage exits*. Mitigate at the persistence step and the >whole chain dies upstream.
 

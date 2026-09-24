@@ -1,14 +1,19 @@
 flowchart LR
 
 Attack --> Observe
-
 Observe --> Analyze
-
 Analyze --> Improve
-
 Improve --> Retest
-
 Retest --> Attack
 
-style Attack fill:#ffd9d9,stroke:#cc0000
-style Improve fill:#d5f5d5,stroke:#008000
+%% --- Theme Styling ---
+%% Red/Danger for active offensive steps
+style Attack fill:#ffd9d9,stroke:#cc0000,stroke-width:2px
+style Retest fill:#ffd9d9,stroke:#cc0000,stroke-width:2px
+
+%% Neutral Blue/Gray for evaluation steps
+style Observe fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+style Analyze fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+
+%% Green/Success for optimization steps
+style Improve fill:#d5f5d5,stroke:#008000,stroke-width:2px

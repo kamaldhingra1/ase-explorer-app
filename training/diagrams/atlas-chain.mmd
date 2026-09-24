@@ -1,10 +1,31 @@
 flowchart LR
-  R["Reconnaissance"] --> RD["Resource Dev."]
-  RD --> IA["Initial Access"]
-  IA --> MA["ML Model Access"]
-  MA --> EX["Execution"]
-  EX --> PE["Persistence<br/>(poison the store)"]
-  PE --> AS["Attack Staging"]
-  AS --> EF["Exfiltration"]
-  EF --> IM["Impact"]
-  style PE fill:#fdecea,stroke:#b3261e,stroke-width:2px
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef prep fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef breach fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+    classDef compromise fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B,font-weight:bold;
+
+    %% --- NODES & COMPONENTS ---
+    R["🔍 Reconnaissance"]
+    RD["🛠️ Resource Dev."]
+    IA["🔑 Initial Access"]
+    MA["🤖 ML Model Access"]
+    EX["💥 Execution"]
+    PE["📌 Persistence<br/>(Poison the Store)"]
+    AS["🎯 Attack Staging"]
+    EF["📤 Exfiltration"]
+    IM["⚠️ Impact"]
+
+    %% --- APPLY CLASSES ---
+    class R,RD prep;
+    class IA,MA breach;
+    class EX,PE,AS,EF,IM compromise;
+
+    %% --- FLOW RELATIONSHIPS ---
+    R --> RD
+    RD --> IA
+    IA --> MA
+    MA --> EX
+    EX --> PE
+    PE --> AS
+    AS --> EF
+    EF --> IM

@@ -1,26 +1,42 @@
 flowchart LR
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef client fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1,font-weight:bold;
+    classDef gateway fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef orchestrator fill:#EDE9FE,stroke:#7C3AED,stroke-width:3px,color:#5B21B6,font-weight:bold;
+    classDef database fill:#ECFDF5,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef tools fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+    classDef external fill:#F5F3FF,stroke:#8B5CF6,stroke-width:2px,color:#6D28D9;
 
-User --> Gateway
+    %% --- NODES & COMPONENTS ---
+    User["💻 User / Client"]
+    Gateway["🔀 Gateway"]
+    Agent["🧠 Agent Core / Orchestrator"]
+    Memory["💾 Memory"]
+    Retriever["🔍 Retriever"]
+    ToolBroker["🛠️ Tool Broker"]
+    LLMProvider["🔮 LLM Provider"]
+    ERP["🏢 ERP System"]
+    CRM["📈 CRM System"]
 
-Gateway --> Agent
+    %% --- APPLY CLASSES ---
+    class User client;
+    class Gateway gateway;
+    class Agent orchestrator;
+    class Memory,Retriever database;
+    class ToolBroker tools;
+    class LLMProvider external;
+    class ERP,CRM external;
 
-Agent --> Memory
-
-Agent --> Retriever
-
-Agent --> ToolBroker
-
-Agent --> LLMProvider
-
-ToolBroker --> ERP
-
-ToolBroker --> CRM
-
-classDef trust fill:#fff2cc,stroke:#b59b00,color:#000;
-
-class User trust
-class Memory trust
-class ToolBroker trust
-class LLMProvider trust
-class ERP trust
-class CRM trust
+    %% --- FLOW RELATIONSHIPS ---
+    User --> Gateway
+    Gateway --> Agent
+    
+    %% Agent Core Capabilities
+    Agent --> Memory
+    Agent --> Retriever
+    Agent --> ToolBroker
+    Agent --> LLMProvider
+    
+    %% Tool Broker Integrations
+    ToolBroker --> ERP
+    ToolBroker --> CRM

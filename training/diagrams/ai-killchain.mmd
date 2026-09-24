@@ -1,19 +1,25 @@
 flowchart LR
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef prep fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef breach fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+    classDef compromise fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B,font-weight:bold;
 
-R[Reconnaissance]
---> A[Initial Access]
+    %% --- NODES & COMPONENTS ---
+    R["🔍 Reconnaissance"]
+    A["🔑 Initial Access"]
+    E["💥 Execution<br/>Prompt Injection"]
+    P["📌 Persistence<br/>Memory / Vector DB / Shared State"]
+    X["📤 Exfiltration"]
+    I["⚠️ Impact"]
 
-A --> E["Execution<br/>Prompt Injection"]
+    %% --- APPLY CLASSES ---
+    class R prep;
+    class A breach;
+    class E,P,X,I compromise;
 
-E --> P["Persistence<br/>Memory / Vector DB / Shared State"]
-
-P --> X[Exfiltration]
-
-X --> I[Impact]
-
-classDef attack fill:#ffd9d9,stroke:#cc0000,color:#000;
-
-class E attack
-class P attack
-class X attack
-class I attack
+    %% --- FLOW RELATIONSHIPS ---
+    R --> A
+    A --> E
+    E --> P
+    P --> X
+    X --> I

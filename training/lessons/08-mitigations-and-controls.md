@@ -53,6 +53,7 @@ Repeated for emphasis, because it is the #1 review failure:
 
 ![Defense in depth — multiple validation layers along the attack path so no single control bears the load](images/defense-in-depth.png)
 
+
 > [!risk] **What can go wrong?** Misplaced controls fail in predictable ways:
 > - A single guardrail is bypassed — by rephrasing, encoding, or indirect injection that never touches it.
 > - "The model will refuse" — it won't, reliably; prompts are data to the model.

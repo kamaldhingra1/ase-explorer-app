@@ -1,13 +1,47 @@
 flowchart LR
-  UI["UI / client"] --> GW["Gateway"]
-  GW --> GI["Input guardrails"]
-  GI --> OR["Orchestrator"]
-  OR --> MO["Model / LLM"]
-  OR --> ST["Stores · Vector DB<br/>· Conversation Memory"]
-  OR --> TO["Tools / Plugins<br/>(execute actions)"]
-  OR --> HI["HITL / Monitor"]
-  MO --> OG["Output guardrails"]
-  OG --> CON["Downstream consumers / user"]
-  style OR stroke:#7C3AED,stroke-width:3px
-  style MO fill:#efe9f7,stroke:#7C3AED,stroke-width:2px
-  style TO fill:#fff4d6,stroke:#8a5a00,stroke-width:2px
+    %% --- CLASS DEFINITIONS FOR CUSTOM THEME ---
+    classDef client fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1,font-weight:bold;
+    classDef gateway fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef security fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B,font-weight:bold;
+    classDef orchestrator fill:#EDE9FE,stroke:#7C3AED,stroke-width:3px,color:#5B21B6,font-weight:bold;
+    classDef model fill:#F5F3FF,stroke:#8B5CF6,stroke-width:2px,color:#6D28D9;
+    classDef database fill:#ECFDF5,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef tools fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+    classDef hitl fill:#FFEDD5,stroke:#F97316,stroke-width:2px,color:#9A3412,font-weight:bold;
+
+    %% --- NODES & COMPONENTS ---
+    UI["💻 UI / Client"]
+    GW["🔀 Gateway"]
+    GI["🛡️ Input Guardrails"]
+    OR["🧠 Agent Orchestrator"]
+    MO["🔮 Model / LLM"]
+    ST["💾 Stores<br/>• Vector DB<br/>• Conversation Memory"]
+    TO["🛠️ Tools / Plugins<br/>(Execute Actions)"]
+    HI["🚨 HITL / Monitor"]
+    OG["🛡️ Output Guardrails"]
+    CON["👥 Downstream Consumers / User"]
+
+    %% --- APPLY CLASSES ---
+    class UI,CON client;
+    class GW gateway;
+    class GI,OG security;
+    class OR orchestrator;
+    class MO model;
+    class ST database;
+    class TO tools;
+    class HI hitl;
+
+    %% --- FLOW RELATIONSHIPS ---
+    UI --> GW
+    GW --> GI
+    GI --> OR
+    
+    %% Core Orchestration Links
+    OR <--> MO
+    OR <--> ST
+    OR <--> TO
+    OR <--> HI
+    
+    %% Output Lifecycle
+    MO --> OG
+    OG --> CON

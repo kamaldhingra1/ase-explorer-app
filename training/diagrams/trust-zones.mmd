@@ -1,22 +1,44 @@
+%%{ init: { 'themeVariables': { 'edgeLabelBackground': '#FDFDFD' } } }%%
 flowchart LR
-  subgraph UNTRUSTED
-    U["User / client<br/>(hostile by default)"]
-  end
-  subgraph EDGE
-    G["API Gateway<br/>auth · rate limit · WAF"]
-  end
-  subgraph INTERNAL
-    O["Orchestrator / core services"]
-    S["Stores · Vector DB · Memory"]
-  end
-  subgraph EXTERNAL
-    L["LLM Provider<br/>(trust by contract)"]
-  end
-  U -->|"user query<br/>UNTRUSTED → EDGE"| G
-  G -->|"validated<br/>EDGE → INTERNAL"| O
-  O <-->|"DF-07 · augmented prompt<br/>INTERNAL → EXTERNAL"| L
-  O --- S
-  style UNTRUSTED fill:#fdecea,stroke:#b3261e
-  style EDGE fill:#fff4d6,stroke:#8a5a00
-  style INTERNAL fill:#e8f0fe,stroke:#1f5cbf
-  style EXTERNAL fill:#efe9f7,stroke:#7C3AED
+    %% Subgraphs with high-visibility boundary tones
+    subgraph UNTRUSTED["🚨 UNTRUSTED ZONE"]
+        U["👤 User / client<br/><b>(hostile by default)</b>"]
+    end
+
+    subgraph EDGE["🛡️ EDGE LAYER"]
+        G["🚪 API Gateway<br/><b>auth · rate limit · WAF</b>"]
+    end
+
+    subgraph INTERNAL["🔒 INTERNAL CORE"]
+        O["⚙️ Orchestrator / core services"]
+        S["💾 Stores · Vector DB · Memory"]
+    end
+
+    subgraph EXTERNAL["🌐 EXTERNAL SERVICES"]
+        L["🧠 LLM Provider<br/><b>(trust by contract)</b>"]
+    end
+
+    %% Edge connections with color coding
+    U -->| user query<br/>UNTRUSTED → EDGE | G
+    G -->| validated<br/>EDGE → INTERNAL | O
+    O <-->| DF-07 · augmented prompt<br/>INTERNAL → EXTERNAL | L
+    O --- S
+
+    %% Subgraph Styling
+    style UNTRUSTED fill:#FFE5E5,stroke:#D32F2F,stroke-width:2px,color:#7F0000
+    style EDGE fill:#FFF8E1,stroke:#FFA000,stroke-width:2px,color:#5D4037
+    style INTERNAL fill:#E8F5E9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    style EXTERNAL fill:#EDE7F6,stroke:#7E57C2,stroke-width:2px,color:#311B92
+
+    %% Node Styling for Maximum Differentiation
+    style U fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#5C0000
+    style G fill:#FFE082,stroke:#FF8F00,stroke-width:2px,color:#4E342E
+    style O fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#0A3D0A
+    style S fill:#A5D6A7,stroke:#1B5E20,stroke-width:2px,color:#052405
+    style L fill:#D1C4E9,stroke:#512DA8,stroke-width:2px,color:#1F0954
+
+    %% Link Styling to clarify data flow paths
+    linkStyle 0 stroke:#D32F2F,stroke-width:2px,color:#B71C1C
+    linkStyle 1 stroke:#F57C00,stroke-width:2px,color:#E65100
+    linkStyle 2 stroke:#7E57C2,stroke-width:2px,color:#4A148C
+    linkStyle 3 stroke:#388E3C,stroke-width:2px

@@ -1,12 +1,19 @@
 flowchart LR
-  SRC["Untrusted input"] --> V1["Input validation<br/>@ EDGE"]
-  V1 --> V2["Context sanitization<br/>@ orchestrator"]
-  V2 --> M["Model / LLM"]
-  M --> O1["Output validation<br/>@ guardrails"]
-  O1 --> O2["Input validation<br/>@ every downstream consumer"]
-  O2 --> ACT["Final action / store"]
-  style V1 stroke:#1f5cbf,stroke-width:3px
-  style V2 stroke:#1f5cbf,stroke-width:3px
-  style O1 stroke:#1f5cbf,stroke-width:3px
-  style O2 stroke:#1f5cbf,stroke-width:3px
-  style M fill:#efe9f7,stroke:#7C3AED,stroke-width:2px
+    SRC[ Untrusted input ] --> V1[ Input validation<br/>@ EDGE ]
+    V1 --> V2[ Context sanitization<br/>@ orchestrator ]
+    V2 --> M[ Model / LLM ]
+    M --> O1[ Output validation<br/>@ guardrails ]
+    O1 --> O2[ Input validation<br/>@ every downstream consumer ]
+    O2 --> ACT[ Final action / store ]
+
+    %% Styling individual nodes with vibrant fills, borders, and text colors
+    style SRC fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
+    style V1 fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
+    style V2 fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style M fill:#ede9fe,stroke:#8b5cf6,stroke-width:3px,color:#5b21b6
+    style O1 fill:#fce7f3,stroke:#ec4899,stroke-width:2px,color:#9d174d
+    style O2 fill:#ccfbf1,stroke:#14b8a6,stroke-width:2px,color:#115e59
+    style ACT fill:#dcfce7,stroke:#22c55e,stroke-width:2px,color:#166534
+
+    %% Edge styling
+    linkStyle default stroke:#64748b,stroke-width:2px

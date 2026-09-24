@@ -26,6 +26,7 @@ The tool's reports do the mapping for you (DF-xx flows, TB-xx boundaries) — bu
 | `INTERNAL` | Your application core | Orchestrator, services, vector DB, memory, guardrails | Trusted internally — but not a free pass |
 | `EXTERNAL` | Partners you call out to | LLM provider API, external model hosts, SaaS tools | Trusted *by contract only* |
 
+
 ![How the four trust zones sit around an AI system — every arrow crosses a boundary where a control must exist](images/trust-zones.png)
 
 > [!risk] **What can go wrong?** The zones predict the attacks before you even name them:

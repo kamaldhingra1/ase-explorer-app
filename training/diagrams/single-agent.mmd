@@ -1,0 +1,71 @@
+graph TD
+    %% Class Definitions for Coloring
+    classDef untrusted fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef edge fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef external fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef component fill:#E1D5E7,stroke:#9673A6,stroke-width:1px,color:#000;
+    
+    %% Security & Defense Color Classes (Vibrant Alerts)
+    classDef activeDefense fill:#FFE6CC,stroke:#D79B00,stroke-width:2px,color:#000;  %% Vibrant Orange
+    classDef hitlCheck fill:#F8CECC,stroke:#B85450,stroke-width:2px,color:#000;       %% Soft Vibrant Red
+
+    %% --- UNTRUSTED ZONE ---
+    subgraph UNTRUSTED ["UNTRUSTED"]
+        UserInterface["User Interface"]
+    end
+    class UserInterface untrusted;
+
+    %% --- EDGE ZONE ---
+    subgraph EDGE ["EDGE"]
+        APIGateway["API Gateway"]
+        HITL["🚨 HITL Checkpoint"]
+    end
+    class APIGateway edge;
+    class HITL hitlCheck;
+
+    %% --- EXTERNAL ZONE ---
+    subgraph EXTERNAL ["EXTERNAL"]
+        ToolSet["Tool Set - APIs / DBs / FS"]
+    end
+    class ToolSet external;
+
+    %% --- INTERNAL ZONE ---
+    subgraph INTERNAL ["INTERNAL"]
+        AgentOrchestrator["Agent Orchestrator"]
+        PlanningModule["Planning Module"]
+        LLMCore["LLM Core"]
+        ToolRegistry["Tool Registry"]
+        ShortMemory["Memory (Short-term)"]
+        LongMemory["Memory (Long-term)"]
+        GoalManager["Goal Manager"]
+        SafetyGuardrails["🛡️ Safety Guardrails"]
+    end
+    class AgentOrchestrator,PlanningModule,LLMCore,ToolRegistry,ShortMemory,LongMemory,GoalManager component;
+    class SafetyGuardrails activeDefense;
+
+    %% --- RELATIONSHIPS & FLOWS ---
+    %% Edge Entry Flow
+    UserInterface --> APIGateway
+    APIGateway --> AgentOrchestrator
+
+    %% Internal Orchestrator Fan-out
+    AgentOrchestrator <--> PlanningModule
+    AgentOrchestrator <--> ToolRegistry
+    AgentOrchestrator <--> ShortMemory
+    AgentOrchestrator <--> LongMemory
+    AgentOrchestrator <--> GoalManager
+    AgentOrchestrator <--> SafetyGuardrails
+    AgentOrchestrator <--> HITL
+
+    %% Deep Core Dependencies
+    PlanningModule --> LLMCore
+
+    %% External Tool Execution Loop
+    ToolRegistry --> ToolSet
+    ToolSet -- "tool result" --> AgentOrchestrator
+
+    %% Styling Subgraphs
+    style UNTRUSTED fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style EDGE fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style EXTERNAL fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style INTERNAL fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;

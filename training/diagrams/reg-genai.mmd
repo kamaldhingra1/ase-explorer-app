@@ -1,0 +1,77 @@
+graph LR
+    %% Class Definitions for Coloring
+    classDef untrusted fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef edge fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef external fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef component fill:#E1D5E7,stroke:#9673A6,stroke-width:1px,color:#000;
+    classDef activeDefense fill:#FFE6CC,stroke:#D79B00,stroke-width:2px,color:#000;
+
+    %% --- COLUMN 1: UNTRUSTED ZONE ---
+    subgraph UNTRUSTED ["UNTRUSTED"]
+        UserInterface["User Interface"]
+    end
+    class UserInterface untrusted;
+
+    %% --- COLUMN 2: EDGE ZONE ---
+    subgraph EDGE ["EDGE"]
+        APIGateway["API Gateway"]
+        InputGuardrails["🛡️ Input Guardrails"]
+        OutputGuardrails["🛡️ Output Guardrails"]
+    end
+    class APIGateway edge;
+    class OutputGuardrails,InputGuardrails activeDefense;
+
+    %% --- COLUMN 3: INTERNAL AI CORE ZONE ---
+    subgraph INTERNAL_AI_CORE ["INTERNAL AI CORE"]
+        Orchestrator["Orchestrator"]
+        EmbeddingService["Embedding Service"]
+        ConversationMemory["Conversation Memory"]
+        PromptStore["Prompt Template Store"]
+        ETLPipeline["Document / ETL Pipeline"]
+        VectorDB[("Vector Database")]
+        Retriever["Retriever"]
+    end
+    class Orchestrator,EmbeddingService,ConversationMemory,PromptStore,ETLPipeline,VectorDB,Retriever component;
+
+    %% --- COLUMN 4: EXTERNAL ZONE ---
+    subgraph EXTERNAL ["EXTERNAL"]
+        LLMProvider["LLM Provider"]
+    end
+    class LLMProvider external;
+
+    %% --- LINEAR DATA FLOWS ---
+    %% Request Input Chain (Column 1 -> Column 2 -> Column 3)
+    UserInterface --> APIGateway
+    APIGateway --> InputGuardrails
+    InputGuardrails --> Orchestrator
+
+    %% Core Process Loop & External Provider Link (Column 3 -> Column 4)
+    Orchestrator -- "augmented prompt" --> LLMProvider
+    LLMProvider -- "generated response" --> Orchestrator
+
+    %% Response Output Chain (Column 3 -> Column 2 -> Column 1)
+    Orchestrator --> OutputGuardrails
+    OutputGuardrails --> UserInterface
+
+    %% Internal Component Dependencies
+    Orchestrator --> EmbeddingService
+    Orchestrator <--> ConversationMemory
+    Orchestrator --> PromptStore
+    Orchestrator --> ETLPipeline
+    Orchestrator --> Retriever
+
+    EmbeddingService --> VectorDB
+    ETLPipeline -- "indexed chunks" --> VectorDB
+    VectorDB --> Retriever
+    Retriever --> Orchestrator
+
+    %% --- VISUAL ALIGNMENT ANCHORS (Forces parallel layout) ---
+    UserInterface ~~~ APIGateway
+    OutputGuardrails ~~~ Orchestrator
+    Orchestrator ~~~ LLMProvider
+
+    %% Styling Subgraphs
+    style UNTRUSTED fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style EDGE fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style EXTERNAL fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style INTERNAL_AI_CORE fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;

@@ -1,0 +1,69 @@
+graph TD
+    %% Class Definitions for Coloring
+    classDef untrusted fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef edge fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef external fill:#FFF2CC,stroke:#D6B656,stroke-width:1px,color:#000;
+    classDef component fill:#E1D5E7,stroke:#9673A6,stroke-width:1px,color:#000;
+    
+    %% Security & Defense Color Classes
+    classDef activeDefense fill:#FFE6CC,stroke:#D79B00,stroke-width:2px,color:#000;  %% Vibrant Orange for Guardrails
+
+    %% --- UNTRUSTED ZONE ---
+    subgraph UNTRUSTED ["UNTRUSTED"]
+        UserUI["User Interface"]
+    end
+    class UserUI untrusted;
+
+    %% --- EDGE ZONE ---
+    subgraph EDGE ["EDGE"]
+        APIGateway["API Gateway"]
+        HITL["HITL Checkpoint"]
+    end
+    class APIGateway,HITL edge;
+
+    %% --- EXTERNAL ZONE ---
+    subgraph EXTERNAL ["EXTERNAL"]
+        ToolSetA["Tool Set A"]
+        ToolSetB["Tool Set B"]
+    end
+    class ToolSetA,ToolSetB component;
+
+    %% --- INTERNAL ZONE ---
+    subgraph INTERNAL ["INTERNAL"]
+        AgentIdentity["Agent Identity / Auth"]
+        CoordinatorAgent["Coordinator Agent"]
+        MessageBus["Agent-to-Agent Message Bus"]
+        ConversationMemory["Conversation Memory"]
+        SharedState[("Shared State Store")]
+        ToolRegistry["Tool Registry"]
+        SafetyGuardrails["🛡️ Safety Guardrails"]
+        SpecialistAgentA["Specialist Agent A"]
+        SpecialistAgentB["Specialist Agent B"]
+    end
+    class AgentIdentity,CoordinatorAgent,MessageBus,ConversationMemory,SharedState,ToolRegistry,SpecialistAgentA,SpecialistAgentB component;
+    class SafetyGuardrails activeDefense;
+
+    %% --- RELATIONSHIPS & FLOWS ---
+    UserUI --> APIGateway
+    APIGateway --> CoordinatorAgent
+    CoordinatorAgent --> HITL
+
+    AgentIdentity --> MessageBus
+    CoordinatorAgent --> MessageBus
+    CoordinatorAgent <--> ConversationMemory
+    CoordinatorAgent <--> SharedState
+    CoordinatorAgent <--> ToolRegistry
+    CoordinatorAgent --> SafetyGuardrails
+
+    MessageBus --> SpecialistAgentA
+    MessageBus --> SpecialistAgentB
+    MessageBus --> SharedState
+
+    SpecialistAgentA --> ToolSetA
+    SpecialistAgentB --> ToolSetB
+
+    %% Styling Subgraphs
+    style UNTRUSTED fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style EDGE fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style EXTERNAL fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;
+    style INTERNAL fill:#FFFDF0,stroke:#D6B656,stroke-width:1px;

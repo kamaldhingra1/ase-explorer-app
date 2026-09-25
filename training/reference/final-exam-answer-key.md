@@ -85,14 +85,14 @@ Q20: Policy Engines decide whether actions are allowed.
 |----|----|
 | 21 | A |
 | 22 | B |
-| 23 | B |
-| 24 | A |
-| 25 | C |
-| 26 | A |
-| 27 | C |
-| 28 | A |
+| 23 | C |
+| 24 | D |
+| 25 | A |
+| 26 | D |
+| 27 | B |
+| 28 | B |
 | 29 | A |
-| 30 | B |
+| 30 | D |
 
 ### Rationales
 
@@ -100,19 +100,19 @@ Q21: LLM01 is Prompt Injection.
 
 Q22: LLM02 is Sensitive Information Disclosure.
 
-Q23: LLM04 is Data & Model Poisoning.
+Q23: LLM05 is Data & Model Poisoning.
 
-Q24: LLM05 is Improper Output Handling.
+Q24: LLM10 is Improper Output Handling.
 
-Q25: LLM06 is Excessive Agency.
+Q25: LLM03 is Excessive Agency.
 
-Q26: LLM07 is System Prompt Leakage.
+Q26: LLM08 is Hidden Context Exposure.
 
-Q27: LLM08 is Vector & Embedding Weaknesses.
+Q27: LLM09 is Vector & Embedding Weaknesses.
 
-Q28: LLM09 is Misinformation.
+Q28: LLM07 is Misinformation.
 
-Q29: LLM10 focuses on resource exhaustion and cost.
+Q29: LLM06 focuses on resource exhaustion and cost.
 
 Q30: Executing model output without validation is improper output handling.
 

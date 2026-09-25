@@ -1,0 +1,58 @@
+flowchart TB
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef client fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1,font-weight:bold;
+    classDef gateway fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef core fill:#EDE9FE,stroke:#7C3AED,stroke-width:3px,color:#5B21B6,font-weight:bold;
+    classDef database fill:#ECFDF5,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef external fill:#F5F3FF,stroke:#8B5CF6,stroke-width:2px,color:#6D28D9;
+    classDef prompt fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+
+    %% --- DOMAIN 1: KNOWLEDGE & ENVIRONMENT ---
+    subgraph DOMAIN_ENV ["1. Environment & Knowledge (Foundation)"]
+        ASI04["📦 ASI04: Agentic Supply Chain"]
+        ASI06["🧠 ASI06: Memory & Context Poisoning"]
+    end
+
+    %% --- DOMAIN 2: AGENT PLANNING & INTEGRITY ---
+    subgraph DOMAIN_PLANNING ["2. Agent Core & Planning (The Engine)"]
+        ASI01["🎯 ASI01: Agent Goal Hijack"]
+        ASI10["🥷 ASI10: Rogue Agents"]
+    end
+
+    %% --- DOMAIN 3: RUNTIME SUB-SYSTEMS ---
+    subgraph DOMAIN_RUNTIME ["3. Execution & Orchestration (Boundary)"]
+        ASI07["🗣️ ASI07: Insecure Inter-Agent Comm"]
+        ASI08["🌊 ASI08: Cascading Failures"]
+    end
+
+    %% --- DOMAIN 4: EXTERNAL ACTION & TRUST ---
+    subgraph DOMAIN_ACTION ["4. Tools, Agency & Trust (Action)"]
+        ASI02["🛠️ ASI02: Tool Misuse & Exploitation"]
+        ASI03["🆔 ASI03: Identity & Privilege Abuse"]
+        ASI05["💻 ASI05: Unexpected Code Execution"]
+        ASI09["🤝 ASI09: Human-Agent Trust Exploitation"]
+    end
+
+    %% --- APPLY NODE CLASSES ---
+    class ASI01 prompt;
+    class ASI04,ASI06 database;
+    class ASI08,ASI10 core;
+    class ASI07,ASI09 gateway;
+    class ASI02,ASI03,ASI05 external;
+
+    %% --- SUBGRAPH STYLING ---
+    style DOMAIN_ENV fill:#FAF9F6,stroke:#10B981,stroke-width:1px,stroke-dasharray: 5 5;
+    style DOMAIN_PLANNING fill:#FAF9F6,stroke:#7C3AED,stroke-width:1px;
+    style DOMAIN_RUNTIME fill:#FAF9F6,stroke:#64748B,stroke-width:1px;
+    style DOMAIN_ACTION fill:#FAF9F6,stroke:#0284C7,stroke-width:1px;
+
+    %% --- STRUCTURAL RELATIONSHIPS WITH 3-QUESTIONS OVERLAY TEXT ---
+    ASI04 -->|"1. Flavor: Malicious Skill / MCP Injection<br/>2. Path: Skill Hub (DF-03) ➔ Long-Term Vector Store (DF-01)<br/>3. Defense: Registry Signatures & Schema Validation"| ASI06
+    ASI06 -->|"1. Flavor: Context/RAG Database Poisoning<br/>2. Path: Vector Database (DF-01) ➔ Core System Prompt Planner (AI-01)<br/>3. Defense: Semantic Anomaly Detection & Ephemeral Session Scopes"| ASI01
+    ASI01 -->|"1. Flavor: Execution Vector Subversion (Subgoals Override)<br/>2. Path: Planner Runtime (AI-01) ➔ Ext. Tool Execution Interface (AI-02)<br/>3. Defense: Parameter Constraints & Schema Whitelisting"| ASI02
+    ASI02 -->|"1. Flavor: Inherited Privilege Escalation / Session Hijacking<br/>2. Path: Tool Environment (AI-02) ➔ Cloud API / IAM Store (DF-02)<br/>3. Defense: Ephemeral Multi-Factor Agent Tokens & Micro-segmentation"| ASI03
+    ASI03 -->|"1. Flavor: Unchecked Sandbox Escape / Bash Execution<br/>2. Path: Downstream API Session (DF-02) ➔ Host Runtime Environment<br/>3. Defense: HITL Verification & gVisor Isolation"| ASI05
+    ASI01 -->|"1. Flavor: Inter-Agent Prompt Spoofing / Peer Deception<br/>2. Path: Orchestrator A (AI-01) ➔ Comm Bus (AI-03) ➔ Agent B<br/>3. Defense: mTLS Sub-channels & Tokenized Inter-Agent Auth"| ASI07
+    ASI07 -->|"1. Flavor: Hallucinated Instruction Propagation Loop<br/>2. Path: Communication Bus (AI-03) ➔ Distributed Graph Ecosystem<br/>3. Defense: Max Circuit Breakers & Message Invariant Contracts"| ASI08
+    ASI08 -->|"1. Flavor: Autonomous Drift / Infinite Reasoning Loop<br/>2. Path: System Execution State ➔ System Process Table<br/>3. Defense: Continuous Behavioral Profiling & Automated Quarantines"| ASI10
+    ASI09 -.-> ASI01

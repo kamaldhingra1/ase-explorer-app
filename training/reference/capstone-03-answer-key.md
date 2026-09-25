@@ -215,14 +215,14 @@ Expected Findings
 | Direct Prompt Injection | LLM01 |
 | Indirect Prompt Injection | LLM01 |
 | Disclosure | LLM02 |
-| Supply Chain | LLM03 |
-| Poisoning | LLM04 |
-| Improper Output Handling | LLM05 |
-| Excessive Agency | LLM06 |
-| Prompt Leakage | LLM07 |
-| Retrieval Manipulation | LLM08 |
-| Misinformation | LLM09 |
-| Unbounded Consumption | LLM10 |
+| Supply Chain | LLM04 |
+| Poisoning | LLM05 |
+| Improper Output Handling | LLM10 |
+| Excessive Agency | LLM03 |
+| Hidden Context Exposure | LLM08 |
+| Retrieval Manipulation | LLM09 |
+| Misinformation | LLM07 |
+| Unbounded Consumption | LLM06 |
 
 Expected Response
 

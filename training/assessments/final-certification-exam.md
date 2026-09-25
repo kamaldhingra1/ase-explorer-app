@@ -149,30 +149,30 @@ Instructions:
 > 3. Data & Model Poisoning maps to:
 > - A) LLM03
 > - B) LLM04
-> - C) LLM07
+> - C) LLM05
 > - D) LLM10
-> Answer: B
+> Answer: C
 >
 > 4. Improper Output Handling maps to:
 > - A) LLM05
 > - B) LLM06
 > - C) LLM08
 > - D) LLM10
-> Answer: A
+> Answer: D
 >
 > 5. Excessive Agency maps to:
-> - A) LLM04
+> - A) LLM03
 > - B) LLM05
 > - C) LLM06
 > - D) LLM08
-> Answer: C
+> Answer: A
 >
-> 6. System Prompt Leakage maps to:
+> 6. Hidden Context Exposure maps to:
 > - A) LLM07
 > - B) LLM03
 > - C) LLM06
-> - D) LLM01
-> Answer: A
+> - D) LLM08
+> Answer: D
 >
 > 7. Unbounded Consumption primarily concerns:
 > - A) Availability and cost

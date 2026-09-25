@@ -47,7 +47,7 @@ You don't memorize IDs — you learn to recognize the *family* and let the repor
 | **AML.T0054** | Excessive Agency | `.001`–`.007`: tool abuse, goal hijacking, collusion, delegation-chain escalation | The system takes *actions* it shouldn't |
 
 > [!callout] **The two-axis habit**
-> Read a finding as a pair: **failure mode (OWASP) × method (ATLAS)**. *"LLM09 Vector & Embedding Weaknesses / AML.T0020 ML Artifact Poisoning"* tells the fix target: not "make the model safer" but "make the *index* safe." Get the method right and the mitigation targets itself.
+> Read a finding as a pair: **failure mode (OWASP) × method (ATLAS)**. *"LLM08 Vector & Embedding Weaknesses / AML.T0020 ML Artifact Poisoning"* tells the fix target: not "make the model safer" but "make the *index* safe." Get the method right and the mitigation targets itself.
 
 ## Tactics, not just techniques
 

@@ -483,18 +483,19 @@ Renders every lesson's markdown into branded 16:9 PowerPoint decks (python-pptx)
 
 Outputs:
 
-- One deck per lesson (19 files; lesson 12C included)
+- One deck per lesson (22 files; lessons 03a, 05a, 06a, 10a, 12a–d are expansion modules)
 - course-overview.pptx — curriculum & learning-loop overview
 - course-complete.pptx — the full course in order
 - assessments.pptx — capstones + certification questions
 
-Every slide carries speaker notes (plain-text narration for voiceover/TTS).
+Every slide carries speaker notes (plain-text narration for voiceover/TTS). Content slides use the template-inspired "vivid" style (light background, plum/violet bands, lavender card tints, teal quizzes); diagram slides automatically include a caption plus the 3 explanatory bullets that follow the figure in the lesson text.
 
 Run (inside the ai-threatmodeler container; needs python-pptx, in requirements.txt):
 
 docker exec ai-threatmodeler python3 /opt/ai-tm/training/scripts/build_decks.py
 
-Optional flags: --only lessons|overview|combined|assessments, --out PATH.
+Optional flags: --only lessons|overview|combined|assessments, --out PATH, --theme light|vivid|plum
+(--theme vivid is the default: light background with vibrancy borrowed from the Master Template in decks/template/; --theme plum = deep-plum dark style; --theme light = legacy web palette).
 
 Mermaid diagrams in diagrams/ must be rendered to lessons/images/ first via render-diagrams.sh.
 

@@ -153,7 +153,7 @@ When you review a report, you can trace every finding back to an `AI-NN`/`DF-NN`
 > 1. Take the **Multi-Agent** diagram. Assign every box a role from the taxonomy above (some share a role). Write the role next to each box.
 > 2. Rank each component: **exposure** (how reachable), **privilege** (what it can do), **tamperability** (how easy to corrupt the data/instructions it holds).
 > 3. The "blame test": an attacker has made the system send a malicious email. List, in order, every component along the attack path and mark which of your ranks made each step possible.
-> 4. Compare your final list against a generated **Multi-Agent** report. Which components show up in `LLM03: Excessive Agency` and `LLM01` findings? Did the tool attribute anywhere differently than you did?
+> 4. Compare your final list against a generated **Multi-Agent** report. Which components show up in `LLM08: Excessive Agency` and `LLM01` findings? Did the tool attribute anywhere differently than you did?
 
 ## Checkpoints
 

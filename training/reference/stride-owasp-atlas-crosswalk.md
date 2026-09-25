@@ -51,7 +51,7 @@ Examples:
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Tampering |
-| OWASP | LLM03 |
+| OWASP | LLM04 |
 | ATLAS | AML.T0010 |
 | Primary Risk | Trusted Component Compromise |
 | Common Control | Provenance Validation |
@@ -69,7 +69,7 @@ Examples:
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Tampering |
-| OWASP | LLM04 |
+| OWASP | LLM05 |
 | ATLAS | AML.T0020 |
 | Primary Risk | Persistence |
 | Common Control | Ingestion Validation |
@@ -87,7 +87,7 @@ Examples:
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Elevation of Privilege, Tampering |
-| OWASP | LLM05 |
+| OWASP | LLM10 |
 | ATLAS | AML.T0051 (Commonly Associated) |
 | Primary Risk | Code Execution |
 | Common Control | Output Validation |
@@ -105,7 +105,7 @@ Examples:
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Elevation of Privilege |
-| OWASP | LLM06 |
+| OWASP | LLM03 |
 | ATLAS | AML.T0054 |
 | Primary Risk | Unauthorized Actions |
 | Common Control | Least Privilege |
@@ -118,12 +118,12 @@ Examples:
 
 ---
 
-# System Prompt Leakage
+# Hidden Context Exposure
 
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Information Disclosure |
-| OWASP | LLM07 |
+| OWASP | LLM08 |
 | ATLAS | AML.T0051 |
 | Primary Risk | Security Bypass |
 | Common Control | Remove Secrets From Prompts |
@@ -140,7 +140,7 @@ Examples:
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Tampering |
-| OWASP | LLM08 |
+| OWASP | LLM09 |
 | ATLAS | AML.T0020 |
 | Primary Risk | Retrieval Manipulation |
 | Common Control | Provenance Controls |
@@ -157,7 +157,7 @@ Examples:
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Information Disclosure |
-| OWASP | LLM09 |
+| OWASP | LLM07 |
 | ATLAS | AML.T0052 |
 | Primary Risk | Incorrect Decisions |
 | Common Control | Verification & Grounding |
@@ -174,7 +174,7 @@ Examples:
 | Framework | Mapping |
 |------------|------------|
 | STRIDE | Denial of Service |
-| OWASP | LLM10 |
+| OWASP | LLM06 |
 | ATLAS | AML.T0043 |
 | Primary Risk | Resource Exhaustion |
 | Common Control | Quotas & Limits |

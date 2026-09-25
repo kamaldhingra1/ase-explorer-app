@@ -98,13 +98,14 @@ Expected Threats
 | Direct Prompt Injection | LLM01 |
 | Indirect Prompt Injection | LLM01 |
 | Sensitive Information Disclosure | LLM02 |
-| Supply Chain Compromise | LLM03 |
-| Data Poisoning | LLM04 |
-| Improper Output Handling | LLM05 |
-| System Prompt Leakage | LLM07 |
-| Vector Weaknesses | LLM08 |
-| Misinformation | LLM09 |
-| Unbounded Consumption | LLM10 |
+| Supply Chain Compromise | LLM04 |
+| Data Poisoning | LLM05 |
+| Improper Output Handling | LLM10 |
+| Excessive Agency | LLM03 |
+| Hidden Context Exposure | LLM08 |
+| Vector Weaknesses | LLM09 |
+| Misinformation | LLM07 |
+| Unbounded Consumption | LLM06 |
 
 Minimum expected:
 

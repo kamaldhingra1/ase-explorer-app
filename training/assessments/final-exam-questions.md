@@ -352,7 +352,7 @@ A. LLM03
 
 B. LLM04
 
-C. LLM07
+C. LLM05
 
 D. LLM10
 
@@ -376,9 +376,9 @@ D. LLM10
 
 Excessive Agency maps to:
 
-A. LLM04
+A. LLM03
 
-B. LLM05
+B. LLM04
 
 C. LLM06
 
@@ -388,7 +388,7 @@ D. LLM08
 
 ### Q26
 
-System Prompt Leakage maps to:
+Hidden Context Exposure maps to:
 
 A. LLM07
 
@@ -396,7 +396,7 @@ B. LLM03
 
 C. LLM06
 
-D. LLM01
+D. LLM08
 
 ---
 
@@ -420,7 +420,7 @@ Misinformation primarily maps to:
 
 A. LLM09
 
-B. LLM02
+B. LLM07
 
 C. LLM04
 
@@ -454,7 +454,7 @@ B. LLM05
 
 C. LLM07
 
-D. LLM09
+D. LLM10
 
 ---
 

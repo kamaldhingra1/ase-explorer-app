@@ -1,0 +1,58 @@
+flowchart TB
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef client fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1,font-weight:bold;
+    classDef gateway fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef core fill:#EDE9FE,stroke:#7C3AED,stroke-width:3px,color:#5B21B6,font-weight:bold;
+    classDef database fill:#ECFDF5,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef external fill:#F5F3FF,stroke:#8B5CF6,stroke-width:2px,color:#6D28D9;
+    classDef prompt fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+
+    %% --- DOMAIN 1: FOUNDATION ---
+    subgraph DOMAIN_FOUNDATION ["1. Data & Supply Chain (Foundation)"]
+        LLM04["🏗️ LLM04: Supply Chain"]
+        LLM05["📦 LLM05: Data & Model Poisoning"]
+    end
+
+    %% --- DOMAIN 2: GATEWAY ---
+    subgraph DOMAIN_GATEWAY ["2. Input & Context (Gateway)"]
+        LLM01["📝 LLM01: Prompt Injection"]
+        LLM02["🔓 LLM02: Sensitive Info Disclosure"]
+        LLM08["🕳️ LLM08: Hidden Context Exposure"]
+    end
+
+    %% --- DOMAIN 3: CORE ---
+    subgraph DOMAIN_CORE ["3. Model Execution & Limits (Core)"]
+        LLM07["🙈 LLM07: Misinformation"]
+        LLM09["🧲 LLM09: Vector & Embedding Weaknesses"]
+    end
+
+    %% --- DOMAIN 4: ACTION ---
+    subgraph DOMAIN_ACTION ["4. Output & Downstream Agency (Action)"]
+        LLM03["🤖 LLM03: Excessive Agency"]
+        LLM06["💸 LLM06: Unbounded Consumption"]
+        LLM10["⚠️ LLM10: Improper Output Handling"]
+    end
+
+    %% --- APPLY CLASSES ---
+    class LLM01 prompt;
+    class LLM04,LLM05 database;
+    class LLM07,LLM09 core;
+    class LLM01,LLM02,LLM08 gateway;
+    class LLM03,LLM06,LLM10 external;
+
+    %% --- SUBGRAPH STYLING ---
+    style DOMAIN_FOUNDATION fill:#FAF9F6,stroke:#10B981,stroke-width:1px,stroke-dasharray: 5 5;
+    style DOMAIN_GATEWAY fill:#FAF9F6,stroke:#EAB308,stroke-width:1px;
+    style DOMAIN_CORE fill:#FAF9F6,stroke:#7C3AED,stroke-width:1px;
+    style DOMAIN_ACTION fill:#FAF9F6,stroke:#0284C7,stroke-width:1px;
+
+    %% --- STRUCTURAL INTERSECTIONS (LEFT-TO-RIGHT EXPLOIT PATHS) ---
+    LLM04 --> LLM05
+    LLM05 --> LLM09
+    LLM05 --> LLM07
+    LLM09 --> LLM08
+    LLM08 --> LLM01
+    LLM01 --> LLM02
+    LLM01 --> LLM03
+    LLM01 --> LLM06
+    LLM03 --> LLM10

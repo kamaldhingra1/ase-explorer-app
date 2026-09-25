@@ -1,0 +1,58 @@
+flowchart LR
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef client fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1,font-weight:bold;
+    classDef gateway fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef core fill:#EDE9FE,stroke:#7C3AED,stroke-width:3px,color:#5B21B6,font-weight:bold;
+    classDef database fill:#ECFDF5,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef external fill:#F5F3FF,stroke:#8B5CF6,stroke-width:2px,color:#6D28D9;
+    classDef prompt fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+
+    %% --- DOMAIN 1: KNOWLEDGE & ENVIRONMENT ---
+    subgraph DOMAIN_ENV ["1. Environment & Knowledge (Foundation)"]
+        ASI04["📦 ASI04: Agentic Supply Chain"]
+        ASI06["🧠 ASI06: Memory & Context Poisoning"]
+    end
+
+    %% --- DOMAIN 2: AGENT PLANNING & INTEGRITY ---
+    subgraph DOMAIN_PLANNING ["2. Agent Core & Planning (The Engine)"]
+        ASI01["🎯 ASI01: Agent Goal Hijack"]
+        ASI10["🥷 ASI10: Rogue Agents"]
+    end
+
+    %% --- DOMAIN 3: RUNTIME SUB-SYSTEMS ---
+    subgraph DOMAIN_RUNTIME ["3. Execution & Orchestration (Boundary)"]
+        ASI07["🗣️ ASI07: Insecure Inter-Agent Comm"]
+        ASI08["🌊 ASI08: Cascading Failures"]
+    end
+
+    %% --- DOMAIN 4: EXTERNAL ACTION & TRUST ---
+    subgraph DOMAIN_ACTION ["4. Tools, Agency & Trust (Action)"]
+        ASI02["🛠️ ASI02: Tool Misuse & Exploitation"]
+        ASI03["🆔 ASI03: Identity & Privilege Abuse"]
+        ASI05["💻 ASI05: Unexpected Code Execution"]
+        ASI09["🤝 ASI09: Human-Agent Trust Exploitation"]
+    end
+
+    %% --- APPLY NODE CLASSES ---
+    class ASI01 prompt;
+    class ASI04,ASI06 database;
+    class ASI08,ASI10 core;
+    class ASI07,ASI09 gateway;
+    class ASI02,ASI03,ASI05 external;
+
+    %% --- SUBGRAPH STYLING ---
+    style DOMAIN_ENV fill:#FAF9F6,stroke:#10B981,stroke-width:1px,stroke-dasharray: 5 5;
+    style DOMAIN_PLANNING fill:#FAF9F6,stroke:#7C3AED,stroke-width:1px;
+    style DOMAIN_RUNTIME fill:#FAF9F6,stroke:#64748B,stroke-width:1px;
+    style DOMAIN_ACTION fill:#FAF9F6,stroke:#0284C7,stroke-width:1px;
+
+    %% --- CLEAN STRUCTURAL RELATIONSHIPS ---
+    ASI04 --> ASI06
+    ASI06 --> ASI01
+    ASI01 --> ASI02
+    ASI02 --> ASI03
+    ASI03 --> ASI05
+    ASI01 --> ASI07
+    ASI07 --> ASI08
+    ASI08 --> ASI10
+    ASI09 -.-> ASI01

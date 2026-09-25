@@ -1,0 +1,82 @@
+flowchart LR
+    %% --- CLASS DEFINITIONS FOR PALETTE ALIGNMENT ---
+    classDef client fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0369A1,font-weight:bold;
+    classDef gateway fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#334155;
+    classDef core fill:#EDE9FE,stroke:#7C3AED,stroke-width:3px,color:#5B21B6,font-weight:bold;
+    classDef database fill:#ECFDF5,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef external fill:#F5F3FF,stroke:#8B5CF6,stroke-width:2px,color:#6D28D9;
+    classDef prompt fill:#FFFDE7,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+    
+    %% --- HIGH-CONTRAST 3-QS TEXT STYLING ---
+    classDef QBlock fill:#FFF7ED,stroke:#EA580C,stroke-width:2px,color:#9A3412,font-size:11px;
+
+    %% --- DOMAIN 1: KNOWLEDGE & ENVIRONMENT ---
+    subgraph DOMAIN_ENV_2 ["1. Environment & Knowledge (Foundation)"]
+        ASI04_2["📦 ASI04: Agentic Supply Chain"]
+        ASI06_2["🧠 ASI06: Memory & Context Poisoning"]
+    end
+
+    %% --- DOMAIN 2: AGENT PLANNING & INTEGRITY ---
+    subgraph DOMAIN_PLANNING_2 ["2. Agent Core & Planning (The Engine)"]
+        ASI01_2["🎯 ASI01: Agent Goal Hijack"]
+        ASI10_2["🥷 ASI10: Rogue Agents"]
+    end
+
+    %% --- DOMAIN 3: RUNTIME SUB-SYSTEMS ---
+    subgraph DOMAIN_RUNTIME_2 ["3. Execution & Orchestration (Boundary)"]
+        ASI07_2["🗣️ ASI07: Insecure Inter-Agent Comm"]
+        ASI08_2["🌊 ASI08: Cascading Failures"]
+    end
+
+    %% --- DOMAIN 4: EXTERNAL ACTION & TRUST ---
+    subgraph DOMAIN_ACTION_2 ["4. Tools, Agency & Trust (Action)"]
+        ASI02_2["🛠️ ASI02: Tool Misuse & Exploitation"]
+        ASI03_2["🆔 ASI03: Identity & Privilege Abuse"]
+        ASI05_2["💻 ASI05: Unexpected Code Execution"]
+        ASI09_2["🤝 ASI09: Human-Agent Trust Exploitation"]
+    end
+
+    %% --- APPLY NODE CLASSES ---
+    class ASI01_2 prompt;
+    class ASI04_2,ASI06_2 database;
+    class ASI08_2,ASI10_2 core;
+    class ASI07_2,ASI09_2 gateway;
+    class ASI02_2,ASI03_2,ASI05_2 external;
+
+    %% --- SUBGRAPH STYLING ---
+    style DOMAIN_ENV_2 fill:#FAF9F6,stroke:#10B981,stroke-width:1px,stroke-dasharray: 5 5;
+    style DOMAIN_PLANNING_2 fill:#FAF9F6,stroke:#7C3AED,stroke-width:1px;
+    style DOMAIN_RUNTIME_2 fill:#FAF9F6,stroke:#64748B,stroke-width:1px;
+    style DOMAIN_ACTION_2 fill:#FAF9F6,stroke:#0284C7,stroke-width:1px;
+
+    %% --- INTERSECTION CONNECTIONS AND INTERMEDIATE 3-QS LABELS ---
+    
+    %% Path A: Supply Chain to Memory Ingestion
+    ASI04_2 --> QA:::QBlock --> ASI06_2
+    QA["<b>1. Flavor:</b> Malicious Skill / MCP Injection<br/><b>2. Path:</b> Skill Hub (DF-03) ➔ Long-Term Vector Store (DF-01)<br/><b>3. Defense:</b> Cryptographic Registry Signatures & Schema Validation"]
+
+    %% Path B: Context Poisoning to Goal Hijacking
+    ASI06_2 --> QB:::QBlock --> ASI01_2
+    QB["<b>1. Flavor:</b> Context/RAG Database Poisoning<br/><b>2. Path:</b> Vector Database (DF-01) ➔ Core System Prompt Planner (AI-01)<br/><b>3. Defense:</b> Semantic Anomaly Detection & Ephemeral Session Scopes"]
+
+    %% Path C: Goal Hijack to Autonomous Tool Misuse
+    ASI01_2 --> QC:::QBlock --> ASI02_2
+    QC["<b>1. Flavor:</b> Execution Vector Subversion (Subgoals Override)<br/><b>2. Path:</b> Planner Runtime (AI-01) ➔ Ext. Tool Execution Interface (AI-02)<br/><b>3. Defense:</b> Parameter Constraints Typing & Schema Whitelisting"]
+
+    %% Path D: Tool Misuse to System Priv Abuse & RCE
+    ASI02_2 --> QD:::QBlock --> ASI03_2
+    QD["<b>1. Flavor:</b> Inherited Privilege Escalation / Session Hijacking<br/><b>2. Path:</b> Tool Environment (AI-02) ➔ Cloud API/IAM Store (DF-02)<br/><b>3. Defense:</b> Ephemeral Multi-Factor Agent Tokens & Micro-segmentation"]
+
+    ASI03_2 --> QE:::QBlock --> ASI05_2
+    QE["<b>1. Flavor:</b> Unchecked Sandbox Escape / Bash Execution<br/><b>2. Path:</b> Downstream API Session (DF-02) ➔ Host Runtime Environment (OS)<br/><b>3. Defense:</b> Strict Human-In-The-Loop Verification & gVisor Isolation"]
+
+    %% Path F: Multi-Agent Cascade Failure
+    ASI01_2 --> QF:::QBlock --> ASI07_2
+    QF["<b>1. Flavor:</b> Inter-Agent Prompt Spoofing / Peer Deception<br/><b>2. Path:</b> Orchestrator A (AI-01) ➔ Communication Bus (AI-03) ➔ Agent B<br/><b>3. Defense:</b> mTLS Encrypted Sub-channels & Tokenized Inter-Agent Auth"]
+
+    ASI07_2 --> QG:::QBlock --> ASI08_2
+    QG["<b>1. Flavor:</b> Hallucinated Instruction Propagation Loop<br/><b>2. Path:</b> Communication Bus (AI-03) ➔ Distributed Graph Ecosystem<br/><b>3. Defense:</b> Max Circuit Breakers & Message Invariant Contracts"]
+
+    %% Path H: Rogue Agent Mutation
+    ASI08_2 --> QH:::QBlock --> ASI10_2
+    QH["<b>1. Flavor:</b> Autonomous Drift / Infinite Reasoning Loop<br/><b>2. Path:</b> System Execution State ➔ System Process Table<br/><b>3. Defense:</b> Continuous Behavioral Profiling & Automated Quarantines"]

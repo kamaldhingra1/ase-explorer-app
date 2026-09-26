@@ -16,6 +16,8 @@
   header .sub { color:var(--muted); font-size:12.5px; }
   header .home { margin-left:auto; font-size:13px; font-weight:600; color:var(--main); text-decoration:none; }
   header .home:hover { text-decoration:underline; }
+  header .home2 { margin-left:auto; font-size:13px; font-weight:600; color:var(--main); text-decoration:none; }
+  header .home2:hover { text-decoration:underline; }
 .layout { display:flex; align-items:flex-start; }
   aside { width:var(--nav-w, 240px); flex:0 0 var(--nav-w, 240px); padding:18px 12px 40px; position:sticky; top:70px; max-height:calc(100vh - 90px); overflow-y:auto; }
   aside .module { font-size:11.5px; font-weight:800; color:var(--main-dark); text-transform:uppercase; letter-spacing:0.5px; margin:16px 0 5px; }
@@ -183,7 +185,7 @@
 <header>
 <img src="lessons/images/logo.png" alt="logo" width="64" height="64" style="float: left; height: auto;">
   <div>
-     <a  href="/training" style="text-decoration: none;">
+     <a  class="home2" href="/training" style="text-decoration: none;">
     <h1>AI Security Threat Modeling Training (ASTM)</h1></a>
     <div class="sub">Hands-on: explain · play · generate real threats, risks and mitigations</div>
   </div>
@@ -191,7 +193,7 @@
   <button id="wsBtn" class="toggle" title="Printable worksheets">Worksheets</button>
   <button id="exportBtn" class="toggle" title="Download your annotations as a markdown deliverable">Export</button>
   <div class="hprog" title="Lessons completed"><span id="hPct">0%</span><div class="prog-track"><div class="prog-fill" id="hFill"></div></div></div>
-  <a class="home" href="/training">← Home</a>
+  <a class="home2" href="/training">← Home</a>
 </header>
 <div class="layout">
   <aside id="sidebar">

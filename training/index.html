@@ -181,9 +181,9 @@
 </head>
 <body>
 <header>
-   <a class="home" href="/training"><img src="lessons/images/logo.png" alt="logo">
-  <div>
-    <h1>AI Security Threat Modeling Training</h1></a> 
+<img src="lessons/images/logo.png" alt="logo" width="64" height="64" style="float: left; height: auto;">
+  <div>   <a class="home" href="/training">
+    <h1>AI Security Threat Modeling Training</h1></a>
     <div class="sub">Hands-on: explain · play · generate real threats, risks and mitigations</div>
   </div>
   <button id="sideToggle" class="toggle" title="Toggle lesson list">◂ Lessons</button>
@@ -620,6 +620,7 @@ async function loadLesson(file) {
     const fields = [meta.module, meta.level, meta.minutes ? meta.minutes + ' min' : ''];
     if (!MANIFEST.lessons.every(l => l.status === 'complete')) fields.push(meta.status);
     doc.innerHTML =
+      '<img src="/lessons/images/logo.png" alt="logo" width="68" height="68" style="float: left; height: auto;margin-right: 10px;">' +
       `<h1>${meta.title || ''}</h1>` +
       `<div class="meta">${fields.filter(Boolean).map(v => `<span>${v}</span>`).join('')}</div>` +
       mdToHtml(stripLeadH1(body), { spoiler: hasQuiz }) +

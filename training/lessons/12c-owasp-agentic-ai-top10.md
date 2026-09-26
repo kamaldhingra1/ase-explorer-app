@@ -9,12 +9,14 @@ status: complete
 # OWASP Agentic AI Top 10
 
 > OWASP released the **Top 10 for Agentic Applications (2026 edition)** as the agent-specific successor to the LLM Top 10, this time with a distinct ID scheme — `ASI01`–`ASI10`. Where the LLM list covers *a model answering*, this list covers *a system being given tools, memory, and the ability to act*.
-: If you've done Lesson 05, you already know half the map — **ASI02 Tool Misuse & Exploitation** and **ASI05 Unexpected Code Execution** are the agentic faces of `LLM03` Excessive Agency and `LLM10` Improper Output Handling. The entries that are new are the ones that only exist when software takes actions: goal hijack, cascading failures, memory/context poisoning, inter-agent trust, and the hegemony of who-is-this-acting-for.
->: The list is your **agentic threat prompt list**: nothing on it is a finding by itself — it becomes a finding when you can point at a path (component + flow) and say "this is where ASI07 happens."
+
+If you've done Lesson 05 - OWASP LLM Top 10, you already know half the map — **ASI02 Tool Misuse & Exploitation** and **ASI05 Unexpected Code Execution** are the agentic faces of `LLM03` Excessive Agency and `LLM10` Improper Output Handling. The entries that are new are the ones that only exist when software takes actions: goal hijack, cascading failures, memory/context poisoning, inter-agent trust, and the hegemony of who-is-this-acting-for.
+
+> The list is your **agentic threat prompt list**: nothing on it is a finding by itself — it becomes a finding when you can point at a path (component + flow) and say "this is where ASI07 happens."
 
 ## Why this matters
 
-The AI agent patterns in your tool (`10-single-agent`, `11-multi-agent`, `12-autonomous-agent`, `12a-mcp`) share one property: the system's outputs *do things in the world*. That property is exactly what the ten agentic failure modes exist to name. When a report on an agent pattern flags something new, it is usually one of these ten — even when the underlying tech was described more comfortably as a prompt-injection or an output-handling bug. Knowing the agentic list means you can *name* the failure precisely, which is the difference between "the agent did something weird" and "ASI08: cascading failure on the backup agent's delete flow."
+The AI agent patterns in your tool (Single-Agent, Multi-agent, Autonomous-agent and MCP ) share one property: the system's outputs *do things in the world*. That property is exactly what the ten agentic failure modes exist to name. When a report on an agent pattern flags something new, it is usually one of these ten — even when the underlying tech was described more comfortably as a prompt-injection or an output-handling bug. Knowing the agentic list means you can *name* the failure precisely, which is the difference between "the agent did something weird" and "ASI08: cascading failure on the backup agent's delete flow."
 
 > [!callout] **Two eras — keep this mapping handy**
 > The early 2025 preview of this list used plain `A1`–`A10` IDs; the 2026 release is **`ASI01`–`ASI10`** with some categories split, renamed, or absorbed (e.g. "excessive agency" now reads as *tool misuse* + *identity abuse*). Older catalogs, decks, and reports may still carry the A-IDs — translate, then judge:
@@ -50,21 +52,26 @@ The AI agent patterns in your tool (`10-single-agent`, `11-multi-agent`, `12-aut
 | **ASI10** | **Rogue Agents** | Agents drift or are compromised and act harmfully beyond their intended scope | A jailbroken agent operating outside its deployment intent with live credentials |
 
 > [!callout] **Same league, different game: LLM Top 10 vs Agentic Top 10**
-> The Agentic list is not the LLM list renamed. Overlap exists — **ASI02/ASI03** carry agency-and-privilege, **ASI05** is the agentic "improper output", **ASI06** is poisoning for stored *memory*. The additions — **ASI01** (goal hijack), **ASI08** (error compounding across calls), **ASI07** (the data chain), **ASI09** (the human in the loop), **ASI10** (drift) — are all *architectural*, not model properties. That's the tell: if a mitigation lives in the component and flow structure (not in the prompt), you're solving an agentic problem. Lesson 07 gives you the STRIDE vocabulary for these; Lesson 08 the control families; 12a the tool-identity angle.
+> The Agentic list is not the LLM list renamed. Overlap exists — **ASI02/ASI03** carry agency-and-privilege, **ASI05** is the agentic "improper output", **ASI06** is poisoning for stored *memory*. The additions — **ASI01** (goal hijack), **ASI08** (error compounding across calls), **ASI07** (the data chain), **ASI09** (the human in the loop), **ASI10** (drift) — are all *architectural*, not model properties. That's the tell: if a mitigation lives in the component and flow structure (not in the prompt), you're solving an agentic problem. Lesson 07- AI STRIDE gives you the STRIDE vocabulary for these; Lesson 08 the control families; 12a the tool-identity angle.
 
-![OWASP Agentic AI Top 10](images/top-agentic-10-flow.png)
+---
+
 
 ## Reading strategy in a report
 
 When you see an agentic finding, answer four questions—one more than the LLM list asks:
 
-> **1. Which mode?** (ASI01–ASI10) — say it out loud; "tool misuse" and "identity abuse" sound alike until you point at the component.
+> **1. Which mode?** (ASI01–ASI10)  
+    **-->** say it out loud; "tool misuse" and "identity abuse" sound alike until you point at the component.
 
-> **2. Where did the chain get the bad input?** The agentic list is about *paths*, so: which flow (`DF-xx`/`AI-xx`) and which hop (planner, memory, tool, message bus) carries it?
+> **2. Where did the chain get the bad input?**  
+    **-->** The agentic list is about *paths*, so: which flow (`DF-xx`/`AI-xx`) and which hop (planner, memory, tool, message bus) carries it?
 
-> **3. At which hop does a control stop it?** Termination, least privilege, human approval, identity on the message, or output validation — name the component.
+> **3. At which hop does a control stop it?**  
+    **-->** Termination, least privilege, human approval, identity on the message, or output validation — name the component.
 
-> **4. Who was acting, and can we prove it?** If the answer isn't a principal with an authenticated identity, that's ASI03 or ASI07 knocking.
+> **4. Who was acting, and can we prove it?**  
+    **-->** If the answer isn't a principal with an authenticated identity, that's ASI03 or ASI07 knocking.
 
 ---
 
@@ -86,7 +93,7 @@ When you see an agentic finding, answer four questions—one more than the LLM l
 
 ## In the tool
 
-1. Open `patterns/autonomous-agent.md` and read its **Pre-Mapped Threat Catalog** — notice the agentic rows carry the ATLAS technique (`AML.T0043: staging for attack`, `AML.T0047: semantic conflation`…) and an `AI-xx` component ID.
+1. Open Autonomous-agent and read its **Pre-Mapped Threat Catalog** — notice the agentic rows carry the ATLAS technique (`AML.T0043: staging for attack`, `AML.T0047: semantic conflation`…) and an `AI-xx` component ID.
 2. Run the **Autonomous Agent** sample. In the report, find the threats that are *agentic* (no clean `LLM0x` mapping — they live in ASI territory) and trace each to the component on the path.
 3. Compare a **Single Agent** report with the **Multi-Agent** report — the ASI07/ASI08 findings should multiply with the number of hops. If they don't, your group model is hiding a data-chain risk.
 4. **Edition check:** catalogs in existing pattern files may still carry the 2025 draft `A1`–`A10` IDs — translate each with the table above and mark it for refresh.

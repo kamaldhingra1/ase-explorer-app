@@ -27,13 +27,19 @@ The system already learned RAG's lesson (stored content is untrusted). Multi-age
 
 ![Multi-Agent reference architecture](images/multi-agent.png)
 
-> - **The delegation strip:** `User → Coordinator → Message Bus → Specialist A/B` (`DF-01…DF-04`) — where tasks and *context* travel between agents.
+> - **The delegation strip:** 
+    **-->** `User → Coordinator → Message Bus → Specialist A/B` (`DF-01…DF-04`) — where tasks and *context* travel between agents.
 
-> - **The tool strip:** `Specialist A/B → Tool Set A/B → results back onto the bus` (`DF-05…DF-07`) — per-agent tools, per-agent trust.
+> - **The tool strip:** 
+    **-->** `Specialist A/B → Tool Set A/B → results back onto the bus` (`DF-05…DF-07`) — per-agent tools, per-agent trust.
 
-> - **The state strip:** `Bus → Shared State → Coordinator` (`DF-08…DF-09`) — accumulated results become the coordinator's context.
+> - **The state strip:** 
+    **-->** `Bus → Shared State → Coordinator` (`DF-08…DF-09`) — accumulated results become the coordinator's context.
 
-> - **The oversight strip:** `Any Agent → HITL → Coordinator` (`DF-11…DF-12`) — one human edge shared by every agent.
+> - **The oversight strip:** 
+    **-->** `Any Agent → HITL → Coordinator` (`DF-11…DF-12`) — one human edge shared by every agent.
+
+---
 
 **Three seams matter most:**
 

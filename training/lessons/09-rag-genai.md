@@ -16,11 +16,15 @@ status: complete
 
 RAG solves hallucination-by-constraint: instead of asking a naked model, you *retrieve the answer first* and feed it as context. The cost is a new attack surface the model alone never had:
 
-> - the **knowledge base** becomes a file anyone can poison;
+> - the **knowledge base** 
+    **-->** becomes a file anyone can poison;
 
-> - the **retrieval step** becomes a place to manipulate *which* context gets trusted;
+> - the **retrieval step** 
+    **-->** becomes a place to manipulate *which* context gets trusted;
 
-> - the **augmented prompt** inside the LLM call now mixes system instructions with attacker-influenced content — automatically, on every request.
+> - the **augmented prompt** 
+    **-->** inside the LLM call now mixes system instructions with attacker-influenced content — automatically, on every request.
+
 
 Every RAG system you touch inherits this surface. Learn the catalog here once; you'll map every other RAG deployment onto it.
 
@@ -33,13 +37,15 @@ Every RAG system you touch inherits this surface. Learn the catalog here once; y
 ### The pattern is three strips:
 
 > **1. The request strip:** 
->`User → API Gateway → Input Guardrails → Orchestrator` (`DF-01…DF-03`) — where the *user's* text arrives.
+    **-->** `User → API Gateway → Input Guardrails → Orchestrator` (`DF-01…DF-03`) — where the *user's* text arrives.
 
 > **2. The retrieval strip:**
-> `Orchestrator → Embedding → Vector DB → Retriever → Context assembly` (`DF-04…DF-06`) — where *stored* text is fetched.
+    **-->** `Orchestrator → Embedding → Vector DB → Retriever → Context assembly` (`DF-04…DF-06`) — where *stored* text is fetched.
 
 > **3. The generation strip:** 
->`Context assembly → LLM → Output Guardrails → User` (`DF-07…DF-10`) — where the two meet and the answer leaves.
+    **-->** `Context assembly → LLM → Output Guardrails → User` (`DF-07…DF-10`) — where the two meet and the answer leaves.
+
+---
 
 ### Three seams matter most (`AI-` IDs from the inventory):
 

@@ -9,8 +9,10 @@ status: complete
 # Mapping LLM Intersections & Exploit Paths
 
 > While the OWASP GenAI LLM Top 10 (2026) lists vulnerabilities as separate risks, real-world exploitation occurs at the boundaries where these threats intersect. In production, a single security flaw in the user interface layer can rapidly cascade down to compromise model execution frameworks and data backends.
-: This lesson provides the structural tracing models to understand multi-stage LLM exploits. You will analyze how attackers bridge vulnerabilities across four distinct structural domains: **Data & Supply Chain (The Foundation)** — `LLM04` Supply Chain + `LLM05` Data & Model Poisoning, **Input & Context Interception (The Gateway)** — `LLM01` Prompt Injection + `LLM02` Disclosure + `LLM08` Hidden Context, **Model Execution & Limits (The Core)** — `LLM07` Misinformation + `LLM09` Vector Weaknesses, and **Output & Downstream Agency (The Action)** — `LLM03` Excessive Agency + `LLM06` Consumption + `LLM10` Output Handling.
->: The goal is to apply your **3 Questions Framework** (Flavor, Path, and Target Control Point) directly to architectural components (`UI-xx`, `AI-xx`, `DF-xx`) within traditional LLM deployments.
+
+This lesson provides the structural tracing models to understand multi-stage LLM exploits. You will analyze how attackers bridge vulnerabilities across four distinct structural domains: **Data & Supply Chain (The Foundation)**, **Input & Context Interception (The Gateway)** , **Model Execution & Limits (The Core)** , and **Output & Downstream Agency (The Action)**. (Please refer to the diagram below).
+
+>The goal is to apply your **3 Questions Framework** (Flavor, Path, and Target Control Point) directly to architectural components (`UI-xx`, `AI-xx`, `DF-xx`) within traditional LLM deployments.
 
 ## Why this matters
 
@@ -20,7 +22,7 @@ Security failures in LLM applications are rarely isolated to a single prompt inj
 
 ![OWASP LLM Top 10](images/top-10-llm.png)
 
-- Highlights Domains 1 through 4 using the 2026 numbering
+- Highlights Domains 1 through 4 using the OWASP LLM Top 10 numbering
 - Shows foundational structural links (LLM04 ➔ LLM05 ➔ LLM09 ➔ LLM08 ➔ LLM01)
 - Visualizes clean dependencies before text overlays are introduced
 

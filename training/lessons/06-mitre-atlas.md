@@ -15,11 +15,14 @@ status: complete
 
 OWASP tells you *what broke*. ATLAS tells you *how it was done*. The two together give you:
 
-> - a **tactic** (the goal of the step — e.g. *initial access*, *execution*, *exfiltration*);
+> - a **tactic** 
+    **-->** (the goal of the step — e.g. *initial access*, *execution*, *exfiltration*);
 
-> - a **technique** (the concrete method — e.g. *indirect prompt injection*);
+> - a **technique** 
+    **-->** (the concrete method — e.g. *indirect prompt injection*);
 
-> - an **AML ID** you can grep for in reports, incident write-ups, and NIST/EU discussions.
+> - an **AML ID** 
+    **-->** you can grep for in reports, incident write-ups, and NIST/EU discussions.
 
 When a report cites `AML.T0054.002`, you know exactly which book entry to open.
 
@@ -53,13 +56,13 @@ You don't memorize IDs — you learn to recognize the *family* and let the repor
 
 ATLAS also groups techniques under **tactics** — the phases of an attack:
 
+![The ATLAS tactics chain — the route an AI attack travels from recon to impact](images/atlas-chain.png)
+
 > [!risk]
 > **Reconnaissance** → **Resource Development** → **Initial Access** →
 >      **ML Model Access** → **Execution** → **Persistence** (planting data for later) →
 >      **ML Attack Staging** → **Exfiltration** → **Impact**.
 
-
-![The ATLAS tactics chain — the route an AI attack travels from recon to impact](images/atlas-chain.png)
 
 
 

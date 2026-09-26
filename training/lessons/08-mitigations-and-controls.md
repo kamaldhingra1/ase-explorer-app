@@ -70,9 +70,12 @@ Repeated for emphasis, because it is the #1 review failure:
 
 ## Where the toolkit must NOT sit
 
-- **Model-side illusions:** "guardrails inside the model," "safety-trained alone to be safe," "the model will refuse." Keep them as *first* layers, never sole.
-- **Un-scoped HITL:** a human approving every call trains people to rubber-stamp. Approve *consequential* steps, automate the trivial ones.
-- **Logs-as-only-evidence with no write protection:** immutable, append-only, and signed if audit matters (repudiation).
+> **Model-side illusions:** 
+    **-->** "guardrails inside the model," "safety-trained alone to be safe," "the model will refuse." Keep them as *first* layers, never sole.
+> **Un-scoped HITL:** 
+    **-->** a human approving every call trains people to rubber-stamp. Approve *consequential* steps, automate the trivial ones.
+> **Logs-as-only-evidence with no write protection:** 
+    **-->** immutable, append-only, and signed if audit matters (repudiation).
 
 ## In the tool
 

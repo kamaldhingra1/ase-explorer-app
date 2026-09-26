@@ -8,7 +8,8 @@ status: complete
 
 # AI Components & Attack Surface
 
-> An AI system is not "the model". It is a pipeline of components with different jobs, different privileges, and different exposure. This lesson teaches you the **role taxonomy** the tool uses — and why a threat lands on one component and not another.
+> An AI system is not "the model". It is a pipeline of components with different jobs, different privileges, and different exposure. 
+> This lesson teaches you the **role taxonomy** the tool uses — and why a threat lands on one component and not another.
 
 ## New AI Components for Agentic & Enterprise AI
 
@@ -103,11 +104,14 @@ These are the hats an AI system's components wear. A component can wear more tha
 
 **Three insights that explain most of the component→threat mapping you'll see in reports:**
 
-> **1. The model is rarely the only victim.** Injection attacks *target* the model but *travel* via the orchestrator, retriever, memory, and tools. The report therefore attributes the finding to the components on the attack *path*, not just the endpoint.
+> **1. The model is rarely the only victim.** 
+    **-->** Injection attacks *target* the model but *travel* via the orchestrator, retriever, memory, and tools. The report therefore attributes the finding to the components on the attack *path*, not just the endpoint.
 
-> **2. Stores are assassination targets.** Poison the vector DB once and every future query inherits the corruption. That's why `AI-06 Vector Database` and `AI-12 Document Pipeline` are flagged in RAG even though they never sit at a user-facing boundary.
+> **2. Stores are assassination targets.** 
+    **-->** Poison the vector DB once and every future query inherits the corruption. That's why `AI-06 Vector Database` and `AI-12 Document Pipeline` are flagged in RAG even though they never sit at a user-facing boundary.
 
-> **3. Tools are where "thinking" becomes "doing".** An agent can only cause real-world damage if it can *execute*. Tool components (email, HTTP, shell) convert a prompt injection into a data breach or a payment.
+> **3. Tools are where "thinking" becomes "doing".** 
+    **-->** An agent can only cause real-world damage if it can *execute*. Tool components (email, HTTP, shell) convert a prompt injection into a data breach or a payment.
 
 ---
 

@@ -17,13 +17,19 @@ The "five-step loop" in Lesson 01 is *process*. The **Four Questions** (populari
 
 The four questions are:
 
-> **1. What are we working on?** — a shared map of the system and its boundaries.
+> **1. What are we working on?** 
 
-> **2. What can go wrong?** — a structured hunt for the bad things (threats).
+      **-->** a shared map of the system and its boundaries.
 
-> **3. What are we going to do about it?** — decisions, mitigations, and owners.
 
-> **4. Did we do a good job?** — quality, coverage, lessons learned, staying current.
+> **2. What can go wrong?** 
+      **-->** a structured hunt for the bad things (threats).
+
+> **3. What are we going to do about it?** 
+      **-->** decisions, mitigations, and owners.
+
+> **4. Did we do a good job?** 
+      **-->** quality, coverage, lessons learned, staying current.
 
 ![The four questions work as a cycle](images/four-questions.png)
 

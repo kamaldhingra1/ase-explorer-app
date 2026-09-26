@@ -184,15 +184,15 @@ The objective is not to break the system.
 
 > **1. Attack Success Rate**
 
-How often did the attack succeed?
+    **-->** How often did the attack succeed?
 
 > **2. Detection Rate**
 
-How often was the attack detected?
+    **-->** How often was the attack detected?
 
 > **3. Recovery Rate**
 
-How quickly was the system restored?
+    **-->** How quickly was the system restored?
 
 These metrics are often more useful than model accuracy.
 

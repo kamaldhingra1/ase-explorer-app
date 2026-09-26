@@ -73,17 +73,20 @@ And here's the OWASP-side view of how the 2025 and 2026 editions map to each oth
 
 When you see an `LLM0x` next to a finding, answer three questions:
 
-> **1. Which flavor?** (direct/indirect injection, disclosure, agency, …) — the specific attack matters more than the category.
+> **1. Which flavor?** (direct/indirect injection, disclosure, agency, …) 
+    **-->** the specific attack matters more than the category.
 
-> **2. Which path?** Which flows/components does it travel (the finding should name `DF-xx`/`AI-xx`)?
+> **2. Which path?** 
+    **-->** Which flows/components does it travel (the finding should name `DF-xx`/`AI-xx`)?
 
-> **3. Which defense defeats THIS path?** Not "a guardrail" — the specific one at the specific point (see Lesson 08).
+> **3. Which defense defeats THIS path?** 
+    **-->** Not "a guardrail" — the specific one at the specific point (see Lesson 08 - Mitigations & Controls).
 
 If the finding carries a **pre-2026 ID** (LLM06 = Excessive Agency in old schemes), use the mapping table above to translate before answering.
 
 ## In the tool
 
-1. Open `patterns/rag-genai.md` (it ships in the project) and read its **Pre-Mapped Threat Catalog** table.
+1. Open RAG GenAI module  and read its **Pre-Mapped Threat Catalog** table.
 2. Notice how each row pairs an OWASP category with an `AML.Txxx` technique and component IDs. That one table is the skeleton of the report the tool generates.
 3. Run the **RAG GenAI** sample. In the report, find the threat/risk section and confirm every threat traces back to a row in the pre-mapped catalog.
 4. **Edition check:** catalogs in existing pattern files may still carry pre-2026 IDs (e.g. the old `LLM06: Sensitive Information Disclosure`). Translate each ID with the 2026 table above and mark the catalog for refresh.

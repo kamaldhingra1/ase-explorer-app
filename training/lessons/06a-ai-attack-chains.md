@@ -240,15 +240,15 @@ The best control points are:
 
 > **Initial Access**
 >
-> - Stop attacks before influence is established.
+    **-->**  Stop attacks before influence is established.
 
 >  **Persistence**
 >
-> - Stop attacks from surviving.
+    **-->** Stop attacks from surviving.
 
 >  **Execution**
 >
-> - Prevent attacker control of reasoning.
+    **-->** Prevent attacker control of reasoning.
 
 If these phases are broken, downstream impact becomes dramatically less likely.
 

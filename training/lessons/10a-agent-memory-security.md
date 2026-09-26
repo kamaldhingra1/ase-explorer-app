@@ -8,7 +8,10 @@ status: complete
 
 ## Agent Memory Security
 
-> Memory is where today's prompts become tomorrow's behavior. **Without memory:** A successful attack often ends with the session. **With memory:** The attack survives. Memory transforms temporary influence into persistence. Most AI security guidance focuses on prompts. Experienced attackers focus on memory. A poisoned prompt may affect one answer. **A poisoned memory can affect thousands.**
+> Memory is where today's prompts become tomorrow's behavior. 
+> **Without memory:** A successful attack often ends with the session. 
+> **With memory:** The attack survives. Memory transforms temporary influence into persistence. Most AI security guidance focuses on prompts. Experienced attackers focus on memory. A poisoned prompt may affect one answer. 
+>**A poisoned memory can affect thousands.**
 
 ## Why this matters
 

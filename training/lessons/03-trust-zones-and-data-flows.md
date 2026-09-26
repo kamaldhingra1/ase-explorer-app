@@ -19,6 +19,8 @@ The tool's reports do the mapping for you (DF-xx flows, TB-xx boundaries) — bu
 
 ## Core concept: the four trust zones
 
+![How the four trust zones sit around an AI system — every arrow crosses a boundary where a control must exist](images/trust-zones.png)
+
 | Zone | Meaning | Typical occupants | Trust assumption |
 |------|---------|-------------------|------------------|
 | `UNTRUSTED` | Everything you don't control | End-user browsers, devices, third-party callers | Hostile until proven otherwise |
@@ -26,8 +28,6 @@ The tool's reports do the mapping for you (DF-xx flows, TB-xx boundaries) — bu
 | `INTERNAL` | Your application core | Orchestrator, services, vector DB, memory, guardrails | Trusted internally — but not a free pass |
 | `EXTERNAL` | Partners you call out to | LLM provider API, external model hosts, SaaS tools | Trusted *by contract only* |
 
-
-![How the four trust zones sit around an AI system — every arrow crosses a boundary where a control must exist](images/trust-zones.png)
 
 > [!risk] **What can go wrong?** The zones predict the attacks before you even name them:
 > - `UNTRUSTED → EDGE`: the front door — prompt injection, credential attacks, request smuggling against thin validation.
@@ -47,11 +47,15 @@ The tool's reports do the mapping for you (DF-xx flows, TB-xx boundaries) — bu
 
 ### Three rules to internalize:
 
-> **1. Data is only as trusted as its most recent untrusted crossing.** Anything that arrived from `UNTRUSTED` (or came back from `EXTERNAL`) is attacker-influenced until validated.
+> **1. Data is only as trusted as its most recent untrusted crossing.** 
+    **-->** Anything that arrived from `UNTRUSTED` (or came back from `EXTERNAL`) is attacker-influenced until validated.
 
-> **2. `INTERNAL` is not a synonym for "safe".** The orchestrator and the vector DB live on the same side of the boundary — but a malicious document that got *indexed* inside your vector DB now attacks from the inside. Internal components can be the *origin* of a threat, not just a target.
+> **2. `INTERNAL` is not a synonym for "safe".** 
+    **-->** The orchestrator and the vector DB live on the same side of the boundary — but a malicious document that got *indexed* inside your vector DB now attacks from the inside. Internal components can be the *origin* of a threat, not just a target.
 
-> **3. `EXTERNAL` means your data leaves your trust.** The moment a prompt crosses to an external LLM provider, its confidentiality depends on a contract, not on your controls.
+> **3. `EXTERNAL` means your data leaves your trust.** 
+    **-->** The moment a prompt crosses to an external LLM provider, its confidentiality depends on a contract, not on your controls.
+
 
 ## Data flows: the attack's highway
 

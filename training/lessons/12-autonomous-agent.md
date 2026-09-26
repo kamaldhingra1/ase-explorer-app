@@ -28,13 +28,19 @@ Autonomy is a risk multiplier, not a feature flag. An autonomous agent re-plans 
 
 ![Autonomous Agent reference architecture](images/autonomous-agent.png)
 
-> - **The goal strip:** `User → Gateway → Goal Manager → Agent Core` (`DF-01…DF-03`) — where objectives and constraints enter.
+> - **The goal strip:** 
+    **-->** `User → Gateway → Goal Manager → Agent Core` (`DF-01…DF-03`) — where objectives and constraints enter.
 
-> - **The plan-execute-observe loop:** `Agent Core → Planning → LLM → Agent Core → Tool Sandbox → External → observation back` (`DF-04…DF-13`) — runs unattended, iterating on its own output.
+> - **The plan-execute-observe loop:** 
+    **-->** `Agent Core → Planning → LLM → Agent Core → Tool Sandbox → External → observation back` (`DF-04…DF-13`) — runs unattended, iterating on its own output.
 
-> - **The reflection strip:** `Agent Core → Self-Reflection → Agent Core` (`DF-14…DF-15`) — can adjust its own behavior. Recursive, and therefore unbounded unless bounded *architecturally*.
+> - **The reflection strip:** 
+    **-->** `Agent Core → Self-Reflection → Agent Core` (`DF-14…DF-15`) — can adjust its own behavior. Recursive, and therefore unbounded unless bounded *architecturally*.
 
-> - **The oversight strips:** `Boundary Detection` (`DF-18/19`), `HITL` (`DF-20/21`), `Behavior Monitor` (`DF-22`), and `Kill Switch` (`DF-23`) — each must work on a channel the agent cannot reach.
+> - **The oversight strips:** 
+    **-->** `Boundary Detection` (`DF-18/19`), `HITL` (`DF-20/21`), `Behavior Monitor` (`DF-22`), and `Kill Switch` (`DF-23`) — each must work on a channel the agent cannot reach.
+
+---
 
 ### Five seams matter most:
 
@@ -96,15 +102,20 @@ Every row of `autonomous-agent`'s Pre-Mapped Threat Catalog, grouped by failure 
 
 ## The five autonomous-specific considerations (the report will lean on these)
 
-> **1. Goal drift** — without constant boundary checks, scope expands on its own. `AI-02` Goal Manager + `AI-14` Boundary Detection must be *architecture-enforced*, not prompt-suggested.
+> **1. Goal drift**  
+    **-->** without constant boundary checks, scope expands on its own. `AI-02` Goal Manager + `AI-14` Boundary Detection must be *architecture-enforced*, not prompt-suggested.
 
-> **2. Recursive self-modification** — reflection that can change future reasoning = unbounded feedback loop. Keep reflection *append-only* or bounded (log feedback; never let it rewrite its own rules).
+> **2. Recursive self-modification**  
+    **-->** reflection that can change future reasoning = unbounded feedback loop. Keep reflection *append-only* or bounded (log feedback; never let it rewrite its own rules).
 
-> **3. Autonomous escalation** — an agent that plans can plan past safety. HITL (`AI-12`) must be on a separate, non-agent-controlled channel.
+> **3. Autonomous escalation**  
+    **-->** an agent that plans can plan past safety. HITL (`AI-12`) must be on a separate, non-agent-controlled channel.
 
-> **4. Observation poisoning** — external responses feed the next iteration. Sanitize observations *before* they enter the loop, on every pass.
+> **4. Observation poisoning**  
+    **-->** external responses feed the next iteration. Sanitize observations *before* they enter the loop, on every pass.
 
-> **5. Kill switch independence** — `AI-15` must be reachable through a channel the agent cannot intercept, block, or influence, triggerable by humans or monitors.
+> **5. Kill switch independence**  
+    **-->** `AI-15` must be reachable through a channel the agent cannot intercept, block, or influence, triggerable by humans or monitors.
 
 ---
 

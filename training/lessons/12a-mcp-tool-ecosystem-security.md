@@ -79,13 +79,19 @@ Enterprise System
 
 **The architecture can be viewed in four layers:**
 
-> **1. Request Layer** User → API Gateway → Agent Receives requests.
+> **1. Request Layer**  
+    **-->** User → API Gateway → Agent Receives requests.
 
-> **2. Decision Layer** Agent → Policy Engine → Tool Broker Determines what should occur.
+> **2. Decision Layer**  
+    **-->** Agent → Policy Engine → Tool Broker Determines what should occur.
 
-> **3. Action Layer** Tool Broker → MCP Server → Enterprise Systems Executes actions.
+> **3. Action Layer**  
+    **-->** Tool Broker → MCP Server → Enterprise Systems Executes actions.
 
-> **4. Oversight Layer** Monitoring → Audit → HITL Verifies actions remain acceptable. 
+> **4. Oversight Layer**  
+    **-->** Monitoring → Audit → HITL Verifies actions remain acceptable. 
+
+---
 
 **Three seams matter most:**
 

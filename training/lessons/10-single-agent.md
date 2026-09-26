@@ -30,13 +30,15 @@ You inherit this surface the second you give a model a function call. Learn the 
 Three loops, not three strips:
 
 > **1. The request loop:** 
-> `User → API Gateway → Orchestrator` (`DF-01…DF-02`) — where the *goal* arrives.
+    **-->** `User → API Gateway → Orchestrator` (`DF-01…DF-02`) — where the *goal* arrives.
 
 > **2. The plan loop:** 
-> `Orchestrator → Planning Module → LLM Core → Plan` (`DF-03…DF-07`) — where *reasoning* happens, in a loop, per step.
+    **-->** `Orchestrator → Planning Module → LLM Core → Plan` (`DF-03…DF-07`) — where *reasoning* happens, in a loop, per step.
 
 > **3. The act loop:**
->  `Orchestrator → Tool Registry → Tool Set → Observation → back to Orchestrator` (`DF-08…DF-10`) — where *world effects* happen and their results feed back into reasoning.
+    **-->** `Orchestrator → Tool Registry → Tool Set → Observation → back to Orchestrator` (`DF-08…DF-10`) — where *world effects* happen and their results feed back into reasoning.
+
+---
 
 ### Three seams matter most (`AI-` IDs from the inventory):
 
@@ -50,7 +52,7 @@ Three loops, not three strips:
 
 ## The catalog, walked threat-by-threat
 
-Every row of `patterns/single-agent.md`'s Pre-Mapped Threat Catalog, grouped by failure mode:
+Every row of Single-Agent's Pre-Mapped Threat Catalog, grouped by failure mode:
 
 > [!grid=risk]
 > **1. Prompt injection — direct (`LLM01`, `AML.T0051.004`, via `AI-03/05`)** 

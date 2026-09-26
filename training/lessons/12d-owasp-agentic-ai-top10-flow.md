@@ -9,8 +9,10 @@ status: complete
 # Mapping Agentic Intersections & Exploit Paths
 
 > Knowing the Agentic Top 10 (2026, `ASI01`–`ASI10`) as discrete definitions is a starting point, but in production, these vulnerabilities do not live in isolation. Because an agent has context, memory, and the power to execute loops across multiple sub-systems, an exploit in one domain naturally intersects with and triggers a breakdown in another.
-: This lesson provides the structural maps to trace multi-stage agentic exploits. You will look at how an attacker strings together vulnerabilities across four core architectural domains: **Environment & Knowledge (The Foundation)** — `ASI04` Supply Chain + `ASI06` Memory & Context Poisoning, **Agent Core & Planning (The Engine)** — `ASI01` Goal Hijack + `ASI10` Rogue Agents, **Execution & Orchestration (The Boundary)** — `ASI07` Inter-agent Comms + `ASI08` Cascading Failures, and **Tools, Agency & Trust (The Blast Radius)** — `ASI02`, `ASI03`, `ASI05`, `ASI09`.
->: The goal is to visually anchor your **3 Questions Framework** (Mode/Flavor, Component Path, and Target Control Point) directly against runtime system components (`UI-xx`, `AI-xx`, `DF-xx`).
+
+This lesson provides the structural maps to trace multi-stage agentic exploits. You will look at how an attacker strings together vulnerabilities across four core architectural domains: **Environment & Knowledge (The Foundation)**, **Agent Core & Planning (The Engine)**, **Execution & Orchestration (The Boundary)** and **Tools, Agency & Trust (The Blast Radius)**.
+
+> The goal is to visually anchor your **3 Questions Framework** (Mode/Flavor, Component Path, and Target Control Point) directly against runtime system components (`UI-xx`, `AI-xx`, `DF-xx`).
 
 ## Why this matters
 

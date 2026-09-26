@@ -8,7 +8,8 @@ status: complete
 
 ## AI Trust Boundaries
 
-> Most AI security incidents do not occur inside the model. They occur when trust changes. A trust boundary is any point where data, identity, permissions, instructions, or decisions move between different trust levels. **Attackers look for these boundaries first. You should too.**
+> Most AI security incidents do not occur inside the model. They occur when trust changes. A trust boundary is any point where data, identity, permissions, instructions, or decisions move between different trust levels. 
+>**Attackers look for these boundaries first. You should too.**
 
 ## Why this matters
 

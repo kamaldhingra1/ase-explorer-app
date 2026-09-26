@@ -30,13 +30,19 @@ status: complete
 
 Put these in a dedicated column on your worksheet — they're the *new* categories:
 
-> **1. Prompt injection** (the "control hijack"): attacker text becomes instructions. Closest STRIDE bucket is **Tampering** (it modifies what the model "runs") but it deserves its own flag so you never bury it.
+> **1. Prompt injection** (the "control hijack"):
+    **-->** attacker text becomes instructions. Closest STRIDE bucket is **Tampering** (it modifies what the model "runs") but it deserves its own flag so you never bury it.
 
-> **2. Poisoning** (corrupting trust at rest): training, fine-tuning, or **RAG indexing** data adversarially edited. A *persistence* problem — closest to Tampering + Spoofing (the store now lies persuasively).
+> **2. Poisoning** (corrupting trust at rest):
+    **-->**  training, fine-tuning, or **RAG indexing** data adversarially edited. A *persistence* problem — closest to Tampering + Spoofing (the store now lies persuasively).
 
-> **3. Model theft / extraction** (`AML.T0025`): stealing behavior or weights through legitimate queries — classical *Intellectual Property / infodisclosure* that attacks *the model itself*, not its surroundings.
+> **3. Model theft / extraction** (`AML.T0025`): stealing behavior or weights through legitimate queries 
+    **-->**  classical *Intellectual Property / infodisclosure* that attacks *the model itself*, not its surroundings.
 
-> **4. Hallucination / overreliance**: *nobody* attacks — the system simply fails persuasively. It's not classic "Info Disclosure" or "Tampering"; it's **integrity of the output contract**: downstream systems and humans that can't tell fact from invention. Track it as its own row: **Misinformation & Overreliance**.
+> **4. Hallucination / overreliance**: *nobody* attacks 
+    **-->** the system simply fails persuasively. It's not classic "Info Disclosure" or "Tampering"; it's **integrity of the output contract**: downstream systems and humans that can't tell fact from invention. Track it as its own row: **Misinformation & Overreliance**.
+
+---
 
 > [!exercise] **The mnemonic for the augmented sheet**
 > STRIDE + **P**oisoning, **I**njection, **M**isinformation, **T**heft = **STRIDE-PIMT**. Write the four extras as their own section so the classic six don't swallow them.

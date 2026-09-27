@@ -183,10 +183,10 @@
 </head>
 <body>
 <header>
-<img src="lessons/images/logo.png" alt="logo" width="64" height="64" style="float: left; height: auto;">
+<img src="lessons/images/logo.png" alt="logo" width="80" height="80" style="float: left; height: auto;">
   <div>
      <a  class="home2" href="/training" style="text-decoration: none;">
-    <h1>AI Security Threat Modeling Training (ASTM)</h1></a>
+    <h1>AI Security Threat Modeling (ASTM) Training </h1></a>
     <div class="sub">Hands-on: explain · play · generate real threats, risks and mitigations</div>
   </div>
   <button id="sideToggle" class="toggle" title="Toggle lesson list">◂ Lessons</button>
@@ -202,8 +202,9 @@
   </aside>
   <div class="resizer" id="resizer" title="Drag to resize"></div>
   <main>
-    <div class="doc" id="doc"><h1>Pick a lesson</h1><p>Select a lesson from the navigation section by clicking on the "Lessons" button. Each lesson pairs a short explainer with a hands-on exercise that uses the sample architecture diagrams and the threat modeler tool.</p>
-    <img src="lessons/images/hero.png" alt="logo">
+    <div class="doc" id="doc">
+           <img src="lessons/images/hero.png" alt="logo">
+      <h1>Pick a lesson</h1><p>Select a lesson from the navigation section by clicking on the "Lessons" button. Each lesson pairs a short explainer with a hands-on exercise that uses the sample architecture diagrams and the threat modeler tool.</p>
     </div>
     <footer>Hands-on: explain · play · generate real threats, risks and mitigations</footer>
   </main>
@@ -623,7 +624,7 @@ async function loadLesson(file) {
     const fields = [meta.module, meta.level, meta.minutes ? meta.minutes + ' min' : ''];
     if (!MANIFEST.lessons.every(l => l.status === 'complete')) fields.push(meta.status);
     doc.innerHTML =
-      '<img src="images/logo.png" alt="logo" width="68" height="68" style="float: left; height: auto;margin-right: 10px;">' +
+      '<img src="images/logo.png" alt="logo" width="48" height="48" style="float: left; height: auto;margin-right: 5px;">' +
       `<h1>${meta.title || ''}</h1>` +
       `<div class="meta">${fields.filter(Boolean).map(v => `<span>${v}</span>`).join('')}</div>` +
       mdToHtml(stripLeadH1(body), { spoiler: hasQuiz }) +
